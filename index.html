@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CFA Level 2 — 2026 Study App</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #1e293b;
+      --bg-card: #ffffff;
+      --bg-card-back: #f8fafc;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-card: #0f172a;
+      --text-card-muted: #475569;
+      --accent: #6366f1;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: #334155;
+      --shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    [data-theme="light"] {
+      --bg: #f1f5f9;
+      --bg-alt: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-back: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-card: #0f172a;
+      --text-card-muted: #475569;
+      --border: #cbd5e1;
+      --shadow: 0 20px 60px -10px rgba(15, 23, 42, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    h1 .year {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .header-controls { display: flex; gap: 8px; }
+
+    .icon-btn {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .icon-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+    /* Mode tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      background: var(--bg-alt);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+    .mode-tab {
+      padding: 8px 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .mode-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .topic-btn {
+      padding: 8px 14px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .topic-btn:hover { border-color: var(--accent); }
+    .topic-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    .topic-btn .count {
+      font-size: 0.75rem;
+      opacity: 0.75;
+      margin-left: 4px;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ===== Flashcard view ===== */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 8px 14px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .btn:hover:not(:disabled) { border-color: var(--accent); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    select {
+      padding: 8px 12px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .progress-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--bg-alt);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .card-wrapper { perspective: 2000px; margin-bottom: 20px; }
+    .card {
+      position: relative;
+      width: 100%;
+      min-height: 360px;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .card.flipped { transform: rotateY(180deg); }
+
+    .card-face {
+      position: absolute;
+      width: 100%; height: 100%;
+      min-height: 360px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 16px;
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+    }
+    .card-face.back {
+      transform: rotateY(180deg);
+      background: var(--bg-card-back);
+      justify-content: flex-start;
+      text-align: left;
+      padding-top: 40px;
+    }
+    .card-label {
+      position: absolute;
+      top: 16px; left: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card-topic {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-card-muted);
+      text-align: right;
+      max-width: 60%;
+    }
+    .card-module {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-card-muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .card-number {
+      position: absolute;
+      bottom: 16px; right: 20px;
+      font-size: 0.72rem;
+      color: var(--text-card-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .card-hint {
+      position: absolute;
+      bottom: 16px; left: 20px;
+      font-size: 0.72rem;
+      color: var(--text-card-muted);
+    }
+    .card-front-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      max-width: 750px;
+    }
+    .card-back-text {
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--text-card);
+      white-space: pre-wrap;
+      max-width: 100%;
+      overflow-y: auto;
+      max-height: 280px;
+    }
+    .card-back-term {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-center {
+      display: flex; gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+    .nav .btn { min-width: 110px; }
+    .nav .btn.known {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+    .nav .btn.unknown {
+      background: transparent;
+      border-color: var(--border);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--bg-alt);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-value { font-size: 1.4rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+    .stat.known .stat-value { color: var(--success); }
+    .stat.unknown .stat-value { color: var(--danger); }
+
+    /* ===== Exam view ===== */
+    .exam-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .exam-panel {
+      background: var(--bg-card);
+      color: var(--text-card);
+      padding: 24px 28px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+    }
+    .exam-panel-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .exam-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-card);
+    }
+    .exam-vignette {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      color: var(--text-card);
+      white-space: pre-wrap;
+    }
+    .exam-meta {
+      color: var(--text-card-muted);
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .exam-question {
+      font-size: 1.0rem;
+      font-weight: 600;
+      color: var(--text-card);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .exam-choices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .exam-choice {
+      padding: 14px 16px;
+      background: var(--bg-card-back);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: var(--text-card);
+      transition: all 0.15s;
+      line-height: 1.5;
+    }
+    .exam-choice:hover:not(.disabled) { border-color: var(--accent); }
+    .exam-choice.selected { border-color: var(--accent); background: rgba(99, 102, 241, 0.08); }
+    .exam-choice.correct {
+      border-color: var(--success);
+      background: rgba(16, 185, 129, 0.12);
+    }
+    .exam-choice.incorrect {
+      border-color: var(--danger);
+      background: rgba(239, 68, 68, 0.08);
+    }
+    .exam-choice.disabled { cursor: default; }
+
+    .exam-explanation {
+      margin-top: 16px;
+      padding: 16px 18px;
+      background: var(--bg-card-back);
+      border-left: 4px solid var(--success);
+      border-radius: 8px;
+      color: var(--text-card);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .exam-explanation.wrong { border-left-color: var(--danger); }
+    .exam-explanation-label {
+      font-weight: 700;
+      color: var(--success);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .exam-explanation.wrong .exam-explanation-label { color: var(--danger); }
+
+    .exam-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .exam-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .exam-list-item {
+      padding: 10px 12px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      transition: all 0.15s;
+      color: var(--text);
+    }
+    .exam-list-item:hover { border-color: var(--accent); }
+    .exam-list-item.completed { border-color: var(--success); }
+    .exam-list-item .em-score {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    kbd {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: inherit;
+      font-size: 0.75rem;
+    }
+    .shortcuts {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      h1 { font-size: 1.15rem; }
+      .card-front-text { font-size: 1.15rem; }
+      .card-back-text { font-size: 0.9rem; }
+      .card-face { padding: 40px 20px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .nav .btn { min-width: 0; flex: 1; padding: 8px; font-size: 0.82rem; }
+      .exam-panel { padding: 20px 18px; }
+      .mode-tab { padding: 8px 14px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <header>
+      <h1>CFA Level 2<span class="year">2026</span></h1>
+      <div class="header-controls">
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
+        <button class="icon-btn" id="resetBtn" title="Reset all progress">↺</button>
+      </div>
+    </header>
+
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="flash">📚 Flashcards</button>
+      <button class="mode-tab" data-mode="exam">📝 Exam Practice</button>
+    </div>
+
+    <div class="topics" id="topics"></div>
+
+    <!-- FLASHCARDS VIEW -->
+    <div class="view active" id="flashView">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <select id="filter">
+            <option value="all">All cards</option>
+            <option value="unknown">Unknown only</option>
+            <option value="known">Known only</option>
+          </select>
+          <button class="btn" id="shuffleBtn">🔀 Shuffle</button>
+        </div>
+        <div class="toolbar-right">
+          <span class="progress-text" id="progressText">0 / 0</span>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+
+      <div class="card-wrapper">
+        <div class="card" id="card">
+          <div class="card-face front">
+            <div class="card-label">Question</div>
+            <div class="card-topic"><span id="cardTopicNameFront"></span><span class="card-module" id="cardModuleFront"></span></div>
+            <div class="card-front-text" id="cardFront">Loading…</div>
+            <div class="card-hint">Click / Space to flip</div>
+            <div class="card-number" id="cardNumFront"></div>
+          </div>
+          <div class="card-face back">
+            <div class="card-label">Answer</div>
+            <div class="card-topic"><span id="cardTopicNameBack"></span><span class="card-module" id="cardModuleBack"></span></div>
+            <div class="card-back-text">
+              <div class="card-back-term" id="cardBackTerm"></div>
+              <div id="cardBackBody"></div>
+            </div>
+            <div class="card-hint">Click / Space to flip</div>
+            <div class="card-number" id="cardNumBack"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn" id="prevBtn">← Prev</button>
+        <div class="nav-center">
+          <button class="btn unknown" id="unknownBtn">✗ Don't know</button>
+          <button class="btn known" id="knownBtn">✓ Know</button>
+        </div>
+        <button class="btn" id="nextBtn">Next →</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-value" id="statTotal">0</div><div class="stat-label">Total</div></div>
+        <div class="stat known"><div class="stat-value" id="statKnown">0</div><div class="stat-label">Known</div></div>
+        <div class="stat unknown"><div class="stat-value" id="statUnknown">0</div><div class="stat-label">Unknown</div></div>
+        <div class="stat"><div class="stat-value" id="statSeen">0%</div><div class="stat-label">Mastery</div></div>
+      </div>
+
+      <div class="shortcuts">
+        <kbd>←</kbd> Prev &nbsp; <kbd>→</kbd> Next &nbsp; <kbd>Space</kbd> Flip &nbsp; <kbd>K</kbd> Know &nbsp; <kbd>D</kbd> Don't know &nbsp; <kbd>S</kbd> Shuffle
+      </div>
+    </div>
+
+    <!-- EXAM VIEW -->
+    <div class="view" id="examView">
+      <!-- Item set selector list -->
+      <div id="examListContainer">
+        <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+          CFA exam-style item sets: read the vignette, answer each question (A/B/C), and review the explanation.
+        </div>
+        <div class="exam-list" id="examList"></div>
+      </div>
+
+      <!-- Item set player -->
+      <div id="examPlayer" style="display: none;">
+        <div class="exam-nav" style="margin-bottom: 14px; margin-top: 0;">
+          <button class="btn" id="examBackBtn">← Back to list</button>
+          <span class="progress-text" id="examProgress"></span>
+        </div>
+
+        <div class="exam-panel">
+          <div class="exam-panel-label">Vignette</div>
+          <div class="exam-title" id="examTitle"></div>
+          <div class="exam-meta">
+            <span id="examTopicLabel"></span>
+            <span id="examIdLabel"></span>
+          </div>
+          <div class="exam-vignette" id="examVignette"></div>
+        </div>
+
+        <div class="exam-panel" style="margin-top: 16px;">
+          <div class="exam-panel-label">Question <span id="examQNum"></span></div>
+          <div class="exam-question" id="examQuestion"></div>
+          <div class="exam-choices" id="examChoices"></div>
+          <div id="examExplanationBox" style="display: none;"></div>
+          <div class="exam-nav">
+            <button class="btn" id="examPrevQ">← Previous Q</button>
+            <button class="btn primary" id="examSubmit">Submit answer</button>
+            <button class="btn" id="examNextQ">Next Q →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="cards.js"></script>
+  <script src="exams.js"></script>
+  <script>
+    // ============ STATE ============
+    const state = {
+      mode: localStorage.getItem("cfa_mode") || "flash",      // "flash" | "exam"
+      topicId: localStorage.getItem("cfa_topic") || TOPICS[0].id,
+      filter: localStorage.getItem("cfa_filter") || "all",
+      theme: localStorage.getItem("cfa_theme") || "dark",
+      index: 0,
+      order: [],
+      progress: JSON.parse(localStorage.getItem("cfa_progress") || "{}"),
+      examAnswers: JSON.parse(localStorage.getItem("cfa_exam_ans") || "{}"),   // { examId: { qIdx: choiceIdx } }
+      currentExam: null,      // current exam id being played
+      currentExamQ: 0,
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    // ============ HELPERS ============
+    function getCardKey(topicId, i) { return `${topicId}:${i}`; }
+
+    function getFilteredDeck() {
+      const all = CARDS[state.topicId] || [];
+      return all.map((c, i) => ({ ...c, i })).filter(c => {
+        const status = state.progress[getCardKey(state.topicId, c.i)];
+        if (state.filter === "unknown") return status !== "known";
+        if (state.filter === "known")   return status === "known";
+        return true;
+      });
+    }
+
+    function buildOrder() {
+      const deck = getFilteredDeck();
+      state.order = deck.map(c => c.i);
+    }
+
+    function getCurrentCard() {
+      if (state.order.length === 0) return null;
+      const cardIdx = state.order[state.index];
+      return { ...CARDS[state.topicId][cardIdx], i: cardIdx };
+    }
+
+    // ============ MODE SWITCH ============
+    function setMode(mode) {
+      state.mode = mode;
+      localStorage.setItem("cfa_mode", mode);
+      document.querySelectorAll(".mode-tab").forEach(b =>
+        b.classList.toggle("active", b.dataset.mode === mode));
+      $("flashView").classList.toggle("active", mode === "flash");
+      $("examView").classList.toggle("active", mode === "exam");
+      renderTopics();
+      if (mode === "flash") renderFlash();
+      else renderExamList();
+    }
+
+    // ============ TOPICS BAR ============
+    function renderTopics() {
+      const topics = $("topics");
+      topics.innerHTML = "";
+      TOPICS.forEach(t => {
+        let count;
+        if (state.mode === "flash") count = (CARDS[t.id] || []).length;
+        else count = (EXAMS_BY_TOPIC[t.id] || []).length;
+        if (count === 0 && state.mode === "exam") return;  // hide topics with no exams
+
+        const btn = document.createElement("button");
+        btn.className = "topic-btn" + (t.id === state.topicId ? " active" : "");
+        btn.innerHTML = `${t.name}<span class="count">${count}</span>`;
+        if (t.id === state.topicId) {
+          btn.style.background = t.color;
+          btn.style.borderColor = t.color;
+          document.documentElement.style.setProperty("--accent", t.color);
+        }
+        btn.onclick = () => {
+          state.topicId = t.id;
+          state.index = 0;
+          localStorage.setItem("cfa_topic", t.id);
+          buildOrder();
+          if (state.mode === "flash") renderFlash();
+          else renderExamList();
+          renderTopics();
+        };
+        topics.appendChild(btn);
+      });
+    }
+
+    // ============ FLASHCARD RENDER ============
+    function flip() { $("card").classList.toggle("flipped"); }
+    function unflip() { $("card").classList.remove("flipped"); }
+
+    function nextCard() {
+      if (state.order.length === 0) return;
+      unflip();
+      setTimeout(() => {
+        state.index = (state.index + 1) % state.order.length;
+        renderFlash();
+      }, 150);
+    }
+    function prevCard() {
+      if (state.order.length === 0) return;
+      unflip();
+      setTimeout(() => {
+        state.index = (state.index - 1 + state.order.length) % state.order.length;
+        renderFlash();
+      }, 150);
+    }
+    function markCard(status) {
+      const card = getCurrentCard();
+      if (!card) return;
+      const key = getCardKey(state.topicId, card.i);
+      if (status === null) delete state.progress[key];
+      else state.progress[key] = status;
+      localStorage.setItem("cfa_progress", JSON.stringify(state.progress));
+      if (state.filter !== "all") {
+        buildOrder();
+        if (state.order.length === 0) { renderFlash(); return; }
+        if (state.index >= state.order.length) state.index = 0;
+        unflip();
+        setTimeout(renderFlash, 150);
+      } else {
+        unflip();
+        setTimeout(nextCard, 100);
+      }
+    }
+    function shuffleOrder() {
+      for (let i = state.order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+      }
+      state.index = 0;
+      renderFlash();
+    }
+
+    function renderFlash() {
+      const deck = getFilteredDeck();
+      const total = deck.length;
+      const card = getCurrentCard();
+
+      const allCards = CARDS[state.topicId] || [];
+      const known = allCards.filter((_, i) => state.progress[getCardKey(state.topicId, i)] === "known").length;
+      const unknown = allCards.filter((_, i) => state.progress[getCardKey(state.topicId, i)] === "unknown").length;
+      $("statTotal").textContent = allCards.length;
+      $("statKnown").textContent = known;
+      $("statUnknown").textContent = unknown;
+      $("statSeen").textContent = allCards.length ? Math.round((known / allCards.length) * 100) + "%" : "0%";
+
+      if (!card) {
+        $("cardFront").textContent = state.filter === "unknown"
+          ? "🎉 All cards mastered in this topic!"
+          : state.filter === "known"
+          ? "No cards marked as known yet."
+          : "No cards in this topic.";
+        $("cardBackTerm").textContent = "";
+        $("cardBackBody").textContent = "";
+        $("progressText").textContent = "0 / 0";
+        $("progressFill").style.width = "0%";
+        $("cardNumFront").textContent = "";
+        $("cardNumBack").textContent = "";
+        $("cardTopicNameFront").textContent = "";
+        $("cardTopicNameBack").textContent = "";
+        $("cardModuleFront").textContent = "";
+        $("cardModuleBack").textContent = "";
+        $("prevBtn").disabled = true;
+        $("nextBtn").disabled = true;
+        $("knownBtn").disabled = true;
+        $("unknownBtn").disabled = true;
+        return;
+      }
+
+      const topic = TOPICS.find(t => t.id === state.topicId);
+      $("cardFront").textContent = card.f;
+      $("cardBackTerm").textContent = card.f;
+      $("cardBackBody").textContent = card.b;
+      $("cardTopicNameFront").textContent = topic.name;
+      $("cardTopicNameBack").textContent = topic.name;
+      $("cardModuleFront").textContent = card.m || "";
+      $("cardModuleBack").textContent = card.m || "";
+      $("cardNumFront").textContent = `#${card.i + 1}`;
+      $("cardNumBack").textContent = `#${card.i + 1}`;
+
+      $("progressText").textContent = `${state.index + 1} / ${total}`;
+      $("progressFill").style.width = `${((state.index + 1) / total) * 100}%`;
+      $("prevBtn").disabled = false;
+      $("nextBtn").disabled = false;
+      $("knownBtn").disabled = false;
+      $("unknownBtn").disabled = false;
+    }
+
+    // ============ EXAM RENDER ============
+    function renderExamList() {
+      $("examPlayer").style.display = "none";
+      $("examListContainer").style.display = "block";
+      const list = $("examList");
+      const items = EXAMS_BY_TOPIC[state.topicId] || [];
+      list.innerHTML = "";
+      if (items.length === 0) {
+        list.innerHTML = `<div class="empty">No item sets for this topic yet.</div>`;
+        return;
+      }
+      items.forEach(exam => {
+        const answers = state.examAnswers[exam.id] || {};
+        const answeredCount = Object.keys(answers).length;
+        const totalQ = exam.questions.length;
+        const correctCount = Object.entries(answers).filter(
+          ([qIdx, choice]) => exam.questions[qIdx].a === choice
+        ).length;
+        const completed = answeredCount === totalQ;
+
+        const item = document.createElement("div");
+        item.className = "exam-list-item" + (completed ? " completed" : "");
+        const scoreLabel = completed
+          ? `Score: ${correctCount}/${totalQ}`
+          : `${answeredCount}/${totalQ} answered`;
+        item.innerHTML = `<strong>${exam.id}</strong> — ${exam.title}<span class="em-score">${scoreLabel}</span>`;
+        item.onclick = () => openExam(exam.id);
+        list.appendChild(item);
+      });
+    }
+
+    function openExam(examId) {
+      state.currentExam = examId;
+      state.currentExamQ = 0;
+      $("examListContainer").style.display = "none";
+      $("examPlayer").style.display = "block";
+      renderExamQuestion();
+    }
+
+    function closeExam() {
+      state.currentExam = null;
+      renderExamList();
+    }
+
+    function getCurrentExam() {
+      return EXAMS.find(e => e.id === state.currentExam);
+    }
+
+    function selectChoice(idx) {
+      const exam = getCurrentExam();
+      const qIdx = state.currentExamQ;
+      if (!state.examAnswers[exam.id]) state.examAnswers[exam.id] = {};
+      // Only allow if not yet submitted
+      if (state.examAnswers[exam.id][qIdx] !== undefined) return;
+      state.examAnswers[exam.id][qIdx] = idx;
+      localStorage.setItem("cfa_exam_ans", JSON.stringify(state.examAnswers));
+      renderExamQuestion();
+    }
+
+    function renderExamQuestion() {
+      const exam = getCurrentExam();
+      if (!exam) return;
+      const qIdx = state.currentExamQ;
+      const q = exam.questions[qIdx];
+      const topic = TOPICS.find(t => t.id === exam.topic);
+
+      $("examTitle").textContent = exam.title;
+      $("examTopicLabel").textContent = topic ? topic.name : "";
+      $("examIdLabel").textContent = `Item set ${exam.id}`;
+      $("examVignette").textContent = exam.vignette;
+      $("examProgress").textContent = `Question ${qIdx + 1} / ${exam.questions.length}`;
+      $("examQNum").textContent = `${qIdx + 1} of ${exam.questions.length}`;
+      $("examQuestion").textContent = q.q;
+
+      const answered = (state.examAnswers[exam.id] || {})[qIdx];
+      const isAnswered = answered !== undefined;
+
+      const choicesEl = $("examChoices");
+      choicesEl.innerHTML = "";
+      q.c.forEach((choiceText, i) => {
+        const div = document.createElement("div");
+        div.className = "exam-choice";
+        if (isAnswered) {
+          div.classList.add("disabled");
+          if (i === q.a) div.classList.add("correct");
+          else if (i === answered) div.classList.add("incorrect");
+        } else if (answered === i) {
+          div.classList.add("selected");
+        }
+        div.textContent = choiceText;
+        div.onclick = () => { if (!isAnswered) selectChoice(i); };
+        choicesEl.appendChild(div);
+      });
+
+      // Explanation
+      const expBox = $("examExplanationBox");
+      if (isAnswered) {
+        const correct = answered === q.a;
+        expBox.style.display = "block";
+        expBox.innerHTML = `
+          <div class="exam-explanation${correct ? '' : ' wrong'}">
+            <div class="exam-explanation-label">${correct ? '✓ Correct' : '✗ Incorrect — correct answer: ' + String.fromCharCode(65 + q.a)}</div>
+            ${q.e}
+          </div>`;
+      } else {
+        expBox.style.display = "none";
+      }
+
+      // Nav buttons
+      $("examPrevQ").disabled = qIdx === 0;
+      $("examNextQ").disabled = qIdx === exam.questions.length - 1;
+      $("examSubmit").style.display = "none";  // submit happens on choice click; hidden
+    }
+
+    function examNextQ() {
+      const exam = getCurrentExam();
+      if (state.currentExamQ < exam.questions.length - 1) {
+        state.currentExamQ++;
+        renderExamQuestion();
+      }
+    }
+    function examPrevQ() {
+      if (state.currentExamQ > 0) {
+        state.currentExamQ--;
+        renderExamQuestion();
+      }
+    }
+
+    // ============ THEME ============
+    function applyTheme() {
+      document.body.setAttribute("data-theme", state.theme);
+      $("themeBtn").textContent = state.theme === "dark" ? "☀️" : "🌙";
+    }
+
+    // ============ EVENT LISTENERS ============
+    document.querySelectorAll(".mode-tab").forEach(btn => {
+      btn.addEventListener("click", () => setMode(btn.dataset.mode));
+    });
+
+    // Flashcard events
+    $("card").addEventListener("click", flip);
+    $("prevBtn").addEventListener("click", prevCard);
+    $("nextBtn").addEventListener("click", nextCard);
+    $("knownBtn").addEventListener("click", (e) => { e.stopPropagation(); markCard("known"); });
+    $("unknownBtn").addEventListener("click", (e) => { e.stopPropagation(); markCard("unknown"); });
+    $("shuffleBtn").addEventListener("click", shuffleOrder);
+    $("filter").addEventListener("change", (e) => {
+      state.filter = e.target.value;
+      state.index = 0;
+      localStorage.setItem("cfa_filter", state.filter);
+      buildOrder();
+      renderFlash();
+    });
+
+    // Exam events
+    $("examBackBtn").addEventListener("click", closeExam);
+    $("examNextQ").addEventListener("click", examNextQ);
+    $("examPrevQ").addEventListener("click", examPrevQ);
+
+    // Header
+    $("themeBtn").addEventListener("click", () => {
+      state.theme = state.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("cfa_theme", state.theme);
+      applyTheme();
+    });
+    $("resetBtn").addEventListener("click", () => {
+      if (confirm("Reset ALL progress (flashcards + exam answers)?")) {
+        state.progress = {};
+        state.examAnswers = {};
+        localStorage.removeItem("cfa_progress");
+        localStorage.removeItem("cfa_exam_ans");
+        if (state.mode === "flash") renderFlash();
+        else renderExamList();
+      }
+    });
+
+    // Keyboard shortcuts (flashcard mode only)
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
+      if (state.mode !== "flash") return;
+      switch (e.key) {
+        case " ":     e.preventDefault(); flip(); break;
+        case "ArrowRight": nextCard(); break;
+        case "ArrowLeft":  prevCard(); break;
+        case "k": case "K": markCard("known"); break;
+        case "d": case "D": markCard("unknown"); break;
+        case "s": case "S": shuffleOrder(); break;
+      }
+    });
+
+    // ============ INIT ============
+    $("filter").value = state.filter;
+    applyTheme();
+    buildOrder();
+    setMode(state.mode);
+  </script>
+</body>
+</html>
