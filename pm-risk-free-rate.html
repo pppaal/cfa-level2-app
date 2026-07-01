@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>무위험이자율 (포트폴리오) · CFA L2 Portfolio Management</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202E;--paper:#ECEDE8;--raised:#F6F6F2;--line:#D6D8D0;--muted:#5B6675;
+    /* PM theme: steel-blue primary (lines / markets), amber secondary, red for traps */
+    --real:#2E5E8C;--real-bg:#E2ECF4;--inf:#BE842A;--inf-bg:#F3E7CE;--credit:#B0483B;--credit-bg:#F2E1DD;
+    --mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'Pretendard',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px rgba(22,32,46,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  main{max-width:820px;margin:0 auto;padding:44px 20px 90px}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--real)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:6px}
+  h1 .en{display:block;font-family:var(--mono);font-size:14px;font-weight:400;color:var(--muted);margin-top:6px}
+  h2{font-size:clamp(20px,4vw,26px);font-weight:700;letter-spacing:-.02em;margin:38px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+  h3{font-size:17px;font-weight:700;margin:24px 0 8px}
+  p{margin-bottom:10px}
+  .lead{font-size:17px;color:#26313F;margin:14px 0 6px}
+  .muted{color:var(--muted)}
+  .s-real{color:var(--real);font-weight:600}.s-inf{color:var(--inf);font-weight:600}.s-credit{color:var(--credit);font-weight:600}
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--raised)}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line)}
+  th{background:#E4E5DF;font-weight:700;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#26313F}
+  tr:last-child td{border-bottom:none}
+  td.en{font-family:var(--mono);font-size:13px}
+  td.cn b{font-weight:600}.cn{color:var(--muted)}
+  .fml{font-family:var(--mono);background:var(--ink);color:#EAF0F6;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:14px;line-height:1.9;overflow-x:auto}
+  .fml .cmt{color:#7E8FA3}.fml .r{color:#8FC4E8}
+  .card{background:var(--raised);border:1px solid var(--line);border-left:4px solid var(--real);border-radius:12px;padding:16px 20px;margin:14px 0;box-shadow:var(--shadow)}
+  .callout{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px;background:var(--credit-bg);border:1px solid #E2BDB6}
+  .callout b{color:var(--credit)}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--credit)}
+  .callout.info{background:var(--real-bg);border-color:#B9D2E6}
+  .callout.info b{color:var(--real)}.callout.info .lbl{color:var(--real)}
+  .callout.tip{background:var(--inf-bg);border-color:#E3C98D}
+  .callout.tip b{color:#8a5f18}.callout.tip .lbl{color:#8a5f18}
+  .pill{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 9px;border-radius:20px;background:var(--real-bg);color:var(--real);font-weight:600}
+  .pill.amber{background:var(--inf-bg);color:#8a5f18}
+  ul.clean{list-style:none;margin:8px 0}
+  ul.clean li{position:relative;padding-left:19px;margin-bottom:6px}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--real)}
+  .flow{font-family:var(--mono);font-size:13px;background:var(--real-bg);border-radius:10px;padding:14px 16px;line-height:2;color:#1d3f5c}
+  /* CML diagram */
+  .diagram{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
+  .diagram figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;font-family:var(--mono)}
+  svg text{font-family:var(--mono)}
+  /* quiz */
+  .q{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+  .qn{display:flex;gap:9px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--disp);font-weight:700;color:var(--credit);font-size:14px}
+  .qtext{font-size:15px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;font-family:var(--body);font-size:14px;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:10px 13px;margin-bottom:7px;transition:border-color .15s,background .15s;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--ink)}
+  .opt:disabled{cursor:default}
+  .opt.correct{background:var(--real-bg);border-color:var(--real);color:#1d3f5c;font-weight:600}
+  .opt.wrong{background:var(--credit-bg);border-color:var(--credit);color:#8f382d;font-weight:600}
+  .exp{display:none;margin-top:4px;font-size:14px;background:#E9EBE4;border-radius:9px;padding:11px 13px;color:#26313F;border-left:3px solid var(--ink)}
+  .exp.show{display:block}
+  .scorebar{font-family:var(--mono);font-size:13px;color:var(--muted);margin:6px 0 2px}
+  .foot{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .foot a{color:var(--real)}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow"><span class="dot"></span>Portfolio Management · Risk, Return &amp; the CML/CAPM</div>
+  <h1>무위험이자율 — 포트폴리오의 기준선<span class="en">The Risk-Free Rate in Portfolio Theory · 无风险利率与资本市场线</span></h1>
+  <p class="lead">핵심 한 문장 — 무위험자산은 <b class="s-real">"변동성 0, 상관관계 0"</b>인 자산이라, 위험자산과 섞으면 위험–수익이 <b>완벽한 직선(CML)</b>이 되고, 모든 가격모형(CAPM)의 <b>출발점(절편)</b>이 된다.</p>
+  <div class="callout info"><span class="lbl">↔ 시리즈 연결</span>앞의 <b>Economics · 실질무위험이자율</b> 노트가 "이자율이 <i>왜</i> 생기나"를 다뤘다면, 이 노트는 "그 무위험이자율이 <b>포트폴리오와 자산가격 모형에서 어떻게 쓰이나</b>"를 다룬다. <b>명목 R<sub>f</sub> = 실질 R<sub>f</sub> + 기대 인플레이션</b> — 아래 모형들의 R<sub>f</sub>는 모두 이 <b>명목</b> 값이다.</div>
+
+  <h2>핵심 용어 · Key Terms</h2>
+  <div class="tbl-wrap"><table>
+    <tr><th>English</th><th>中文 (拼音)</th><th>한국어</th></tr>
+    <tr><td class="en">Risk-free asset / rate</td><td class="cn"><b>无风险资产 / 利率</b> wú fēngxiǎn zīchǎn / lìlǜ</td><td>무위험 자산 / 이자율</td></tr>
+    <tr><td class="en">Capital Allocation Line (CAL)</td><td class="cn"><b>资本配置线</b> zīběn pèizhì xiàn</td><td>자본배분선</td></tr>
+    <tr><td class="en">Capital Market Line (CML)</td><td class="cn"><b>资本市场线</b> zīběn shìchǎng xiàn</td><td>자본시장선</td></tr>
+    <tr><td class="en">Market / tangency portfolio</td><td class="cn"><b>市场 / 切点组合</b> shìchǎng / qiēdiǎn zǔhé</td><td>시장 / 접점 포트폴리오</td></tr>
+    <tr><td class="en">Two-fund separation theorem</td><td class="cn"><b>两基金分离定理</b> liǎng jījīn fēnlí dìnglǐ</td><td>2펀드 분리정리</td></tr>
+    <tr><td class="en">CAPM</td><td class="cn"><b>资本资产定价模型</b> zīběn zīchǎn dìngjià móxíng</td><td>자본자산 가격결정모형</td></tr>
+    <tr><td class="en">Security Market Line (SML)</td><td class="cn"><b>证券市场线</b> zhèngquàn shìchǎng xiàn</td><td>증권시장선</td></tr>
+    <tr><td class="en">Beta / systematic risk</td><td class="cn"><b>贝塔 / 系统性风险</b> bèitǎ / xìtǒngxìng fēngxiǎn</td><td>베타 / 체계적 위험</td></tr>
+    <tr><td class="en">Market risk premium</td><td class="cn"><b>市场风险溢价</b> shìchǎng fēngxiǎn yìjià</td><td>시장위험 프리미엄</td></tr>
+    <tr><td class="en">Sharpe ratio</td><td class="cn"><b>夏普比率</b> xiàpǔ bǐlǜ</td><td>샤프 비율</td></tr>
+    <tr><td class="en">Leveraged / borrowing portfolio</td><td class="cn"><b>杠杆 / 借入组合</b> gànggǎn / jièrù zǔhé</td><td>레버리지 / 차입 포트폴리오</td></tr>
+    <tr><td class="en">Lending portfolio</td><td class="cn"><b>贷出组合</b> dàichū zǔhé</td><td>대출(무위험 투자) 포트폴리오</td></tr>
+  </table></div>
+
+  <h2>1. 무위험자산의 두 가지 성질 <span class="muted" style="font-size:14px;font-weight:400">(모든 것의 출발점)</span></h2>
+  <p>포트폴리오 이론에서 무위험자산은 딱 두 가지 수학적 성질로 정의된다. 보통 <b>단기 국채(T-bill)</b>로 근사한다.</p>
+  <div class="card">
+    <p><b>① 표준편차 = 0</b> &nbsp;<span class="cn">(σ<sub>f</sub> = 0)</span><br>미래 수익률이 확실 → 변동성이 없다.</p>
+    <p><b>② 어떤 위험자산과도 상관계수 = 0</b> &nbsp;<span class="cn">(ρ = 0, Cov = 0)</span><br>이유: <span class="s-real">Cov(f, i) = ρ · σ<sub>f</sub> · σ<sub>i</sub></span> 인데 σ<sub>f</sub> = 0 이므로 공분산이 강제로 0.</p>
+  </div>
+  <div class="callout info"><span class="lbl">ⓘ 왜 중요한가</span>이 두 성질(0, 0) 덕분에 무위험자산을 어떤 위험 포트폴리오와 섞어도 <b>위험(σ)이 선형으로만 늘어난다.</b> 곡선이 아니라 <b>직선</b>이 나오는 이유가 바로 이것이다.</div>
+
+  <h2>2. 무위험 + 위험자산 = 직선 (CAL) — 수식 유도</h2>
+  <p>위험 포트폴리오 <span class="s-real">i</span>에 비중 <b>w</b>, 무위험자산에 <b>(1−w)</b>를 투자한다.</p>
+  <div class="fml">E(R<sub>p</sub>) = (1−w)·R<sub>f</sub> + w·E(R<sub>i</sub>) = <span class="r">R<sub>f</sub> + w·[E(R<sub>i</sub>) − R<sub>f</sub>]</span>  <span class="cmt">// 기대수익</span></div>
+  <p><b>분산</b>을 전개하면 (σ<sub>f</sub>=0, Cov=0 이므로 뒤 두 항이 사라진다):</p>
+  <div class="fml">Var(R<sub>p</sub>) = w²σ<sub>i</sub>² + (1−w)²·<span class="cmt">σf²(=0)</span> + 2w(1−w)·<span class="cmt">Cov(=0)</span><br>          = w²σ<sub>i</sub>²   ⟹   <span class="r">σ<sub>p</sub> = w·σ<sub>i</sub></span>  <span class="cmt">// 위험은 선형!</span></div>
+  <p><b>w = σ<sub>p</sub>/σ<sub>i</sub></b> 를 위 기대수익 식에 대입하면 <b class="s-real">σ<sub>p</sub>에 대한 직선</b>이 나온다:</p>
+  <div class="fml">E(R<sub>p</sub>) = R<sub>f</sub> + <span class="r">[ E(R<sub>i</sub>) − R<sub>f</sub> ] / σ<sub>i</sub></span> · σ<sub>p</sub>   <span class="cmt">// 이 직선이 CAL. 기울기 = 샤프비율</span></div>
+  <ul class="clean">
+    <li><b>절편 = R<sub>f</sub></b> — 위험을 0으로 하면(전액 무위험) 수익은 R<sub>f</sub>.</li>
+    <li><b>기울기 = [E(R<sub>i</sub>) − R<sub>f</sub>] / σ<sub>i</sub> = 샤프비율</b> — 위험 1단위당 초과수익. "위험의 가격."</li>
+  </ul>
+
+  <h2>3. CAL의 왕 = 자본시장선 (CML)</h2>
+  <p>수많은 CAL 중 <b>기울기(샤프비율)가 가장 높은</b> 직선을 고르면, 그 직선이 효율적 프론티어에 <b>접(接)하는 점</b>이 바로 <b class="s-real">시장 포트폴리오 M</b>이다. 이 최적 CAL을 특별히 <b class="s-real">자본시장선(CML)</b>이라 부른다.</p>
+  <div class="fml">E(R<sub>p</sub>) = R<sub>f</sub> + <span class="r">[ E(R<sub>m</sub>) − R<sub>f</sub> ] / σ<sub>m</sub></span> · σ<sub>p</sub>   <span class="cmt">// 기울기 = 시장 샤프비율 = 시장위험의 가격</span></div>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 620 320" width="100%" role="img" aria-label="Capital Market Line diagram">
+      <!-- axes -->
+      <line x1="60" y1="270" x2="590" y2="270" stroke="#B7BBB2" stroke-width="1.5"/>
+      <line x1="60" y1="270" x2="60" y2="30" stroke="#B7BBB2" stroke-width="1.5"/>
+      <text x="300" y="300" fill="#5B6675" font-size="12">Total risk  σ  (표준편차)</text>
+      <text x="16" y="60" fill="#5B6675" font-size="12" transform="rotate(-90 16 60)">E(R)  기대수익</text>
+      <!-- efficient frontier (curve) -->
+      <path d="M 200 210 Q 250 120 470 70" fill="none" stroke="#BE842A" stroke-width="2.5"/>
+      <text x="360" y="120" fill="#8a5f18" font-size="11">Efficient frontier</text>
+      <!-- CML line from Rf tangent through M and beyond -->
+      <line x1="60" y1="240" x2="560" y2="55" stroke="#2E5E8C" stroke-width="2.5"/>
+      <text x="450" y="200" fill="#2E5E8C" font-size="12" font-weight="700">CML</text>
+      <!-- Rf point -->
+      <circle cx="60" cy="240" r="4.5" fill="#2E5E8C"/>
+      <text x="24" y="238" fill="#2E5E8C" font-size="12">R_f</text>
+      <!-- Market portfolio tangency -->
+      <circle cx="330" cy="139" r="5.5" fill="#16202E"/>
+      <text x="338" y="135" fill="#16202E" font-size="12" font-weight="700">M (시장)</text>
+      <!-- lending region label -->
+      <text x="130" y="215" fill="#5B6675" font-size="10.5">← Lending (대출)</text>
+      <!-- borrowing region -->
+      <text x="420" y="95" fill="#5B6675" font-size="10.5">Borrowing (차입) →</text>
+    </svg>
+    <figcaption>R<sub>f</sub>에서 출발해 효율적 프론티어에 접하는 직선 = CML. 접점 = 시장 포트폴리오 M.</figcaption>
+  </figure>
+
+  <div class="tbl-wrap"><table>
+    <tr><th>CML 위 위치</th><th>구성</th><th>이름</th></tr>
+    <tr><td>R<sub>f</sub> ~ M 사이</td><td>일부 R<sub>f</sub> + 일부 M (w<sub>M</sub> &lt; 100%)</td><td><span class="pill">Lending 대출</span> 보수적</td></tr>
+    <tr><td>정확히 M</td><td>100% 시장 포트폴리오</td><td>접점 포트폴리오</td></tr>
+    <tr><td>M 너머(오른쪽 위)</td><td>R<sub>f</sub>로 <b>차입</b>해 M을 &gt;100% 매수 (레버리지)</td><td><span class="pill amber">Borrowing 차입</span> 공격적</td></tr>
+  </table></div>
+
+  <h2>4. 2펀드 분리정리 <span class="muted" style="font-size:14px;font-weight:400">(Two-Fund Separation)</span></h2>
+  <div class="card">
+    <p>위험선호가 제각각이어도, <b>모든 투자자는 딱 두 가지</b>만 나눠 담는다:</p>
+    <ul class="clean">
+      <li><b>① 무위험자산</b> (R<sub>f</sub>)</li>
+      <li><b>② 동일한 시장 포트폴리오 M</b> (누구에게나 같은 접점 포트폴리오)</li>
+    </ul>
+    <p>차이는 오직 <b>두 펀드 사이의 비중</b>뿐. → "투자 결정(무엇을 담나 = M)"과 "위험 결정(얼마나 담나 = w)"이 <b>분리(separation)</b>된다. 위험이 무서우면 R<sub>f</sub> 비중↑, 공격적이면 M을 차입해 레버리지.</p>
+  </div>
+
+  <h2>5. CAPM / SML — R<sub>f</sub>가 절편이 된다</h2>
+  <p>CML이 <b>효율적 포트폴리오</b>를 총위험(σ)으로 가격 매긴다면, CAPM은 <b>개별 자산</b>을 <b class="s-real">체계적 위험(β)</b>만으로 가격 매긴다. 그래프로는 증권시장선(SML).</p>
+  <div class="fml">E(R<sub>i</sub>) = R<sub>f</sub> + β<sub>i</sub> · <span class="r">[ E(R<sub>m</sub>) − R<sub>f</sub> ]</span>   <span class="cmt">// [ ] 안 = 시장위험 프리미엄(MRP)</span></div>
+  <ul class="clean">
+    <li><b>절편 = R<sub>f</sub></b> (β=0일 때 기대수익). 무위험자산은 β=0.</li>
+    <li><b>기울기 = 시장위험 프리미엄 = E(R<sub>m</sub>) − R<sub>f</sub></b></li>
+    <li>β=1이면 E(R<sub>i</sub>) = E(R<sub>m</sub>) (시장과 동일).</li>
+  </ul>
+  <div class="callout info"><span class="lbl">ⓘ 예시</span>R<sub>f</sub> = 4%, MRP = 5%, β = 1.2 → E(R) = 4% + 1.2×5% = <b>10%</b>.</div>
+
+  <h3>CML vs SML — 시험 최다 함정 ⭐</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th></th><th>CML (자본시장선)</th><th>SML (증권시장선)</th></tr>
+    <tr><td>X축 위험</td><td><b>총위험 σ</b> (표준편차)</td><td><b>체계적 위험 β</b> (베타)</td></tr>
+    <tr><td>적용 대상</td><td><b>효율적 포트폴리오만</b></td><td><b>모든 자산·포트폴리오</b> (개별 주식 포함)</td></tr>
+    <tr><td>기울기</td><td>[E(R<sub>m</sub>)−R<sub>f</sub>] / σ<sub>m</sub> (시장 샤프)</td><td>E(R<sub>m</sub>)−R<sub>f</sub> (MRP)</td></tr>
+    <tr><td>절편</td><td>R<sub>f</sub></td><td>R<sub>f</sub></td></tr>
+    <tr><td>비효율 자산 위치</td><td>CML 아래 (탈락)</td><td>SML 위에 정확히 놓임</td></tr>
+  </table></div>
+  <div class="callout"><span class="lbl">⚠ 함정</span>둘 다 절편은 <b>R<sub>f</sub></b>로 같지만, <b>X축과 기울기가 다르다.</b> "CML은 σ·효율포트폴리오, SML은 β·모든자산." 개별 주식을 CML에 올리면 오답.</div>
+
+  <h2>6. R<sub>f</sub>가 들어가는 성과지표 4형제</h2>
+  <p>R<sub>f</sub>는 "이만큼은 위험 없이 벌 수 있었다"는 <b>기준선(hurdle)</b>이라, 초과수익 계산의 출발점이다.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>지표</th><th>공식</th><th>위험 척도</th></tr>
+    <tr><td>Sharpe 샤프</td><td>(R<sub>p</sub> − R<sub>f</sub>) / σ<sub>p</sub></td><td>총위험 σ</td></tr>
+    <tr><td>Treynor 트레이너</td><td>(R<sub>p</sub> − R<sub>f</sub>) / β<sub>p</sub></td><td>체계적 β</td></tr>
+    <tr><td>M² (M-squared)</td><td>(R<sub>p</sub>−R<sub>f</sub>)·(σ<sub>m</sub>/σ<sub>p</sub>) − (R<sub>m</sub>−R<sub>f</sub>)</td><td>총위험 σ (수익률 단위)</td></tr>
+    <tr><td>Jensen's α 젠센</td><td>R<sub>p</sub> − [R<sub>f</sub> + β<sub>p</sub>(R<sub>m</sub>−R<sub>f</sub>)]</td><td>체계적 β</td></tr>
+  </table></div>
+  <p class="muted">기억법: <b>분모가 σ면 총위험(Sharpe·M²), β면 체계적위험(Treynor·Jensen).</b> 넷 다 R<sub>f</sub>를 뺀 <b>초과수익</b>에서 시작한다.</p>
+
+  <h2>7. 현실 보정 — 가정이 깨질 때</h2>
+  <div class="card">
+    <p><b>① 차입금리 &gt; 대출금리</b><br>현실에서 투자자는 R<sub>f</sub>로 <i>빌릴</i> 수 없고 더 높은 금리로 빌린다. → CML이 M에서 <b>꺾인다(kink).</b> M 왼쪽은 기울기 큰 대출선, 오른쪽은 기울기 작은 차입선.</p>
+    <p><b>② 실무에서 어떤 R<sub>f</sub>를?</b><br>단기 분석엔 T-bill, <b>주식 자본비용(장기 CF 할인)</b>엔 만기를 맞춘 <b>장기 국채 수익률</b>을 쓰는 게 일반적. 핵심은 <b>현금흐름 기간과 만기를 맞추는 것</b>.</p>
+    <p><b>③ 명목 vs 실질</b><br>모형 입력값은 보통 <b>명목 R<sub>f</sub></b>. 실질 분석이 필요하면 <b>명목 = 실질 + 기대 인플레이션</b>(피셔)으로 분해.</p>
+  </div>
+
+  <h2>8. 전체 흐름 요약</h2>
+  <div class="flow">
+    무위험자산: σ<sub>f</sub>=0, Cov=0 (두 개의 0)<br>
+    ↓<br>
+    R<sub>f</sub> + 위험자산 → σ<sub>p</sub>=w·σ<sub>i</sub> (선형) → <b>직선 CAL</b><br>
+    ↓<br>
+    샤프비율 최대 CAL = <b>CML</b>, 접점 = 시장 포트폴리오 M<br>
+    ↓<br>
+    2펀드 분리: 누구나 R<sub>f</sub> + M 만 (비중만 다름)<br>
+    ↓<br>
+    개별자산은 β로 → <b>CAPM/SML</b>: E(R)=R<sub>f</sub>+β(R<sub>m</sub>−R<sub>f</sub>)<br>
+    ↓<br>
+    성과평가: Sharpe·Treynor·M²·Jensen 모두 (R − R<sub>f</sub>)에서 출발
+  </div>
+
+  <h2>9. 확인 문제 · Quiz</h2>
+  <div class="scorebar" id="score">0 / 0 정답</div>
+  <div id="quiz"></div>
+
+  <div class="foot">
+    CFA® Level II · Portfolio Management · The Risk-Free Rate in the CAL, CML, CAPM &amp; Performance Measures.<br>
+    모든 내용은 CFA 커리큘럼 스타일로 <b>새로 작성</b>했으며 CFA Institute 시험을 복제하지 않았습니다. CFA®는 CFA Institute의 상표입니다.
+  </div>
+</main>
+
+<script>
+const QUIZ=[
+  {a:1,q:"포트폴리오 이론에서 무위험자산과 어떤 위험자산의 상관계수가 0인 근본 이유는?",
+   o:["무위험자산 수익이 낮아서","무위험자산의 표준편차(σf)가 0 → 공분산 = ρ·σf·σi = 0","국채라서 정부가 보증하므로","인플레이션이 없어서"],
+   e:"Cov(f,i) = ρ·σf·σi. σf=0이면 상관계수와 무관하게 공분산이 0이 된다. 이 성질이 위험을 '선형'으로 만들어 CAL을 직선으로 만든다."},
+
+  {a:2,q:"무위험자산(σf=0)에 (1−w), 위험 포트폴리오(σi)에 w를 투자할 때 포트폴리오 표준편차 σp는?",
+   o:["√(w²σi² + (1−w)²σf²)로 곡선","w²·σi","w·σi (선형)","(1−w)·σi"],
+   e:"σf=0, Cov=0이라 분산 = w²σi²만 남는다 → σp = w·σi. 위험이 비중에 정비례(선형)하므로 위험–수익 관계가 직선이 된다."},
+
+  {a:0,q:"자본시장선(CML)에서 시장 포트폴리오 M은 어떻게 결정되는가?",
+   o:["Rf에서 그은 직선이 효율적 프론티어에 접하는 점 (샤프비율 최대)","프론티어에서 위험이 가장 낮은 점","베타가 0인 자산","기대수익이 가장 높은 개별 주식"],
+   e:"Rf를 절편으로 하는 여러 CAL 중 기울기(샤프비율)가 가장 큰 직선이 프론티어에 '접'하며, 그 접점이 시장(접점) 포트폴리오 M이다."},
+
+  {a:1,q:"Rf=3%, E(Rm)=9%, σm=15%. CML 위에서 σp=10%인 포트폴리오의 기대수익은?",
+   o:["6.0%","7.0%","9.0%","10.0%"],
+   e:"E(Rp)=Rf+[(E(Rm)−Rf)/σm]·σp = 3% + (6/15)×10 = 3% + 4% = 7.0%. 기울기(시장 샤프)=6/15=0.4."},
+
+  {a:2,q:"2펀드 분리정리에 따르면 위험선호가 다른 투자자들이 공통으로 보유하는 것은?",
+   o:["각자 다른 최적 개별주식","무위험자산만","무위험자산 + 동일한 시장(접점) 포트폴리오, 비중만 다름","레버리지 없이 시장만"],
+   e:"모든 투자자는 Rf와 동일한 시장 포트폴리오 M 두 가지만 보유하고, 위험선호에 따라 둘 사이 '비중'만 조정한다. 투자결정과 위험결정이 분리된다."},
+
+  {a:0,q:"투자자가 Rf로 자금을 빌려 시장 포트폴리오를 100% 넘게 매수하면, CML 상 위치와 명칭은?",
+   o:["M의 오른쪽 위 — 차입(레버리지) 포트폴리오","M의 왼쪽 아래 — 대출 포트폴리오","정확히 M","CML 아래(비효율)"],
+   e:"Rf로 차입해 M을 >100% 매수 = 레버리지. σp>σm이 되어 M보다 오른쪽 위(borrowing 구간)에 위치한다. 반대로 일부를 Rf에 넣으면 M 왼쪽(lending)."},
+
+  {a:1,q:"CML과 SML의 가장 핵심적인 차이는?",
+   o:["둘 다 β를 X축으로 쓴다","CML은 총위험(σ)·효율적 포트폴리오만, SML은 체계적위험(β)·모든 자산","SML만 절편이 Rf다","CML은 개별 주식에도 성립한다"],
+   e:"둘 다 절편은 Rf. 그러나 CML은 X축이 총위험 σ이고 효율적 포트폴리오에만 성립, SML은 X축이 베타 β이고 개별 자산 포함 모든 자산에 성립한다."},
+
+  {a:2,q:"Rf=4%, 시장위험 프리미엄=5%, 어떤 주식의 β=1.2. CAPM 기대수익은?",
+   o:["9.0%","9.5%","10.0%","11.0%"],
+   e:"E(R)=Rf+β·(Rm−Rf)=4%+1.2×5%=4%+6%=10.0%. Rf는 절편, MRP(5%)는 SML의 기울기."},
+
+  {a:1,q:"다음 중 분모에 '체계적 위험(β)'을 쓰는 성과지표끼리 묶인 것은?",
+   o:["Sharpe와 M²","Treynor와 Jensen's alpha","Sharpe와 Treynor","M²와 Jensen's alpha"],
+   e:"Treynor=(Rp−Rf)/βp, Jensen α=Rp−[Rf+βp(Rm−Rf)] → β 사용. Sharpe와 M²는 총위험 σ 사용. 넷 다 (R−Rf) 초과수익에서 출발한다."},
+
+  {a:0,q:"현실에서 차입금리가 무위험 대출금리보다 높으면 CML은 어떻게 되는가?",
+   o:["시장 포트폴리오 M 지점에서 꺾인다(kink) — 차입구간 기울기가 더 완만","완전한 하나의 직선을 유지","수평선이 된다","존재하지 않는다"],
+   e:"M 왼쪽(대출)은 낮은 Rf로 기울기가 크고, M 오른쪽(차입)은 더 높은 차입금리 때문에 기울기가 완만해져 M에서 꺾인다."},
+
+  {a:2,q:"CAPM/CML에 입력하는 명목 무위험이자율과 실질 무위험이자율의 관계는? (앞 Economics 노트 연결)",
+   o:["명목 = 실질 − 기대 인플레이션","둘은 항상 같다","명목 ≈ 실질 + 기대 인플레이션 (피셔)","실질 = 명목 × 인플레이션"],
+   e:"피셔 관계: 명목 Rf ≈ 실질 Rf + 기대 인플레이션. 포트폴리오 모형의 입력값은 보통 '명목' Rf이며, 실질 분석이 필요할 때 이 식으로 분해한다."}
+];
+const L=['A','B','C','D'];
+const box=document.getElementById('quiz');
+const scoreEl=document.getElementById('score');
+let answered=0, correct=0;
+function updateScore(){ scoreEl.textContent = correct+' / '+answered+' 정답  ·  총 '+QUIZ.length+'문항'; }
+QUIZ.forEach((it,i)=>{
+  const q=document.createElement('div');q.className='q';
+  const h=document.createElement('div');h.className='qn';
+  h.innerHTML='<span class="qnum">Q'+(i+1)+'</span><span class="qtext">'+it.q+'</span>';
+  q.appendChild(h);
+  it.o.forEach((opt,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=L[oi]+'. '+opt;
+    b.addEventListener('click',()=>{
+      if(q.dataset.done)return;q.dataset.done='1';
+      answered++; if(oi===it.a)correct++; updateScore();
+      q.querySelectorAll('.opt').forEach((bb,bi)=>{bb.disabled=true;if(bi===it.a)bb.classList.add('correct');else if(bi===oi)bb.classList.add('wrong');});
+      q.querySelector('.exp').classList.add('show');
+    });
+    q.appendChild(b);
+  });
+  const e=document.createElement('div');e.className='exp';e.innerHTML='<b>해설 · </b>'+it.e;
+  q.appendChild(e);
+  box.appendChild(q);
+});
+updateScore();
+</script>
+</body>
+</html>
