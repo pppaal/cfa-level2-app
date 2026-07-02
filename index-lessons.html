@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CFA Level II · Trilingual Study Notes</title>
+<title>CFA Level II · Study Notes</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -28,7 +28,6 @@
   h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,7vw,50px);line-height:1.04;letter-spacing:-.025em}
   h1 .sub{display:block;font-family:var(--mono);font-size:14px;font-weight:400;color:var(--muted);margin-top:8px}
   .tagline{font-size:16px;color:#26313F;margin:14px 0 2px}
-  .langs{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
   .stats{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 4px;font-family:var(--mono);font-size:12.5px}
   .stat{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:7px 13px;box-shadow:var(--shadow)}
   .stat b{font-family:var(--disp);font-size:15px}
@@ -42,9 +41,7 @@
   .tcard::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--tc)}
   .tcard:hover{transform:translateY(-3px);border-color:var(--tc)}
   .tcard .idx{font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .tcard .nm{font-family:var(--disp);font-weight:700;font-size:16px;margin:8px 0 2px;line-height:1.2}
-  .tcard .cn{font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .tcard .kr{font-size:13px;color:#3a4657;margin-top:2px}
+  .tcard .nm{font-family:var(--disp);font-weight:700;font-size:16px;margin:8px 0 6px;line-height:1.2}
   .tcard .meta{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
   .tcard .cnt{font-family:var(--mono);font-size:12px;color:var(--tc);font-weight:600}
   .tcard .cnt.zero{color:var(--muted);font-weight:400}
@@ -56,13 +53,10 @@
   .detail-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
   .detail-head .bar{width:5px;height:38px;border-radius:3px;background:var(--tc);flex:none}
   .detail-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(24px,5vw,34px);line-height:1.05}
-  .detail-head .cn{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:3px}
 
-  /* reading block */
   .reading{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
   .reading-h{background:var(--raised);padding:14px 16px;border-bottom:1px solid var(--line)}
   .reading-h .rn{font-family:var(--disp);font-weight:700;font-size:16.5px}
-  .reading-h .rc{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
   .los{margin-top:11px;display:grid;gap:6px}
   .los .item{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#3a4657}
   .los .lt{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#fff;background:var(--tc);border-radius:5px;padding:1px 6px;flex:none;margin-top:2px}
@@ -86,70 +80,69 @@
 <main>
   <div class="topbar">
     <a class="brand" href="#"><span class="dot"></span>CFA L2 · Study Notes</a>
-    <a class="app-link" href="index.html">📝 Flashcards · Item Sets 앱 →</a>
+    <a class="app-link" href="index.html">📝 Flashcards · Item Sets app →</a>
   </div>
 
-  <!-- ===== LEVEL 1: 홈 (과목 10개) ===== -->
+  <!-- ===== LEVEL 1: home (10 topics) ===== -->
   <section id="home">
     <div class="hero">
-      <div class="eyebrow">Trilingual · Free · LOS-mapped</div>
-      <h1>CFA Level II<span class="sub">10 Topics · Readings · LOS · 3 Languages</span></h1>
-      <p class="tagline">과목 → 리딩 → <b>LOS</b>까지 연결된 3개국어 스터디 노트. <b>완전 무료.</b></p>
-      <p class="langs">🇬🇧 English · 🇨🇳 中文(拼音) · 🇰🇷 한국어</p>
+      <div class="eyebrow">Free · LOS-mapped · Retrieval-based</div>
+      <h1>CFA Level II<span class="sub">10 Topics · Readings · LOS</span></h1>
+      <p class="tagline">Study notes wired all the way down to the <b>LOS</b>: Topic → Reading → LOS → Lesson. <b>Completely free.</b></p>
       <div class="stats">
-        <span class="stat"><b id="sLessons">0</b> 레슨</span>
-        <span class="stat"><b id="sReadings">0</b> 리딩</span>
-        <span class="stat"><b id="sTopics">0</b> / 10 과목 시작됨</span>
+        <span class="stat"><b id="sLessons">0</b> lessons</span>
+        <span class="stat"><b id="sReadings">0</b> readings</span>
+        <span class="stat"><b id="sTopics">0</b> / 10 topics started</span>
       </div>
     </div>
-    <div class="sec-h"><span class="t">과목 선택</span><span class="c">Choose a topic · 选择科目</span></div>
+    <div class="sec-h"><span class="t">Choose a topic</span></div>
     <div class="tgrid" id="tgrid"></div>
   </section>
 
-  <!-- ===== LEVEL 2: 과목 상세 (리딩 → LOS → 레슨) ===== -->
+  <!-- ===== LEVEL 2: topic detail (reading → LOS → lesson) ===== -->
   <section id="detail" class="hide"></section>
 
   <div class="foot">
-    구조: 과목 → 리딩(Reading) → LOS → 레슨. &nbsp;참고: <code>docs/CONTENT-ARCHITECTURE.md</code> · 틀: <code>templates/lesson-template.html</code><br>
-    LOS는 CFA 커리큘럼 학습목표를 <b>자체 표현으로 요약</b>한 것이며 공식 문구를 그대로 옮기지 않았습니다. CFA®는 CFA Institute의 상표입니다.
+    Structure: Topic → Reading → LOS → Lesson. &nbsp;Notes: <code>docs/CONTENT-ARCHITECTURE.md</code> · template: <code>templates/lesson-template.html</code><br>
+    LOS are summarized in original wording and do not reproduce official CFA statements verbatim. CFA® is a trademark of CFA Institute.
   </div>
 </main>
 
 <script>
-// ── 10개 과목 ────────────────────────────────────
+// ── 10 topics ────────────────────────────────────
 const TOPICS=[
-  {id:"ethics", name:"Ethics & Professional Standards", cn:"职业道德",   kr:"윤리 및 직업표준", color:"#7A5EA6"},
-  {id:"quant",  name:"Quantitative Methods",            cn:"数量方法",   kr:"계량분석",        color:"#C06A2A"},
-  {id:"econ",   name:"Economics",                       cn:"经济学",     kr:"경제학",          color:"#2F7A6F"},
-  {id:"fsa",    name:"Financial Statement Analysis",    cn:"财务报表分析", kr:"재무제표 분석",   color:"#3F7CA8"},
-  {id:"corp",   name:"Corporate Issuers",               cn:"公司发行人", kr:"기업 발행자",     color:"#8A6D3B"},
-  {id:"equity", name:"Equity Valuation",                cn:"权益估值",   kr:"주식 가치평가",   color:"#2F8F6B"},
-  {id:"fi",     name:"Fixed Income",                    cn:"固定收益",   kr:"채권",            color:"#B0483B"},
-  {id:"deriv",  name:"Derivatives",                     cn:"衍生品",     kr:"파생상품",        color:"#5B6BB0"},
-  {id:"alt",    name:"Alternative Investments",         cn:"另类投资",   kr:"대체투자",        color:"#7D8B3A"},
-  {id:"pm",     name:"Portfolio Management",            cn:"投资组合管理", kr:"포트폴리오 관리", color:"#2E5E8C"},
+  {id:"ethics", name:"Ethics & Professional Standards", color:"#7A5EA6"},
+  {id:"quant",  name:"Quantitative Methods",            color:"#C06A2A"},
+  {id:"econ",   name:"Economics",                       color:"#2F7A6F"},
+  {id:"fsa",    name:"Financial Statement Analysis",    color:"#3F7CA8"},
+  {id:"corp",   name:"Corporate Issuers",               color:"#8A6D3B"},
+  {id:"equity", name:"Equity Valuation",                color:"#2F8F6B"},
+  {id:"fi",     name:"Fixed Income",                    color:"#B0483B"},
+  {id:"deriv",  name:"Derivatives",                     color:"#5B6BB0"},
+  {id:"alt",    name:"Alternative Investments",         color:"#7D8B3A"},
+  {id:"pm",     name:"Portfolio Management",            color:"#2E5E8C"},
 ];
 
-// ── 리딩 + LOS (LOS는 자체 요약 표현) ─────────────
+// ── readings + LOS (LOS summarized in original wording) ──
 const READINGS=[
-  {id:"eim", topic:"pm", name:"Economics and Investment Markets", cn:"经济与投资市场 · 经济学与投资市场",
+  {id:"eim", topic:"pm", name:"Economics and Investment Markets",
    los:[
-     {id:"a", t:"현재가치 모형으로 자산가격을 설명하고, 할인율 = 실질무위험이자율 + 기대 인플레이션 + 위험 프리미엄임을 설명"},
-     {id:"b", t:"기간 간 대체율(mₜ)의 개념과 실질무위험이자율과의 역관계를 설명"},
-     {id:"c", t:"실질무위험이자율과 기대 실질 GDP 성장률·GDP 성장 변동성의 관계를 설명"},
+     {id:"a", t:"Use the present-value model to explain asset prices; discount rate = real risk-free rate + expected inflation + risk premiums."},
+     {id:"b", t:"Explain the inter-temporal rate of substitution (mₜ) and its inverse relationship with the real risk-free rate."},
+     {id:"c", t:"Explain how the real risk-free rate relates to expected real GDP growth and the volatility of GDP growth."},
    ]},
-  {id:"prr", topic:"pm", name:"Foundations · Risk & Return (review)", cn:"风险与收益基础(复习)",
+  {id:"prr", topic:"pm", name:"Foundations · Risk & Return (review)",
    los:[
-     {id:"a", t:"무위험자산의 성질(σ=0, 상관=0)과 CAL/CML을 설명"},
-     {id:"b", t:"CAPM/SML로 기대수익을 계산하고 CML(총위험)과 SML(체계적위험)을 구분"},
+     {id:"a", t:"Explain the properties of the risk-free asset (σ=0, correlation=0) and the CAL/CML."},
+     {id:"b", t:"Use the CAPM/SML to compute expected return and distinguish the CML (total risk) from the SML (systematic risk)."},
    ]},
 ];
 
-// ── 레슨 (readingId + 커버 LOS) ──────────────────
+// ── lessons (readingId + covered LOS) ────────────
 const LESSONS=[
-  {readingId:"eim", title:"실질무위험이자율", en:"Real Risk-Free Rate",
+  {readingId:"eim", title:"Real Risk-Free Rate", en:"The pure reward for waiting",
    file:"econ-real-risk-free-rate.html", los:["a","b","c"]},
-  {readingId:"prr", title:"무위험이자율 — CAL/CML/CAPM", en:"Risk-Free Rate in the CAL / CML / CAPM",
+  {readingId:"prr", title:"Risk-Free Rate in the CAL / CML / CAPM", en:"Baseline of portfolio theory",
    file:"pm-risk-free-rate.html", los:["a","b"]},
 ];
 
@@ -159,13 +152,11 @@ const readingsOf=(tid)=>READINGS.filter(r=>r.topic===tid);
 const lessonsOf=(rid)=>LESSONS.filter(l=>l.readingId===rid);
 const liveTopicLessons=(tid)=>readingsOf(tid).flatMap(r=>lessonsOf(r.id)).filter(l=>l.file);
 
-// ── 홈 ───────────────────────────────────────────
 function renderHome(){
   const live=LESSONS.filter(l=>l.file);
   $("sLessons").textContent=live.length;
   $("sReadings").textContent=new Set(live.map(l=>l.readingId)).size;
-  const startedTopics=new Set(live.map(l=>READINGS.find(r=>r.id===l.readingId).topic));
-  $("sTopics").textContent=startedTopics.size;
+  $("sTopics").textContent=new Set(live.map(l=>READINGS.find(r=>r.id===l.readingId).topic)).size;
 
   const g=$("tgrid"); g.innerHTML="";
   TOPICS.forEach((t,i)=>{
@@ -174,10 +165,8 @@ function renderHome(){
     c.className="tcard"; c.style.setProperty("--tc",t.color);
     c.innerHTML=`<div class="idx">${String(i+1).padStart(2,"0")}</div>
       <div class="nm">${t.name}</div>
-      <div class="cn">${t.cn}</div>
-      <div class="kr">${t.kr}</div>
       <div class="meta">
-        <span class="cnt ${n?"":"zero"}">${n?n+" 레슨":"준비중"}</span>
+        <span class="cnt ${n?"":"zero"}">${n?n+(n>1?" lessons":" lesson"):"coming soon"}</span>
         <span class="arrow">→</span>
       </div>`;
     c.onclick=()=>{ location.hash="t="+t.id; };
@@ -185,47 +174,39 @@ function renderHome(){
   });
 }
 
-// ── 과목 상세 (리딩 → LOS → 레슨) ────────────────
 function renderDetail(id){
   const t=topicOf(id); if(!t){ location.hash=""; return; }
   const d=$("detail"); d.style.setProperty("--tc",t.color);
   const readings=readingsOf(id);
 
   let html=`<div class="crumb"><a href="#">CFA Level II</a><span class="sep">/</span>${t.name}</div>
-    <div class="detail-head"><span class="bar"></span>
-      <div><h2>${t.name}</h2><div class="cn">${t.cn} · ${t.kr}</div></div>
-    </div>`;
+    <div class="detail-head"><span class="bar"></span><h2>${t.name}</h2></div>`;
 
   if(readings.length===0){
-    html+=`<div class="empty">🚧 이 과목의 리딩·레슨은 준비중입니다. 곧 추가됩니다.</div>`;
+    html+=`<div class="empty">🚧 Readings and lessons for this topic are coming soon.</div>`;
   }else{
     readings.forEach(r=>{
       const losHtml=r.los.map(l=>
         `<div class="item"><span class="lt">LOS ${l.id}</span><span>${l.t}</span></div>`).join("");
-      const lessons=lessonsOf(r.id);
-      const lessonsHtml=lessons.map(l=>{
+      const lessonsHtml=lessonsOf(r.id).map(l=>{
         if(l.file){
           const chips=(l.los||[]).map(x=>`<span class="chip">LOS ${x}</span>`).join("");
           return `<a class="lcard" href="${l.file}">
             <div class="lt">${l.title}<span class="en">${l.en}</span></div>
             <div class="chips">${chips}</div>
-            <div class="go">열기 Open →</div></a>`;
+            <div class="go">Open →</div></a>`;
         }
-        return `<div class="soon">🚧 ${l.title}<br>곧 추가 (coming soon)</div>`;
+        return `<div class="soon">🚧 ${l.title}<br>coming soon</div>`;
       }).join("");
       html+=`<div class="reading">
-        <div class="reading-h">
-          <div class="rn">${r.name}</div><div class="rc">${r.cn}</div>
-          <div class="los">${losHtml}</div>
-        </div>
-        <div class="lgrid">${lessonsHtml||'<div class="empty">레슨 준비중</div>'}</div>
+        <div class="reading-h"><div class="rn">${r.name}</div><div class="los">${losHtml}</div></div>
+        <div class="lgrid">${lessonsHtml||'<div class="empty">Lessons coming soon</div>'}</div>
       </div>`;
     });
   }
   d.innerHTML=html;
 }
 
-// ── 라우팅 ───────────────────────────────────────
 function route(){
   const m=location.hash.match(/t=([a-z]+)/);
   if(m){
