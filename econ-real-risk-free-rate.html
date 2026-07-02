@@ -16,15 +16,19 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
   main{max-width:820px;margin:0 auto;padding:44px 20px 90px}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin-bottom:14px}
+  .back:hover{color:var(--real)}
   .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
   .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--real)}
   h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.1;letter-spacing:-.02em;margin-bottom:6px}
   h1 .en{display:block;font-family:var(--mono);font-size:14px;font-weight:400;color:var(--muted);margin-top:6px}
   h2{font-size:clamp(20px,4vw,26px);font-weight:700;letter-spacing:-.02em;margin:38px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+  h2 .step{font-family:var(--mono);font-size:13px;color:var(--real);display:block;letter-spacing:.04em;margin-bottom:2px}
   h3{font-size:17px;font-weight:700;margin:24px 0 8px}
   p{margin-bottom:10px}
   .lead{font-size:17px;color:#26313F;margin:14px 0 6px}
   .muted{color:var(--muted)}
+  a{color:var(--real)}
   .s-real{color:var(--real);font-weight:600}.s-inf{color:var(--inf);font-weight:600}.s-credit{color:var(--credit);font-weight:600}
   .tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
   table{border-collapse:collapse;width:100%;font-size:14px;background:var(--raised)}
@@ -46,6 +50,22 @@
   ul.clean li{position:relative;padding-left:19px;margin-bottom:6px}
   ul.clean li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--real)}
   .flow{font-family:var(--mono);font-size:13px;background:var(--real-bg);border-radius:10px;padding:14px 16px;line-height:2;color:#1f5a51}
+  /* agenda */
+  .agenda{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:16px 0;box-shadow:var(--shadow);display:grid;gap:8px}
+  .agenda a{display:flex;gap:12px;align-items:center;padding:9px 12px;border-radius:9px;text-decoration:none;color:var(--ink);transition:background .15s}
+  .agenda a:hover{background:var(--real-bg)}
+  .agenda .n{font-family:var(--disp);font-weight:700;color:var(--real);font-size:15px;flex:none;width:22px}
+  .agenda .t{font-weight:600;font-size:14.5px}
+  .agenda .t small{display:block;font-family:var(--mono);font-weight:400;font-size:11.5px;color:var(--muted)}
+  /* discount-rate build-up stack */
+  .stack{margin:16px 0;display:flex;flex-direction:column;gap:4px}
+  .band{border-radius:10px;padding:12px 15px;color:#fff;box-shadow:var(--shadow)}
+  .band .bt{font-weight:700;font-size:14.5px}
+  .band .bs{font-family:var(--mono);font-size:11.5px;opacity:.9;display:block;margin-top:2px}
+  .band.prem{background:#B08A2A}
+  .band.inflb{background:#B4652A}
+  .band.rf{background:var(--real);border:2px solid #1f5a51}
+  .stack .plus{text-align:center;font-family:var(--mono);color:var(--muted);font-size:13px;font-weight:600}
   /* quiz */
   .q{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
   .qn{display:flex;gap:9px;align-items:baseline;margin-bottom:10px}
@@ -64,115 +84,143 @@
 </head>
 <body>
 <main>
+  <a class="back" href="index-lessons.html#t=econ">← Economics 레슨 목록</a>
   <div class="eyebrow"><span class="dot"></span>Economics · Economics and Investment Markets</div>
   <h1>실질무위험이자율<span class="en">Real Risk-Free Rate · 实际无风险利率</span></h1>
   <p class="lead">핵심 한 문장 — <b class="s-real">"지금 안 쓰고 참은 대가"</b>가 실질금리다. (물가·위험이 전혀 없다는 가정 위의 순수 이자)</p>
-  <div class="callout info"><span class="lbl">↔ 시리즈 연결</span>이 노트는 이자율이 <b>왜</b> 생기는지를 다룬다. 그 무위험이자율이 <b>포트폴리오·자산가격 모형에서 어떻게 쓰이나</b>는 <b><a href="pm-risk-free-rate.html" style="color:var(--real)">Portfolio Management · 무위험이자율(CML/CAPM)</a></b> 노트로 이어진다. (명목 R<sub>f</sub> = 실질 R<sub>f</sub> + 기대 인플레이션)</div>
+  <div class="callout info"><span class="lbl">↔ 시리즈 연결</span>이 노트는 이자율이 <b>왜</b> 생기는지를 다룬다. 그 무위험이자율이 <b>포트폴리오·자산가격 모형에서 어떻게 쓰이나</b>는 <b><a href="pm-risk-free-rate.html">Portfolio Management · 무위험이자율(CML/CAPM)</a></b> 노트로 이어진다. (명목 R<sub>f</sub> = 실질 R<sub>f</sub> + 기대 인플레이션)</div>
 
-  <h2>핵심 용어</h2>
+  <div class="agenda">
+    <a href="#p1"><span class="n">1</span><span class="t">Overview <small>개관 · 现值模型과 할인율 빌드업</small></span></a>
+    <a href="#p2"><span class="n">2</span><span class="t">Inter-temporal Rate of Substitution <small>기간 간 대체율 · mₜ 와 R<sub>f</sub> 공식</small></span></a>
+    <a href="#p3"><span class="n">3</span><span class="t">Economic Factors <small>경제 요인 · 성장기대·변동성</small></span></a>
+  </div>
+
+  <h2>핵심 용어 · Key Terms</h2>
   <div class="tbl-wrap"><table>
     <tr><th>English</th><th>中文 (拼音)</th><th>한국어</th></tr>
     <tr><td class="en">Real risk-free rate</td><td class="cn"><b>实际无风险利率</b> shíjì wú fēngxiǎn lìlǜ</td><td>실질 무위험 이자율</td></tr>
+    <tr><td class="en">Present value model</td><td class="cn"><b>现值模型</b> xiànzhí móxíng</td><td>현재가치 모형</td></tr>
     <tr><td class="en">Discount rate</td><td class="cn"><b>折现率</b> zhéxiàn lǜ</td><td>할인율</td></tr>
+    <tr><td class="en">Risk premium</td><td class="cn"><b>风险溢价</b> fēngxiǎn yìjià</td><td>위험 프리미엄</td></tr>
     <tr><td class="en">Marginal utility</td><td class="cn"><b>边际效用</b> biānjì xiàoyòng</td><td>한계효용</td></tr>
     <tr><td class="en">Diminishing marginal utility</td><td class="cn"><b>边际效用递减</b> biānjì xiàoyòng dìjiǎn</td><td>한계효용 체감</td></tr>
     <tr><td class="en">Time preference</td><td class="cn"><b>时间偏好</b> shíjiān piānhào</td><td>시간선호</td></tr>
     <tr><td class="en">Inter-temporal rate of substitution</td><td class="cn"><b>跨期替代率</b> kuàqī tìdài lǜ</td><td>기간 간 대체율 (mₜ)</td></tr>
     <tr><td class="en">Precautionary saving</td><td class="cn"><b>预防性储蓄</b> yùfángxìng chǔxù</td><td>예비적 저축</td></tr>
-    <tr><td class="en">Volatility</td><td class="cn"><b>波动率</b> bōdònglǜ</td><td>변동성</td></tr>
+    <tr><td class="en">GDP growth volatility</td><td class="cn"><b>GDP 增长波动率</b> zēngzhǎng bōdònglǜ</td><td>GDP 성장 변동성</td></tr>
   </table></div>
 
-  <h2>1. 큰 그림 — 자산 가격의 원리</h2>
-  <p>모든 자산 가격은 <b>미래에 받을 현금흐름을 할인율로 나눠 현재가치로 바꾼 합</b>이다.</p>
+  <!-- ===== PART 1 ===== -->
+  <h2 id="p1"><span class="step">Part 1</span>Overview — 자산 가격의 원리</h2>
+  <p>모든 자산 가격은 <b>미래에 받을 현금흐름(CF)을 할인율로 나눠 현재가치로 바꾼 합</b>이다. 이것이 <b>현재가치 모형(present value model)</b>.</p>
   <div class="fml">Price = Σ ( CF <span class="cmt">현금흐름</span> ÷ Discount rate <span class="cmt">할인율</span> )</div>
-  <p>할인율(<b>折现率</b>)이 경제와 자산 가격을 잇는 다리다. 오늘은 그 맨 밑 1층, <b class="s-real">실질무위험이자율</b>을 짓는다.</p>
+  <p>할인율(<b>折现率</b>)이 경제와 자산 가격을 잇는 다리다. 그런데 이 할인율은 <b>여러 층으로 쌓인 빌드업</b>이고, 실질무위험이자율은 그 <b class="s-real">맨 밑 1층(토대)</b>이다.</p>
 
-  <h2>2. 시장은 '기대'로 움직인다</h2>
+  <h3>할인율 빌드업 — 실질무위험이자율은 토대</h3>
+  <div class="stack">
+    <div class="band prem"><span class="bt">＋ 위험 프리미엄 (Risk premiums)</span><span class="bs">유동성 · 주식(equity) · 신용(credit) · 인플레이션 불확실성 프리미엄</span></div>
+    <div class="plus">＋</div>
+    <div class="band inflb"><span class="bt">기대 인플레이션 (Expected inflation)</span><span class="bs">화폐가치 하락 보상</span></div>
+    <div class="plus">＝ 위 둘을 얹기 전, 가장 밑에</div>
+    <div class="band rf"><span class="bt">실질무위험이자율 (Real risk-free rate)</span><span class="bs">물가·위험 0 가정 → 순수한 '기다림의 대가' · 이 노트의 주제</span></div>
+  </div>
+  <p class="muted">→ 이 노트는 위험·인플레이션을 모두 걷어낸 <b>맨 아래 토대</b>만 다룬다. (인플레이션·위험 프리미엄은 별도 레슨)</p>
+
+  <h3>시장은 '기대'로 움직인다</h3>
   <p>시장은 <b>미래지향적(forward-looking)</b>이다. 자산 가격은 지금 나온 데이터가 아니라 <b>미래에 대한 기대(预期 yùqī)</b>를 반영한다.</p>
   <ul class="clean">
     <li>예상된 정보(anticipated) → 이미 가격에 반영됨 → <b>변화 없음</b></li>
     <li>예상 밖 정보(surprise) → 기대 수정 → <b>가격 변동</b></li>
   </ul>
-  <div class="callout"><span class="lbl">⚠ 시험 함정</span>좋은 GDP 지표가 나와도 <b>미래 기대가 안 바뀌면 가격은 안 움직인다.</b> 오직 surprise만 가격을 움직인다.</div>
+  <div class="callout"><span class="lbl">⚠ 시험 함정</span>지난 분기 GDP가 <b>예상보다</b> 좋았어도, <b>미래 기대가 안 바뀌면 가격은 안 움직인다.</b> 오직 surprise(기대의 수정)만 가격을 움직인다.</div>
 
-  <h2>3. 효용 이론 — 왜 이자를 요구하나 <span class="muted" style="font-size:14px;font-weight:400">(인플레 없다고 가정)</span></h2>
+  <!-- ===== PART 2 ===== -->
+  <h2 id="p2"><span class="step">Part 2</span>Inter-temporal Rate of Substitution — 왜 이자를 요구하나</h2>
+  <p class="muted">전제: <b>인플레이션 없음(NO INFLATION)</b>. 순수하게 '시간'만 남긴다.</p>
   <div class="card">
     <p><b>① 한계효용 체감</b><br>소비-효용 곡선은 오목하다. 소비를 더 늘릴수록 추가 만족은 줄어든다. 배고플 때 첫 밥은 😍, 배부를 때 셋째 밥은 😑.</p>
     <p><b>② 시간선호</b><br>사람은 미래보다 오늘 소비를 선호한다 → <b>현재 소비의 한계효용 &gt; 미래 소비의 한계효용.</b></p>
-    <p><b>③ 그래서 보상 필요</b><br>오늘 소비를 참고 투자하게 하려면 미래에 보상을 줘야 한다. 그 보상이 곧 실질금리다.</p>
+    <p><b>③ 그래서 보상 필요</b><br>오늘 소비를 참고(현재 소비의 기회비용) 투자하게 하려면 미래에 보상을 줘야 한다. 그 보상이 곧 실질금리다.</p>
   </div>
 
-  <h2>4. mₜ (기간 간 대체율) — 이 챕터의 심장</h2>
+  <h3>mₜ (기간 간 대체율) — 이 파트의 심장</h3>
   <div class="fml">m<sub>t</sub> = 미래 소비의 한계효용 ÷ 현재 소비의 한계효용</div>
   <p>오늘을 더 좋아하니 분모(현재)가 분자(미래)보다 크다 → <b class="s-real">mₜ는 항상 1보다 작다.</b></p>
   <p class="muted">예: 현재효용 100, 미래효용 95 → mₜ = 95/100 = 0.95</p>
 
-  <h2>5. 실질금리 공식 유도</h2>
-  <p><b>Step 1.</b> 만기에 $1 주는 1년 무위험 무이표채의 가격 = 기대 mₜ</p>
+  <h3>실질금리 공식 유도</h3>
+  <p><b>Step 1.</b> 만기에 $1 주는 1년 무위험 무이표채의 <b>시장가격</b> = 기대 mₜ. (투자자들이 mₜ = P₀ 가 될 때까지 사고팔아 균형)</p>
   <div class="fml">P<sub>0</sub> = E(m<sub>t</sub>)</div>
-  <p><b>Step 2.</b> 수익률 = (받을 돈 ÷ 낸 돈) − 1</p>
+  <p><b>Step 2.</b> 수익률 = (받을 돈 − 낸 돈) ÷ 낸 돈 = 1÷P₀ − 1</p>
   <div class="fml">R<sub>f</sub> = (1 − P<sub>0</sub>) ÷ P<sub>0</sub> = 1 ÷ P<sub>0</sub> − 1</div>
   <p><b>Step 3.</b> P₀ = E(mₜ) 대입 →</p>
   <div class="fml">R<sub>f</sub> = 1 ÷ E(m<sub>t</sub>) − 1&nbsp;&nbsp;<span class="cmt">// mₜ↑ ⟹ R<sub>f</sub>↓ (역관계)</span></div>
   <ul class="clean">
-    <li>mₜ = 0.95 → R<sub>f</sub> = 1/0.95 − 1 = <b>5.3%</b></li>
+    <li>mₜ = 0.95 → R<sub>f</sub> = 1/0.95 − 1 = <b>5.26%</b></li>
     <li>mₜ = 0.90 → R<sub>f</sub> = 1/0.90 − 1 = <b>11.1%</b> (mₜ 작을수록 R<sub>f</sub> 큼 ✓)</li>
   </ul>
+  <div class="callout info"><span class="lbl">ⓘ 두 방향 관계</span><b>mₜ ↔ R<sub>f</sub> : 역관계</b> (mₜ↓ → R<sub>f</sub>↑). &nbsp;<b>현재 소비 효용 ↔ R<sub>f</sub> : 정관계</b> (오늘 쓰고 싶은 마음↑ → 참게 하려면 이자 더↑).</div>
 
-  <h2>6. 실질금리를 움직이는 2요인 — 둘 다 양(+) ⭐</h2>
+  <!-- ===== PART 3 ===== -->
+  <h2 id="p3"><span class="step">Part 3</span>Economic Factors — 실질금리를 움직이는 2요인 <span class="muted" style="font-size:14px;font-weight:400">둘 다 양(+) ⭐</span></h2>
   <div class="tbl-wrap"><table>
-    <tr><th>요인 증가</th><th>실질금리</th><th>이유</th></tr>
+    <tr><th>요인 증가</th><th>실질금리</th><th>이유(메커니즘)</th></tr>
     <tr><td>기대 실질 GDP 성장률 ↑</td><td><span class="pill">↑ 상승 (+)</span></td><td>미래에 부자 될 예정 → 미래소비 한계효용↓ → mₜ↓ → 저축 유인 낮음 → 이자 더 줘야</td></tr>
     <tr><td>GDP 성장 변동성 ↑</td><td><span class="pill">↑ 상승 (+)</span></td><td>불확실성 보상으로 위험 프리미엄 요구↑ → 예비적 저축 효과를 압도</td></tr>
   </table></div>
   <div class="callout"><span class="lbl">⚠ 자주 틀리는 함정</span>변동성↑ 은 <b>예비적 저축(mₜ↑→Rf↓)</b>과 <b>위험 프리미엄(Rf↑)</b> 두 힘이 싸운다. <b>위험 프리미엄이 압도</b>하므로 최종적으로 <b>양(+)의 관계</b>. 예비적 저축만 보고 "음(−)"이라 하면 오답.</div>
 
-  <h2>7. 전체 흐름 요약</h2>
+  <h2>전체 흐름 요약</h2>
   <div class="flow">
-    시장은 '기대'로 움직임 (surprise만 가격 변동)<br>
+    <b>P1</b> 가격 = Σ(CF ÷ 할인율), 할인율 = [실질Rf + 기대인플레 + 위험프리미엄], 실질Rf가 토대<br>
+    ↓ (시장은 surprise로만 움직임)<br>
+    <b>P2</b> 효용이론: 오늘 소비 &gt; 미래 소비 → mₜ = 미래효용÷현재효용 &lt; 1<br>
     ↓<br>
-    효용이론: 오늘 소비 &gt; 미래 소비 (시간선호 + 한계효용 체감)<br>
+    R<sub>f</sub> = 1 ÷ E(mₜ) − 1 (역관계) &nbsp;예) mₜ=0.95 → 5.26%<br>
     ↓<br>
-    mₜ = 미래효용 ÷ 현재효용 &lt; 1<br>
-    ↓<br>
-    R<sub>f</sub> = 1 ÷ E(mₜ) − 1 (역관계)<br>
-    ↓<br>
-    성장기대↑ → mₜ↓ → R<sub>f</sub>↑ &nbsp;|&nbsp; 변동성↑ → 위험프리미엄↑ → R<sub>f</sub>↑
+    <b>P3</b> 성장기대↑ → mₜ↓ → R<sub>f</sub>↑ &nbsp;|&nbsp; 변동성↑ → 위험프리미엄 압도 → R<sub>f</sub>↑
   </div>
 
-  <h2>8. 확인 문제 · Quiz</h2>
+  <h2>확인 문제 · Quiz</h2>
   <div class="scorebar" id="score">0 / 0 정답</div>
   <div id="quiz"></div>
 
   <div class="foot">
     CFA® Level II · Economics and Investment Markets · Real Risk-Free Rate.<br>
-    모든 내용은 CFA 커리큘럼 스타일로 <b>새로 작성</b>했으며 CFA Institute 시험을 복제하지 않았습니다. CFA®는 CFA Institute의 상표입니다.
+    모든 내용은 CFA 커리큘럼 개념을 바탕으로 <b>독립 작성</b>한 원문이며, 특정 교재·강의 자료를 복제하지 않았습니다. CFA®는 CFA Institute의 상표입니다.
   </div>
 </main>
 
 <script>
 const QUIZ=[
+  {a:1,q:"현재가치 모형에서 자산의 할인율(discount rate)을 구성하는 것은?",
+   o:["실질무위험이자율 하나뿐","실질무위험이자율 + 기대 인플레이션 + 위험 프리미엄","기대 인플레이션 + 신용등급","명목 GDP 성장률"],
+   e:"할인율 = 실질무위험이자율(토대) + 기대 인플레이션 + 위험 프리미엄(유동성·주식·신용·인플레 불확실성). 실질무위험이자율이 맨 밑 1층."},
+  {a:2,q:"할인율 빌드업에서 '물가도 위험도 0'을 가정하고 남는 가장 밑바닥 층은?",
+   o:["기대 인플레이션","신용 위험 프리미엄","실질무위험이자율","유동성 프리미엄"],
+   e:"실질무위험이자율은 인플레이션과 모든 위험을 걷어낸 순수한 '기다림의 대가' — 빌드업의 토대."},
   {a:2,q:"지난 분기 GDP가 예상보다 강했지만 투자자의 미래 GDP 성장 기대는 그대로다. 자산 가격은?",
    o:["상승","하락","거의 변화 없음"],
    e:"시장은 forward-looking. 미래 기대가 안 바뀌면 가격은 안 움직인다. surprise가 없으면 변화 없음."},
-  {a:1,q:"시장 가격을 실제로 움직이는 것은?",
-   o:["경제 데이터 그 자체","예상 밖 정보(surprise)로 인한 기대의 변화","이미 예상된 정보"],
-   e:"오직 surprise로 기대가 수정될 때만 가격 변동. 데이터 자체나 예상된 정보는 이미 반영됨."},
   {a:0,q:"기간간 대체율 mₜ가 보통 1보다 작은 이유는?",
    o:["미래 소비의 한계효용이 현재보다 낮아서","미래 소비의 한계효용이 현재보다 높아서","인플레이션 때문에"],
    e:"mₜ = 미래효용/현재효용. 오늘을 더 선호 → 현재(분모)가 크고 미래(분자)가 작음 → mₜ<1."},
-  {a:1,q:"만기에 $1 주는 1년 무위험 무이표채가 $0.92에 거래된다. 실질금리는?",
-   o:["8.00%","8.70%","7.40%"],
-   e:"Rf = 1/0.92 − 1 = 1.087 − 1 = 8.70%."},
+  {a:1,q:"만기에 $1 주는 1년 무위험 무이표채가 $0.95에 거래된다. 실질무위험이자율은?",
+   o:["5.00%","5.26%","4.75%"],
+   e:"Rf = 1/P0 − 1 = 1/0.95 − 1 = 1.0526 − 1 = 5.26%. (P0 = E(mₜ) = 0.95)"},
   {a:0,q:"기대 실질 GDP 성장률이 상승하면 실질금리와 그 메커니즘은?",
    o:["상승 — 미래소비 한계효용↓ → mₜ↓ → Rf↑","하락 — 미래소비 한계효용↑ → mₜ↑ → Rf↓","변화 없음"],
    e:"성장기대↑ → 미래 부유 예상 → 미래소비 한계효용↓ → mₜ↓ → Rf↑ (양의 관계)."},
   {a:0,q:"GDP 성장 변동성이 커지면 실질금리는?",
    o:["상승 (+) — 위험 프리미엄이 예비적 저축을 압도","하락 (−) — 예비적 저축이 늘어서","변화 없음"],
    e:"변동성↑ → 위험 프리미엄 요구↑, 이게 예비적 저축(Rf↓) 효과를 압도 → 전체적으로 Rf↑. 함정 주의!"},
+  {a:1,q:"P₀ = E(mₜ) 관계가 성립하는 이유로 가장 적절한 것은?",
+   o:["정부가 가격을 고정해서","투자자들이 mₜ = P₀ 가 될 때까지 무위험채를 사고팔아 균형에 도달","인플레이션이 0이라서","한계효용이 일정해서"],
+   e:"만기 $1을 주는 무위험 무이표채의 시장가격은, 투자자들의 매수·매도가 균형을 이뤄 기대 기간간 대체율 E(mₜ)와 같아진다."},
   {a:0,q:"mₜ가 0.98에서 0.90으로 하락했다. 실질금리는?",
    o:["상승","하락","무관"],
-   e:"mₜ↓ → Rf↑ (역관계). 확인: 1/0.98−1=2.0% → 1/0.90−1=11.1%, 크게 상승."}
+   e:"mₜ↓ → Rf↑ (역관계). 확인: 1/0.98−1=2.04% → 1/0.90−1=11.1%, 크게 상승."}
 ];
 const L=['A','B','C','D'];
 const box=document.getElementById('quiz');
