@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFA L2 스터디 노트 · Lessons Hub</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202E;--paper:#ECEDE8;--raised:#F6F6F2;--line:#D6D8D0;--muted:#5B6675;--accent:#2E5E8C;
+    --mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'Pretendard',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px rgba(22,32,46,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  main{max-width:960px;margin:0 auto;padding:44px 20px 90px}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,6vw,42px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px}
+  h1 .en{display:block;font-family:var(--mono);font-size:14px;font-weight:400;color:var(--muted);margin-top:6px}
+  .lead{font-size:16px;color:#26313F;margin:12px 0 4px}
+  .langs{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px}
+  .bar{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px;font-family:var(--mono);font-size:12.5px}
+  .stat{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:8px 14px;box-shadow:var(--shadow)}
+  .stat b{font-family:var(--disp);font-size:16px}
+  .filters{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0 6px}
+  .chip{font-family:var(--mono);font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);background:var(--raised);color:var(--ink);cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--ink)}
+  .chip.active{background:var(--ink);color:#EAF0F6;border-color:var(--ink)}
+  .topic{margin-top:30px}
+  .topic-head{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--line);margin-bottom:12px}
+  .topic-dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .topic-name{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .topic-cn{font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+  .topic-count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  a.lesson{display:block;text-decoration:none;color:inherit;background:var(--raised);border:1px solid var(--line);border-left:4px solid var(--tc,var(--accent));border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .12s,border-color .15s}
+  a.lesson:hover{transform:translateY(-2px)}
+  .lesson .los{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .lesson .lt{font-weight:700;font-size:15.5px;margin:3px 0}
+  .lesson .lt .en{display:block;font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
+  .lesson .go{font-family:var(--mono);font-size:12px;color:var(--tc,var(--accent));font-weight:600;margin-top:8px}
+  .soon{background:repeating-linear-gradient(-45deg,#F0F1EC,#F0F1EC 8px,#ECEDE8 8px,#ECEDE8 16px);border:1px dashed var(--line);border-radius:12px;padding:14px 16px;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;min-height:78px}
+  .foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow"><span class="dot"></span>CFA® Level II · Trilingual Study Notes</div>
+  <h1>스터디 노트 허브<span class="en">Lessons Hub · 学习笔记中心</span></h1>
+  <p class="lead">3개국어로 배우고, 인출로 외우고, 간격반복으로 안 까먹는 — <b>완전 무료</b> CFA Level 2.</p>
+  <p class="langs">🇬🇧 English · 🇨🇳 中文(拼音) · 🇰🇷 한국어　|　Learn in 3 languages · Remember by retrieval · 100% free</p>
+
+  <div class="bar">
+    <span class="stat"><b id="sLessons">0</b> 레슨</span>
+    <span class="stat"><b id="sTopics">0</b> / 10 토픽</span>
+    <span class="stat">📝 <a href="index.html" style="color:inherit;text-decoration:none"><b>플래시카드 · 아이템셋 앱 →</b></a></span>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div id="topics"></div>
+
+  <div class="foot">
+    콘텐츠 구조: <code>docs/CONTENT-ARCHITECTURE.md</code> · 레슨 틀: <code>templates/lesson-template.html</code><br>
+    모든 내용은 CFA 커리큘럼 스타일로 새로 작성했으며 CFA Institute 시험을 복제하지 않았습니다. CFA®는 CFA Institute의 상표입니다.
+  </div>
+</main>
+
+<script>
+// ── 토픽 정의 (CFA L2 10개 토픽) ─────────────────────────────
+const TOPICS=[
+  {id:"ethics", name:"Ethics & Professional Standards", cn:"职业道德", color:"#7A5EA6"},
+  {id:"quant",  name:"Quantitative Methods",           cn:"数量方法", color:"#C06A2A"},
+  {id:"econ",   name:"Economics",                      cn:"经济学",   color:"#2F7A6F"},
+  {id:"fsa",    name:"Financial Statement Analysis",   cn:"财务报表分析", color:"#3F7CA8"},
+  {id:"corp",   name:"Corporate Issuers",              cn:"公司发行人", color:"#8A6D3B"},
+  {id:"equity", name:"Equity Valuation",               cn:"权益估值", color:"#2F8F6B"},
+  {id:"fi",     name:"Fixed Income",                   cn:"固定收益", color:"#B0483B"},
+  {id:"deriv",  name:"Derivatives",                    cn:"衍生品",   color:"#5B6BB0"},
+  {id:"alt",    name:"Alternative Investments",        cn:"另类投资", color:"#7D8B3A"},
+  {id:"pm",     name:"Portfolio Management",           cn:"投资组合管理", color:"#2E5E8C"},
+];
+
+// ── 레슨 레지스트리 (레슨 추가 = 여기 한 줄) ──────────────────
+//   status: "live" = 완성, 링크됨 | "soon" 자동(없으면 곧 추가 표시)
+const LESSONS=[
+  {topic:"pm", los:"PM · Risk & Return", title:"무위험이자율 — 포트폴리오의 기준선",
+   en:"Risk-Free Rate in the CAL / CML / CAPM", file:"pm-risk-free-rate.html"},
+  {topic:"econ", los:"Econ · Investment Markets", title:"실질무위험이자율",
+   en:"Real Risk-Free Rate", file:""},   // file 비면 '곧 추가'로 표시
+];
+
+const $=(id)=>document.getElementById(id);
+let filter="all";
+
+function liveLessons(){ return LESSONS.filter(l=>l.file); }
+
+function renderStats(){
+  const live=liveLessons();
+  $("sLessons").textContent=live.length;
+  $("sTopics").textContent=new Set(live.map(l=>l.topic)).size;
+}
+
+function renderFilters(){
+  const box=$("filters"); box.innerHTML="";
+  const mk=(id,label)=>{
+    const c=document.createElement("button");
+    c.className="chip"+(filter===id?" active":"");
+    c.textContent=label; c.onclick=()=>{filter=id;render();};
+    box.appendChild(c);
+  };
+  mk("all","전체 All");
+  TOPICS.forEach(t=>{ if(LESSONS.some(l=>l.topic===t.id)) mk(t.id,t.name.split(" ")[0]+" · "+t.cn); });
+}
+
+function render(){
+  renderFilters();
+  const wrap=$("topics"); wrap.innerHTML="";
+  TOPICS.forEach(t=>{
+    if(filter!=="all"&&filter!==t.id) return;
+    const items=LESSONS.filter(l=>l.topic===t.id);
+    if(items.length===0 && filter==="all") return;   // 레슨 없는 토픽은 전체보기에서 숨김
+    const live=items.filter(l=>l.file);
+
+    const sec=document.createElement("div"); sec.className="topic";
+    const head=document.createElement("div"); head.className="topic-head";
+    head.innerHTML=`<span class="topic-dot" style="background:${t.color}"></span>
+      <span class="topic-name">${t.name}</span><span class="topic-cn">${t.cn}</span>
+      <span class="topic-count">${live.length} 레슨</span>`;
+    sec.appendChild(head);
+
+    const grid=document.createElement("div"); grid.className="grid";
+    items.forEach(l=>{
+      if(l.file){
+        const a=document.createElement("a");
+        a.className="lesson"; a.href=l.file; a.style.setProperty("--tc",t.color);
+        a.innerHTML=`<div class="los">${l.los}</div>
+          <div class="lt">${l.title}<span class="en">${l.en}</span></div>
+          <div class="go">열기 Open →</div>`;
+        grid.appendChild(a);
+      }else{
+        const d=document.createElement("div"); d.className="soon";
+        d.textContent="🚧 "+l.title+" — 곧 추가 (coming soon)";
+        grid.appendChild(d);
+      }
+    });
+    sec.appendChild(grid);
+    wrap.appendChild(sec);
+  });
+}
+
+renderStats();
+render();
+</script>
+</body>
+</html>
