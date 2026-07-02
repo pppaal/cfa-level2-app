@@ -17,14 +17,12 @@
   main{max-width:1000px;margin:0 auto;padding:40px 20px 90px}
   a{color:inherit;text-decoration:none}
 
-  /* ── top bar ── */
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
   .brand{font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
   .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
   .app-link{font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:var(--raised);border-radius:20px;padding:6px 13px;transition:.15s}
   .app-link:hover{border-color:var(--ink);color:var(--ink)}
 
-  /* ── hero ── */
   .hero{margin-bottom:8px}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
   h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,7vw,50px);line-height:1.04;letter-spacing:-.025em}
@@ -35,12 +33,10 @@
   .stat{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:7px 13px;box-shadow:var(--shadow)}
   .stat b{font-family:var(--disp);font-size:15px}
 
-  /* ── section title ── */
   .sec-h{display:flex;align-items:baseline;gap:10px;margin:30px 0 14px;padding-top:16px;border-top:1px solid var(--line)}
   .sec-h .t{font-family:var(--disp);font-weight:700;font-size:18px}
   .sec-h .c{font-family:var(--mono);font-size:12px;color:var(--muted)}
 
-  /* ── topic grid (level 1) ── */
   .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px}
   .tcard{position:relative;background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s,border-color .15s;overflow:hidden}
   .tcard::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--tc)}
@@ -54,7 +50,6 @@
   .tcard .cnt.zero{color:var(--muted);font-weight:400}
   .tcard .arrow{font-family:var(--mono);font-size:13px;color:var(--muted)}
 
-  /* ── topic detail (level 2) ── */
   .crumb{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:14px}
   .crumb a{color:var(--accent)}
   .crumb .sep{margin:0 7px;color:var(--line)}
@@ -62,13 +57,22 @@
   .detail-head .bar{width:5px;height:38px;border-radius:3px;background:var(--tc);flex:none}
   .detail-head h2{font-family:var(--disp);font-weight:700;font-size:clamp(24px,5vw,34px);line-height:1.05}
   .detail-head .cn{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:3px}
-  .reading{margin-top:26px}
-  .reading-h{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
-  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-  .lcard{display:block;background:var(--raised);border:1px solid var(--line);border-left:4px solid var(--tc);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);transition:transform .12s}
+
+  /* reading block */
+  .reading{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .reading-h{background:var(--raised);padding:14px 16px;border-bottom:1px solid var(--line)}
+  .reading-h .rn{font-family:var(--disp);font-weight:700;font-size:16.5px}
+  .reading-h .rc{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+  .los{margin-top:11px;display:grid;gap:6px}
+  .los .item{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#3a4657}
+  .los .lt{font-family:var(--mono);font-size:10.5px;font-weight:700;color:#fff;background:var(--tc);border-radius:5px;padding:1px 6px;flex:none;margin-top:2px}
+  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px 16px}
+  .lcard{display:block;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--tc);border-radius:12px;padding:14px 16px;transition:transform .12s}
   .lcard:hover{transform:translateY(-2px)}
   .lcard .lt{font-weight:700;font-size:15.5px;line-height:1.35}
   .lcard .en{display:block;font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);margin-top:3px}
+  .lcard .chips{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px}
+  .lcard .chip{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--tc);background:var(--raised);border:1px solid var(--line);border-radius:20px;padding:1px 8px}
   .lcard .go{font-family:var(--mono);font-size:12px;color:var(--tc);font-weight:600;margin-top:9px}
   .soon{background:repeating-linear-gradient(-45deg,#F0F1EC,#F0F1EC 8px,#ECEDE8 8px,#ECEDE8 16px);border:1px dashed var(--line);border-radius:12px;padding:16px;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;min-height:82px;text-align:center}
   .empty{color:var(--muted);font-size:14px;padding:30px 0}
@@ -88,31 +92,31 @@
   <!-- ===== LEVEL 1: 홈 (과목 10개) ===== -->
   <section id="home">
     <div class="hero">
-      <div class="eyebrow">Trilingual · Free · Retrieval-based</div>
-      <h1>CFA Level II<span class="sub">10 Topics · 3 Languages · 学习笔记</span></h1>
-      <p class="tagline">3개국어로 배우고, 인출로 외우고, 간격반복으로 안 까먹는 — <b>완전 무료</b> CFA Level 2.</p>
+      <div class="eyebrow">Trilingual · Free · LOS-mapped</div>
+      <h1>CFA Level II<span class="sub">10 Topics · Readings · LOS · 3 Languages</span></h1>
+      <p class="tagline">과목 → 리딩 → <b>LOS</b>까지 연결된 3개국어 스터디 노트. <b>완전 무료.</b></p>
       <p class="langs">🇬🇧 English · 🇨🇳 中文(拼音) · 🇰🇷 한국어</p>
       <div class="stats">
         <span class="stat"><b id="sLessons">0</b> 레슨</span>
+        <span class="stat"><b id="sReadings">0</b> 리딩</span>
         <span class="stat"><b id="sTopics">0</b> / 10 과목 시작됨</span>
       </div>
     </div>
-
     <div class="sec-h"><span class="t">과목 선택</span><span class="c">Choose a topic · 选择科目</span></div>
     <div class="tgrid" id="tgrid"></div>
   </section>
 
-  <!-- ===== LEVEL 2: 과목 상세 ===== -->
+  <!-- ===== LEVEL 2: 과목 상세 (리딩 → LOS → 레슨) ===== -->
   <section id="detail" class="hide"></section>
 
   <div class="foot">
-    구조: <code>docs/CONTENT-ARCHITECTURE.md</code> · 레슨 틀: <code>templates/lesson-template.html</code><br>
-    모든 내용은 CFA 커리큘럼 스타일로 새로 작성했으며 CFA Institute 시험을 복제하지 않았습니다. CFA®는 CFA Institute의 상표입니다.
+    구조: 과목 → 리딩(Reading) → LOS → 레슨. &nbsp;참고: <code>docs/CONTENT-ARCHITECTURE.md</code> · 틀: <code>templates/lesson-template.html</code><br>
+    LOS는 CFA 커리큘럼 학습목표를 <b>자체 표현으로 요약</b>한 것이며 공식 문구를 그대로 옮기지 않았습니다. CFA®는 CFA Institute의 상표입니다.
   </div>
 </main>
 
 <script>
-// ── 10개 과목 (id, 번호, EN/中文/한국어, 색) ─────────────────
+// ── 10개 과목 ────────────────────────────────────
 const TOPICS=[
   {id:"ethics", name:"Ethics & Professional Standards", cn:"职业道德",   kr:"윤리 및 직업표준", color:"#7A5EA6"},
   {id:"quant",  name:"Quantitative Methods",            cn:"数量方法",   kr:"계량분석",        color:"#C06A2A"},
@@ -126,31 +130,46 @@ const TOPICS=[
   {id:"pm",     name:"Portfolio Management",            cn:"投资组合管理", kr:"포트폴리오 관리", color:"#2E5E8C"},
 ];
 
-// ── 레슨 레지스트리 (레슨 추가 = 여기 한 줄) ──────────────────
-//   topic: 과목 id | reading: 과목 안의 리딩/파트(그룹) | file: 완성본 경로(없으면 '곧 추가')
+// ── 리딩 + LOS (LOS는 자체 요약 표현) ─────────────
+const READINGS=[
+  {id:"eim", topic:"pm", name:"Economics and Investment Markets", cn:"经济与投资市场 · 经济学与投资市场",
+   los:[
+     {id:"a", t:"현재가치 모형으로 자산가격을 설명하고, 할인율 = 실질무위험이자율 + 기대 인플레이션 + 위험 프리미엄임을 설명"},
+     {id:"b", t:"기간 간 대체율(mₜ)의 개념과 실질무위험이자율과의 역관계를 설명"},
+     {id:"c", t:"실질무위험이자율과 기대 실질 GDP 성장률·GDP 성장 변동성의 관계를 설명"},
+   ]},
+  {id:"prr", topic:"pm", name:"Foundations · Risk & Return (review)", cn:"风险与收益基础(复习)",
+   los:[
+     {id:"a", t:"무위험자산의 성질(σ=0, 상관=0)과 CAL/CML을 설명"},
+     {id:"b", t:"CAPM/SML로 기대수익을 계산하고 CML(총위험)과 SML(체계적위험)을 구분"},
+   ]},
+];
+
+// ── 레슨 (readingId + 커버 LOS) ──────────────────
 const LESSONS=[
-  {topic:"pm",   reading:"Portfolio Risk & Return · 组合风险与收益",
-   title:"무위험이자율 — 포트폴리오의 기준선", en:"Risk-Free Rate in the CAL / CML / CAPM",
-   file:"pm-risk-free-rate.html"},
-  {topic:"econ", reading:"Economics & Investment Markets · 经济与投资市场",
-   title:"실질무위험이자율", en:"Real Risk-Free Rate",
-   file:"econ-real-risk-free-rate.html"},
+  {readingId:"eim", title:"실질무위험이자율", en:"Real Risk-Free Rate",
+   file:"econ-real-risk-free-rate.html", los:["a","b","c"]},
+  {readingId:"prr", title:"무위험이자율 — CAL/CML/CAPM", en:"Risk-Free Rate in the CAL / CML / CAPM",
+   file:"pm-risk-free-rate.html", los:["a","b"]},
 ];
 
 const $=(id)=>document.getElementById(id);
 const topicOf=(id)=>TOPICS.find(t=>t.id===id);
-const lessonsOf=(id)=>LESSONS.filter(l=>l.topic===id);
-const liveOf=(id)=>lessonsOf(id).filter(l=>l.file);
+const readingsOf=(tid)=>READINGS.filter(r=>r.topic===tid);
+const lessonsOf=(rid)=>LESSONS.filter(l=>l.readingId===rid);
+const liveTopicLessons=(tid)=>readingsOf(tid).flatMap(r=>lessonsOf(r.id)).filter(l=>l.file);
 
-// ── 홈(과목 그리드) ──────────────────────────────
+// ── 홈 ───────────────────────────────────────────
 function renderHome(){
   const live=LESSONS.filter(l=>l.file);
   $("sLessons").textContent=live.length;
-  $("sTopics").textContent=new Set(live.map(l=>l.topic)).size;
+  $("sReadings").textContent=new Set(live.map(l=>l.readingId)).size;
+  const startedTopics=new Set(live.map(l=>READINGS.find(r=>r.id===l.readingId).topic));
+  $("sTopics").textContent=startedTopics.size;
 
   const g=$("tgrid"); g.innerHTML="";
   TOPICS.forEach((t,i)=>{
-    const n=liveOf(t.id).length;
+    const n=liveTopicLessons(t.id).length;
     const c=document.createElement("div");
     c.className="tcard"; c.style.setProperty("--tc",t.color);
     c.innerHTML=`<div class="idx">${String(i+1).padStart(2,"0")}</div>
@@ -166,52 +185,54 @@ function renderHome(){
   });
 }
 
-// ── 과목 상세(리딩별 레슨) ───────────────────────
+// ── 과목 상세 (리딩 → LOS → 레슨) ────────────────
 function renderDetail(id){
   const t=topicOf(id); if(!t){ location.hash=""; return; }
   const d=$("detail"); d.style.setProperty("--tc",t.color);
-  const items=lessonsOf(id);
-
-  // 리딩별 그룹핑
-  const byReading={};
-  items.forEach(l=>{ (byReading[l.reading]=byReading[l.reading]||[]).push(l); });
+  const readings=readingsOf(id);
 
   let html=`<div class="crumb"><a href="#">CFA Level II</a><span class="sep">/</span>${t.name}</div>
     <div class="detail-head"><span class="bar"></span>
       <div><h2>${t.name}</h2><div class="cn">${t.cn} · ${t.kr}</div></div>
     </div>`;
 
-  if(items.length===0){
-    html+=`<div class="empty">🚧 이 과목의 레슨은 준비중입니다. 곧 추가됩니다.</div>`;
+  if(readings.length===0){
+    html+=`<div class="empty">🚧 이 과목의 리딩·레슨은 준비중입니다. 곧 추가됩니다.</div>`;
   }else{
-    Object.keys(byReading).forEach(r=>{
-      html+=`<div class="reading"><div class="reading-h">${r}</div><div class="lgrid">`;
-      byReading[r].forEach(l=>{
+    readings.forEach(r=>{
+      const losHtml=r.los.map(l=>
+        `<div class="item"><span class="lt">LOS ${l.id}</span><span>${l.t}</span></div>`).join("");
+      const lessons=lessonsOf(r.id);
+      const lessonsHtml=lessons.map(l=>{
         if(l.file){
-          html+=`<a class="lcard" href="${l.file}">
+          const chips=(l.los||[]).map(x=>`<span class="chip">LOS ${x}</span>`).join("");
+          return `<a class="lcard" href="${l.file}">
             <div class="lt">${l.title}<span class="en">${l.en}</span></div>
+            <div class="chips">${chips}</div>
             <div class="go">열기 Open →</div></a>`;
-        }else{
-          html+=`<div class="soon">🚧 ${l.title}<br>곧 추가 (coming soon)</div>`;
         }
-      });
-      html+=`</div></div>`;
+        return `<div class="soon">🚧 ${l.title}<br>곧 추가 (coming soon)</div>`;
+      }).join("");
+      html+=`<div class="reading">
+        <div class="reading-h">
+          <div class="rn">${r.name}</div><div class="rc">${r.cn}</div>
+          <div class="los">${losHtml}</div>
+        </div>
+        <div class="lgrid">${lessonsHtml||'<div class="empty">레슨 준비중</div>'}</div>
+      </div>`;
     });
   }
   d.innerHTML=html;
 }
 
-// ── 해시 라우팅 ──────────────────────────────────
+// ── 라우팅 ───────────────────────────────────────
 function route(){
   const m=location.hash.match(/t=([a-z]+)/);
   if(m){
-    $("home").classList.add("hide");
-    $("detail").classList.remove("hide");
-    renderDetail(m[1]);
-    window.scrollTo(0,0);
+    $("home").classList.add("hide"); $("detail").classList.remove("hide");
+    renderDetail(m[1]); window.scrollTo(0,0);
   }else{
-    $("detail").classList.add("hide");
-    $("home").classList.remove("hide");
+    $("detail").classList.add("hide"); $("home").classList.remove("hide");
     renderHome();
   }
 }

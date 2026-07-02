@@ -57,6 +57,21 @@
   .agenda .n{font-family:var(--disp);font-weight:700;color:var(--real);font-size:15px;flex:none;width:22px}
   .agenda .t{font-weight:600;font-size:14.5px}
   .agenda .t small{display:block;font-family:var(--mono);font-weight:400;font-size:11.5px;color:var(--muted)}
+  /* LOS box */
+  .los-box{background:var(--real-bg);border:1px solid #B4D4CB;border-radius:12px;padding:14px 16px;margin:16px 0}
+  .los-box .h{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--real);font-weight:700;margin-bottom:9px}
+  .los-box ul{list-style:none}
+  .los-box li{position:relative;padding-left:34px;margin-bottom:7px;font-size:14px}
+  .los-box li .tag{position:absolute;left:0;top:2px;font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--real);border-radius:5px;padding:1px 6px}
+  .los-check{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:14px 16px 8px;margin:14px 0;box-shadow:var(--shadow)}
+  .los-check .h{font-weight:700;font-size:14.5px;margin-bottom:10px}
+  .los-check label{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:9px;cursor:pointer}
+  .los-check input{margin-top:5px;flex:none}
+  .los-check .lt{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--real);flex:none}
+  /* diagram */
+  .diagram{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0;box-shadow:var(--shadow)}
+  .diagram figcaption{font-size:12.5px;color:var(--muted);margin-top:8px;font-family:var(--mono)}
+  svg text{font-family:var(--mono)}
   /* discount-rate build-up stack */
   .stack{margin:16px 0;display:flex;flex-direction:column;gap:4px}
   .band{border-radius:10px;padding:12px 15px;color:#fff;box-shadow:var(--shadow)}
@@ -84,8 +99,8 @@
 </head>
 <body>
 <main>
-  <a class="back" href="index-lessons.html#t=econ">← Economics 레슨 목록</a>
-  <div class="eyebrow"><span class="dot"></span>Economics · Economics and Investment Markets</div>
+  <a class="back" href="index-lessons.html#t=pm">← Portfolio Management · 레슨 목록</a>
+  <div class="eyebrow"><span class="dot"></span>Portfolio Management · Economics and Investment Markets</div>
   <h1>실질무위험이자율<span class="en">Real Risk-Free Rate · 实际无风险利率</span></h1>
   <p class="lead">핵심 한 문장 — <b class="s-real">"지금 안 쓰고 참은 대가"</b>가 실질금리다. (물가·위험이 전혀 없다는 가정 위의 순수 이자)</p>
   <div class="callout info"><span class="lbl">↔ 시리즈 연결</span>이 노트는 이자율이 <b>왜</b> 생기는지를 다룬다. 그 무위험이자율이 <b>포트폴리오·자산가격 모형에서 어떻게 쓰이나</b>는 <b><a href="pm-risk-free-rate.html">Portfolio Management · 무위험이자율(CML/CAPM)</a></b> 노트로 이어진다. (명목 R<sub>f</sub> = 실질 R<sub>f</sub> + 기대 인플레이션)</div>
@@ -94,6 +109,15 @@
     <a href="#p1"><span class="n">1</span><span class="t">Overview <small>개관 · 现值模型과 할인율 빌드업</small></span></a>
     <a href="#p2"><span class="n">2</span><span class="t">Inter-temporal Rate of Substitution <small>기간 간 대체율 · mₜ 와 R<sub>f</sub> 공식</small></span></a>
     <a href="#p3"><span class="n">3</span><span class="t">Economic Factors <small>경제 요인 · 성장기대·변동성</small></span></a>
+  </div>
+
+  <div class="los-box">
+    <div class="h">이 레슨이 커버하는 학습목표 · Learning Objectives (LOS)</div>
+    <ul>
+      <li><span class="tag">LOS a</span>현재가치 모형을 이용해 자산가격을 설명하고, 할인율이 <b>실질무위험이자율 + 기대 인플레이션 + 위험 프리미엄</b>으로 구성됨을 설명한다. <span class="muted">(Part 1)</span></li>
+      <li><span class="tag">LOS b</span>기간 간 대체율(mₜ)의 개념과, 그것이 <b>실질무위험이자율과 역관계</b>임을 설명한다. <span class="muted">(Part 2)</span></li>
+      <li><span class="tag">LOS c</span>실질무위험이자율이 <b>기대 실질 GDP 성장률·GDP 성장 변동성</b>과 어떻게 연결되는지 설명한다. <span class="muted">(Part 3)</span></li>
+    </ul>
   </div>
 
   <h2>핵심 용어 · Key Terms</h2>
@@ -144,6 +168,28 @@
     <p><b>③ 그래서 보상 필요</b><br>오늘 소비를 참고(현재 소비의 기회비용) 투자하게 하려면 미래에 보상을 줘야 한다. 그 보상이 곧 실질금리다.</p>
   </div>
 
+  <figure class="diagram">
+    <svg viewBox="0 0 620 300" width="100%" role="img" aria-label="오목한 효용 곡선과 한계효용 체감">
+      <line x1="58" y1="255" x2="590" y2="255" stroke="#B7BBB2" stroke-width="1.5"/>
+      <line x1="58" y1="255" x2="58" y2="28" stroke="#B7BBB2" stroke-width="1.5"/>
+      <text x="300" y="285" fill="#5B6675" font-size="12">Consumption 소비 →</text>
+      <text x="14" y="60" fill="#5B6675" font-size="12" transform="rotate(-90 14 60)">Utility 효용 →</text>
+      <!-- concave utility curve -->
+      <path d="M 58 250 Q 230 60 585 45" fill="none" stroke="#7A5EA6" stroke-width="3"/>
+      <!-- low consumption: steep slope (high MU) -->
+      <line x1="120" y1="192" x2="170" y2="163" stroke="#2F7A6F" stroke-width="2.5"/>
+      <circle cx="120" cy="192" r="4" fill="#2F7A6F"/>
+      <text x="92" y="150" fill="#1f5a51" font-size="11.5" font-weight="700">적게 쓸 때</text>
+      <text x="92" y="167" fill="#2F7A6F" font-size="10.5">한계효용 큼(가파름)</text>
+      <!-- high consumption: flat slope (low MU) -->
+      <line x1="430" y1="66" x2="480" y2="59" stroke="#B0483B" stroke-width="2.5"/>
+      <circle cx="430" cy="66" r="4" fill="#B0483B"/>
+      <text x="392" y="102" fill="#8f382d" font-size="11.5" font-weight="700">많이 쓸 때</text>
+      <text x="392" y="119" fill="#B0483B" font-size="10.5">한계효용 작음(평평)</text>
+    </svg>
+    <figcaption>오목(concave)한 효용곡선 → 소비가 늘수록 추가 만족(한계효용)이 줄어든다 = 한계효용 체감.</figcaption>
+  </figure>
+
   <h3>mₜ (기간 간 대체율) — 이 파트의 심장</h3>
   <div class="fml">m<sub>t</sub> = 미래 소비의 한계효용 ÷ 현재 소비의 한계효용</div>
   <p>오늘을 더 좋아하니 분모(현재)가 분자(미래)보다 크다 → <b class="s-real">mₜ는 항상 1보다 작다.</b></p>
@@ -185,6 +231,15 @@
   <h2>확인 문제 · Quiz</h2>
   <div class="scorebar" id="score">0 / 0 정답</div>
   <div id="quiz"></div>
+
+  <h2>LOS 자가체크 — 이제 이걸 할 수 있어야 한다</h2>
+  <div class="los-check">
+    <div class="h">막힘 없이 설명 가능하면 체크 ✓</div>
+    <label><input type="checkbox"><span><span class="lt">a</span> 자산가격 = Σ(CF÷할인율)이고, 할인율 = 실질무위험이자율 + 기대 인플레이션 + 위험 프리미엄임을 그림으로 설명할 수 있다.</span></label>
+    <label><input type="checkbox"><span><span class="lt">b</span> mₜ = 미래효용÷현재효용 &lt; 1 이고, R<sub>f</sub> = 1/E(mₜ) − 1 로 5.26%를 계산·유도할 수 있다.</span></label>
+    <label><input type="checkbox"><span><span class="lt">b</span> mₜ와 R<sub>f</sub>가 역관계, 현재소비 효용과 R<sub>f</sub>가 정관계임을 설명할 수 있다.</span></label>
+    <label><input type="checkbox"><span><span class="lt">c</span> 기대 GDP 성장률↑ → R<sub>f</sub>↑, GDP 변동성↑ → R<sub>f</sub>↑(위험프리미엄이 예비적저축을 압도)를 설명할 수 있다.</span></label>
+  </div>
 
   <div class="foot">
     CFA® Level II · Economics and Investment Markets · Real Risk-Free Rate.<br>
