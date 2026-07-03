@@ -91,8 +91,9 @@
       <p class="tagline">Study notes wired all the way down to the <b>LOS</b>: Topic → Reading → LOS → Lesson. <b>Completely free.</b></p>
       <div class="stats">
         <span class="stat"><b id="sLessons">0</b> lessons</span>
-        <span class="stat"><b id="sReadings">0</b> readings</span>
-        <span class="stat"><b id="sTopics">0</b> / 10 topics started</span>
+        <span class="stat"><b id="sReadings">0</b> readings mapped</span>
+        <span class="stat"><b id="sLos">0</b> LOS mapped</span>
+        <span class="stat"><b id="sTopics">0</b> / 10 topics</span>
       </div>
     </div>
     <div class="sec-h"><span class="t">Choose a topic</span></div>
@@ -103,50 +104,14 @@
   <section id="detail" class="hide"></section>
 
   <div class="foot">
-    Structure: Topic → Reading → LOS → Lesson. &nbsp;Notes: <code>docs/CONTENT-ARCHITECTURE.md</code> · template: <code>templates/lesson-template.html</code><br>
-    LOS are summarized in original wording and do not reproduce official CFA statements verbatim. CFA® is a trademark of CFA Institute.
+    Structure: Topic → Reading → LOS → Lesson. &nbsp;Data: <code>lessons-data.js</code> · template: <code>templates/lesson-template.html</code><br>
+    The reading and LOS map is a best-effort outline summarized in original wording — <b>verify against the current official CFA curriculum</b>. It does not reproduce official CFA statements verbatim. CFA® is a trademark of CFA Institute.
   </div>
 </main>
 
+<script src="lessons-data.js"></script>
 <script>
-// ── 10 topics ────────────────────────────────────
-const TOPICS=[
-  {id:"ethics", name:"Ethics & Professional Standards", color:"#7A5EA6"},
-  {id:"quant",  name:"Quantitative Methods",            color:"#C06A2A"},
-  {id:"econ",   name:"Economics",                       color:"#2F7A6F"},
-  {id:"fsa",    name:"Financial Statement Analysis",    color:"#3F7CA8"},
-  {id:"corp",   name:"Corporate Issuers",               color:"#8A6D3B"},
-  {id:"equity", name:"Equity Valuation",                color:"#2F8F6B"},
-  {id:"fi",     name:"Fixed Income",                    color:"#B0483B"},
-  {id:"deriv",  name:"Derivatives",                     color:"#5B6BB0"},
-  {id:"alt",    name:"Alternative Investments",         color:"#7D8B3A"},
-  {id:"pm",     name:"Portfolio Management",            color:"#2E5E8C"},
-];
-
-// ── readings + LOS (LOS summarized in original wording) ──
-const READINGS=[
-  {id:"eim", topic:"pm", name:"Economics and Investment Markets",
-   los:[
-     {id:"a", t:"Use the present-value model to explain asset prices; discount rate = real risk-free rate + expected inflation + risk premiums."},
-     {id:"b", t:"Explain the inter-temporal rate of substitution (mₜ) and its inverse relationship with the real risk-free rate."},
-     {id:"c", t:"Explain why risk aversion (concave utility) and the covariance of a payoff with mₜ give risky assets a premium over the risk-free rate."},
-     {id:"d", t:"Explain how the real risk-free rate relates to expected real GDP growth and the volatility of GDP growth."},
-   ]},
-  {id:"prr", topic:"pm", name:"Foundations · Risk & Return (review)",
-   los:[
-     {id:"a", t:"Explain the properties of the risk-free asset (σ=0, correlation=0) and the CAL/CML."},
-     {id:"b", t:"Use the CAPM/SML to compute expected return and distinguish the CML (total risk) from the SML (systematic risk)."},
-   ]},
-];
-
-// ── lessons (readingId + covered LOS) ────────────
-const LESSONS=[
-  {readingId:"eim", title:"Real Risk-Free Rate", en:"The pure reward for waiting",
-   file:"econ-real-risk-free-rate.html", los:["a","b","c","d"]},
-  {readingId:"prr", title:"Risk-Free Rate in the CAL / CML / CAPM", en:"Baseline of portfolio theory",
-   file:"pm-risk-free-rate.html", los:["a","b"]},
-];
-
+// Data (TOPICS, READINGS, LESSONS) comes from lessons-data.js
 const $=(id)=>document.getElementById(id);
 const topicOf=(id)=>TOPICS.find(t=>t.id===id);
 const readingsOf=(tid)=>READINGS.filter(r=>r.topic===tid);
@@ -156,8 +121,9 @@ const liveTopicLessons=(tid)=>readingsOf(tid).flatMap(r=>lessonsOf(r.id)).filter
 function renderHome(){
   const live=LESSONS.filter(l=>l.file);
   $("sLessons").textContent=live.length;
-  $("sReadings").textContent=new Set(live.map(l=>l.readingId)).size;
-  $("sTopics").textContent=new Set(live.map(l=>READINGS.find(r=>r.id===l.readingId).topic)).size;
+  $("sReadings").textContent=READINGS.length;
+  $("sLos").textContent=READINGS.reduce((n,r)=>n+r.los.length,0);
+  $("sTopics").textContent=new Set(READINGS.map(r=>r.topic)).size;
 
   const g=$("tgrid"); g.innerHTML="";
   TOPICS.forEach((t,i)=>{
