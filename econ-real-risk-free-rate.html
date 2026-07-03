@@ -110,7 +110,8 @@
     <ul>
       <li><span class="tag">LOS a</span>Use the present-value model to explain asset prices, and explain that the discount rate = <b>real risk-free rate + expected inflation + risk premiums</b>. <span class="muted">(Part 1)</span></li>
       <li><span class="tag">LOS b</span>Explain the inter-temporal rate of substitution (mₜ) and its <b>inverse relationship</b> with the real risk-free rate. <span class="muted">(Part 2)</span></li>
-      <li><span class="tag">LOS c</span>Explain how the real risk-free rate relates to <b>expected real GDP growth and the volatility of GDP growth</b>. <span class="muted">(Part 3)</span></li>
+      <li><span class="tag">LOS c</span>Explain why <b>risk aversion</b> (concave utility) and the <b>covariance</b> of a payoff with mₜ give risky assets a premium over R<sub>f</sub>. <span class="muted">(Part 2)</span></li>
+      <li><span class="tag">LOS d</span>Explain how the real risk-free rate relates to <b>expected real GDP growth and the volatility of GDP growth</b>. <span class="muted">(Part 3)</span></li>
     </ul>
   </div>
 
@@ -199,6 +200,23 @@
   </ul>
   <div class="callout info"><span class="lbl">ⓘ Two relationships</span><b>mₜ ↔ R<sub>f</sub> : inverse</b> (mₜ↓ → R<sub>f</sub>↑). &nbsp;<b>Utility of current consumption ↔ R<sub>f</sub> : positive</b> (stronger desire to spend today → must pay more to make people defer).</div>
 
+  <h3>From risk-free to risky — the covariance term</h3>
+  <p>More generally, the price of a one-period asset is the present value of its expected payoff <b>plus a covariance term</b> that captures uncertainty:</p>
+  <div class="fml">P<sub>0</sub> = E(V<sub>t</sub>) ÷ (1 + R<sub>f</sub>) + cov(V<sub>t</sub>, m<sub>t</sub>)   <span class="cmt">// V_t = the payoff received at time t</span></div>
+  <ul class="clean">
+    <li><b>Risk-free zero-coupon bond:</b> the payoff V<sub>t</sub> = $1 is <b>certain</b>, so cov(V<sub>t</sub>, m<sub>t</sub>) = 0. The formula collapses to <b class="s-real">P₀ = E(mₜ)</b> → R<sub>f</sub> = 1/E(mₜ) − 1 — the case derived above.</li>
+    <li><b>Risky asset:</b> V<sub>t</sub> is uncertain, and its payoff is usually high in good times — exactly when marginal utility (and mₜ) is low. So <b class="s-credit">cov(V<sub>t</sub>, m<sub>t</sub>) &lt; 0</b>, which <b>lowers the price</b> and <b>raises the required return</b>.</li>
+  </ul>
+  <div class="fml">R = R<sub>f</sub> + <span class="r">risk premium for uncertainty</span>   <span class="cmt">// risky assets sit above the risk-free rate</span></div>
+
+  <h3>Risk aversion — why that premium exists</h3>
+  <p>Because utility is <b>concave</b>, an equal-sized <b>loss</b> in wealth destroys more utility than an equal-sized <b>gain</b> creates (<b class="s-credit">loss in utility &gt; gain in utility</b>). Investors therefore dislike uncertainty and demand compensation for it — this is <b>risk aversion</b>.</p>
+  <ul class="clean">
+    <li><b>Absolute risk aversion:</b> poorer investors sit on the steeper part of the curve and are <b>more</b> risk-averse; wealthier investors, on the flatter part, are <b>less</b> so.</li>
+    <li><b>In equilibrium,</b> prices adjust so that wealthy and poorer investors end up with the <b>same willingness</b> to hold risky assets.</li>
+  </ul>
+  <div class="callout info"><span class="lbl">ⓘ Key point</span>The risk-free asset is the one asset with <b>no covariance term</b> (its payoff is certain), so it earns only R<sub>f</sub> — no risk premium. Every risky asset stacks a premium on top of R<sub>f</sub>.</div>
+
   <!-- ===== PART 3 ===== -->
   <h2 id="p3"><span class="step">Part 3</span>Economic Factors — two drivers, both positive (+) <span class="muted" style="font-size:14px;font-weight:400">⭐</span></h2>
   <div class="tbl-wrap"><table>
@@ -229,7 +247,8 @@
     <label><input type="checkbox"><span><span class="lt">a</span> Show that asset price = Σ(CF ÷ discount rate) and that the discount rate = real risk-free rate + expected inflation + risk premiums.</span></label>
     <label><input type="checkbox"><span><span class="lt">b</span> State mₜ = future ÷ current marginal utility &lt; 1 and derive R<sub>f</sub> = 1/E(mₜ) − 1, computing 5.26%.</span></label>
     <label><input type="checkbox"><span><span class="lt">b</span> Explain that mₜ and R<sub>f</sub> are inverse, while utility of current consumption and R<sub>f</sub> are positively related.</span></label>
-    <label><input type="checkbox"><span><span class="lt">c</span> Explain that higher expected GDP growth → R<sub>f</sub>↑, and higher GDP volatility → R<sub>f</sub>↑ (risk premium dominates precautionary saving).</span></label>
+    <label><input type="checkbox"><span><span class="lt">c</span> Write P<sub>0</sub> = E(V<sub>t</sub>)/(1+R<sub>f</sub>) + cov(V<sub>t</sub>,mₜ); explain cov = 0 for the risk-free asset and cov &lt; 0 (a risk premium) for risky assets, and why concave utility produces risk aversion.</span></label>
+    <label><input type="checkbox"><span><span class="lt">d</span> Explain that higher expected GDP growth → R<sub>f</sub>↑, and higher GDP volatility → R<sub>f</sub>↑ (risk premium dominates precautionary saving).</span></label>
   </div>
 
   <div class="foot">
@@ -264,6 +283,15 @@ const QUIZ=[
   {a:1,q:"Why does the relationship P₀ = E(mₜ) hold?",
    o:["The government fixes the price","Investors buy and sell the risk-free bond until its price equals the expected inter-temporal rate of substitution","Because inflation is zero","Because marginal utility is constant"],
    e:"The market price of the $1 risk-free zero-coupon bond is bid to equilibrium, where it equals the expected inter-temporal rate of substitution E(mₜ)."},
+  {a:2,q:"In P₀ = E(Vₜ)/(1+Rf) + cov(Vₜ, mₜ), why does the risk-free zero-coupon bond simplify to P₀ = E(mₜ)?",
+   o:["Because Rf = 0","Because inflation is zero","Its payoff Vₜ = $1 is certain, so cov(Vₜ, mₜ) = 0","Because marginal utility is constant"],
+   e:"A risk-free payoff is certain, so it has zero covariance with mₜ. The covariance term drops out and the price reduces to the expected inter-temporal rate of substitution, E(mₜ)."},
+  {a:0,q:"For a typical risky asset, the sign of cov(Vₜ, mₜ) is…",
+   o:["Negative — payoffs are high in good times, when mₜ is low","Positive — payoffs and mₜ rise together","Zero — same as the risk-free asset","Undefined"],
+   e:"Risky payoffs tend to be high in good times, exactly when marginal utility (and mₜ) is low → negative covariance. This lowers the price and raises the required return: R = Rf + risk premium."},
+  {a:1,q:"In this framework, risk aversion arises because…",
+   o:["Utility is linear, so gains and losses offset","Utility is concave, so an equal-sized loss destroys more utility than an equal-sized gain creates","Governments require it","Marginal utility is constant"],
+   e:"With concave utility, loss in utility > gain in utility for the same change in wealth. Investors dislike this asymmetry and demand a premium for bearing uncertainty."},
   {a:0,q:"mₜ falls from 0.98 to 0.90. The real risk-free rate…",
    o:["Rises","Falls","Is unaffected"],
    e:"mₜ↓ → Rf↑ (inverse). Check: 1/0.98−1 = 2.04% → 1/0.90−1 = 11.1%, a large increase."}
