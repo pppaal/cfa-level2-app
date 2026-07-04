@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Measuring &amp; Managing Market Risk · CFA L2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#16202E;--paper:#ECEDE8;--raised:#F6F6F2;--line:#D6D8D0;--muted:#5B6675;
+    --real:#2E5E8C;--real-bg:#E2ECF4;--inf:#BE842A;--inf-bg:#F3E7CE;--credit:#B0483B;--credit-bg:#F2E1DD;
+    --mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'Pretendard',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px rgba(22,32,46,.06);}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  main{max-width:820px;margin:0 auto;padding:44px 20px 90px}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin-bottom:14px}
+  .back:hover{color:var(--real)}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--real)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.12;letter-spacing:-.02em;margin-bottom:8px}
+  h2{font-size:clamp(19px,4vw,24px);font-weight:700;letter-spacing:-.02em;margin:34px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+  p{margin-bottom:10px}
+  .lead{font-size:16.5px;color:#26313F;margin:12px 0 6px}
+  .muted{color:var(--muted)}
+  a{color:var(--real)}
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--raised)}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#E4E5DF;font-weight:700;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#26313F}
+  tr:last-child td{border-bottom:none}
+  td.term{font-family:var(--mono);font-size:13px;font-weight:500;white-space:nowrap}
+  .fml{font-family:var(--mono);background:var(--ink);color:#EAF0F6;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;line-height:1.9;overflow-x:auto}
+  .callout{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px;background:var(--credit-bg);border:1px solid #E2BDB6}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--credit);font-weight:700}
+  .callout.info{background:var(--real-bg);border-color:#B9D2E6}.callout.info .lbl{color:var(--real)}
+  .flow{font-family:var(--mono);font-size:13px;background:var(--real-bg);border-radius:10px;padding:14px 16px;line-height:1.9;color:#1d3f5c}
+  .los-box{background:var(--real-bg);border:1px solid #B9D2E6;border-radius:12px;padding:14px 16px;margin:16px 0}
+  .los-box .h{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--real);font-weight:700;margin-bottom:9px}
+  .los-box ul{list-style:none}.los-box li{position:relative;padding-left:52px;margin-bottom:7px;font-size:14px}
+  .los-box li .tag{position:absolute;left:0;top:2px;font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--real);border-radius:5px;padding:1px 6px}
+  .q{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+  .qn{display:flex;gap:9px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--disp);font-weight:700;color:var(--credit);font-size:14px}
+  .qtext{font-size:15px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;font-family:var(--body);font-size:14px;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:10px 13px;margin-bottom:7px;transition:border-color .15s,background .15s;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--ink)}.opt:disabled{cursor:default}
+  .opt.correct{background:var(--real-bg);border-color:var(--real);color:#1d3f5c;font-weight:600}
+  .opt.wrong{background:var(--credit-bg);border-color:var(--credit);color:#8f382d;font-weight:600}
+  .exp{display:none;margin-top:4px;font-size:14px;background:#E9EBE4;border-radius:9px;padding:11px 13px;color:#26313F;border-left:3px solid var(--ink)}
+  .exp.show{display:block}
+  .scorebar{font-family:var(--mono);font-size:13px;color:var(--muted);margin:6px 0 2px}
+  .foot{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index-lessons.html#t=pm">← Portfolio Management · lessons</a>
+  <div class="eyebrow"><span class="dot"></span>Portfolio Management · Measuring and Managing Market Risk</div>
+  <h1>Measuring &amp; Managing Market Risk</h1>
+  <p class="lead">One number to summarize downside risk - and everything it hides. Master VaR, its three estimation methods, its cousins, and the sensitivities beneath.</p>
+  <div class="los-box"><div class="h">Learning objectives this lesson covers (LOS)</div><ul><li><span class="tag">LOS a</span>Explain value at risk (VaR) and describe its parameters and interpretation</li><li><span class="tag">LOS b</span>Compare the parametric, historical simulation, and Monte Carlo methods of estimating VaR</li><li><span class="tag">LOS c</span>Identify advantages, limitations, and extensions of VaR such as conditional VaR and marginal VaR</li><li><span class="tag">LOS d</span>Describe sensitivity measures for equities, fixed income, and options and how they are used</li><li><span class="tag">LOS e</span>Describe scenario analysis and stress testing as complements to VaR</li><li><span class="tag">LOS f</span>Explain how risk measures and constraints are applied across different types of market participants</li></ul></div>
+  <h2>Key Terms</h2>
+  <div class="tbl-wrap"><table><tr><th>Term</th><th>Meaning</th></tr><tr><td class="term">Value at Risk (VaR)</td><td>Minimum loss expected over a set horizon at a given probability (e.g., 5% monthly VaR = worst loss in best 95% of months).</td></tr><tr><td class="term">Parametric VaR</td><td>Analytical VaR assuming returns are normally distributed, using portfolio mean and standard deviation.</td></tr><tr><td class="term">Historical Simulation</td><td>VaR from re-pricing the current portfolio over actual past returns; no distributional assumption.</td></tr><tr><td class="term">Monte Carlo Simulation</td><td>VaR from thousands of randomly generated return paths using assumed statistical processes for risk factors.</td></tr><tr><td class="term">Conditional VaR (CVaR)</td><td>Expected loss GIVEN that the loss exceeds the VaR threshold; also called expected shortfall or expected tail loss.</td></tr><tr><td class="term">Incremental VaR</td><td>Change in portfolio VaR from adding or removing a position (or changing its size).</td></tr><tr><td class="term">Marginal VaR</td><td>Change in VaR for a small (one-unit) change in a position; sensitivity of VaR to that holding.</td></tr><tr><td class="term">Stress Testing</td><td>Estimating losses under extreme but plausible scenarios, complementing VaR's normal-conditions focus.</td></tr><tr><td class="term">Sensitivity Measure</td><td>Estimate of how an asset's value changes given a move in an underlying risk factor (beta, duration, delta).</td></tr></table></div>
+  <h2>1. What VaR Is - and Its Three Parameters</h2>
+<p><b>VaR</b> answers: over the next <b>period</b>, what is the <b>minimum</b> loss we expect with a given <b>probability</b>? Every VaR statement has three ingredients: a <b>loss size</b> (currency or %), a <b>time horizon</b> (day, month), and a <b>probability</b> (5%, 1%).</p>
+<p>Read it precisely: a <b>5% monthly VaR of $4 million</b> means there is a 5% chance the portfolio loses <b>at least</b> $4M in a month - equivalently, in 95% of months the loss is smaller than $4M. VaR is a <b>minimum</b> loss at that tail, <b>not</b> the maximum or the average loss.</p>
+<p>Confidence level = 1 - probability. A 5% VaR and a 95%-confidence VaR are the same thing. Lower probability (1% vs 5%) sits further in the tail, so the VaR number is <b>larger</b>.</p>
+<div class="fml">5% VaR = $4M  &lt;=&gt;  P(Loss &gt;= $4M) = 5%</div>
+<div class="callout"><span class="lbl">NOT THE WORST CASE</span>VaR is the FLOOR of tail losses, not the ceiling. Losses beyond VaR can be far larger - that is exactly what VaR fails to tell you.</div>
+<h2>2. Parametric (Variance-Covariance) VaR</h2>
+<p>The <b>parametric</b> method assumes returns are normally distributed and computes VaR analytically from the portfolio's expected return and standard deviation. Pick a z-score for the tail: <b>1.65</b> for 5%, <b>2.33</b> for 1%.</p>
+<p>VaR as a positive loss = (z*sigma - mu) x Portfolio Value. For short horizons mu is often assumed zero. Scale a daily sigma to T days by sqrt(T).</p>
+<p><b>Strengths:</b> simple, fast, ideal for linear, normally-behaved assets. <b>Weakness:</b> normality understates tail risk (real returns have fat tails), and it handles <b>options</b> poorly because delta is only a linear approximation of a curved payoff.</p>
+<div class="fml">VaR = [ z*sigma_P - E(R_P) ] * V<br>z(5%)=1.65   z(1%)=2.33<br>Example: (1.65*0.20 - 0.10)*100M = 23M</div>
+<div class="callout info"><span class="lbl">MEAN MATTERS</span>Subtracting a positive expected return LOWERS VaR. If given a nonzero mean, use it - ignoring it overstates the loss.</div>
+<h2>3. Historical vs Monte Carlo Simulation</h2>
+<p><b>Historical simulation</b> applies the current portfolio to a window of <b>actual past</b> risk-factor changes, builds the loss distribution, and reads VaR off the chosen percentile. No normality assumption and it captures real fat tails - but it assumes the <b>past repeats</b> and is limited by the length/quality of the data window.</p>
+<p><b>Monte Carlo simulation</b> generates thousands of random scenarios from assumed statistical processes for the risk factors, revalues the portfolio in each, and takes the percentile. It is the most <b>flexible</b> - it handles nonlinear options and complex distributions - but is <b>computationally intensive</b> and only as good as its input assumptions (model risk).</p>
+<p>Neither simulation method needs the normal distribution; only the parametric method does. Historical uses <b>real</b> data; Monte Carlo uses <b>generated</b> data.</p>
+<div class="callout"><span class="lbl">MATCH THE METHOD</span>Options-heavy or nonlinear book -> Monte Carlo or full-revaluation historical, NOT parametric. Parametric's linear delta breaks on convex payoffs.</div>
+<h2>4. Limitations and Extensions of VaR</h2>
+<p><b>Limitations:</b> VaR is subjective (which method/parameters?), sensitive to those choices, ignores the <b>size</b> of losses beyond the threshold, and - measured under normal conditions - can lull users into a false sense of safety. It can also underestimate correlated tail events, since correlations tend toward 1 in crises.</p>
+<p><b>Conditional VaR (CVaR)</b> fixes the 'how bad beyond the tail' blind spot: it is the <b>average</b> loss conditional on breaching VaR. CVaR is greater than or equal to VaR always.</p>
+<p><b>Marginal and incremental VaR</b> attribute risk to positions. <b>Incremental VaR</b> = portfolio VaR with the position minus VaR without it - the risk that position <b>adds</b>. <b>Marginal VaR</b> is the per-unit sensitivity of VaR to a holding, useful for optimization. <b>Relative VaR</b> (ex-ante tracking error scaled) measures loss versus a benchmark.</p>
+<div class="fml">CVaR = E[ Loss | Loss &gt; VaR ]   ( CVaR &gt;= VaR )<br>Incremental VaR = VaR(with) - VaR(without)</div>
+<div class="callout info"><span class="lbl">COHERENT</span>CVaR is subadditive (diversification never raises it), a property VaR can violate. That is why regulators lean toward expected shortfall.</div>
+<h2>5. Sensitivity Measures by Asset Class</h2>
+<p><b>Equity - beta:</b> sensitivity of a stock/portfolio return to the market return. It scales systematic exposure but says nothing about the size of a market move.</p>
+<p><b>Fixed income - duration and convexity:</b> duration gives the first-order (linear) price response to a yield change; convexity is the second-order curvature correction. Together: %change_P ~= -D*dy + 0.5*C*(dy)^2.</p>
+<p><b>Options - the Greeks:</b> <b>delta</b> = sensitivity to underlying price (first order), <b>gamma</b> = sensitivity of delta to price (curvature), <b>vega</b> = sensitivity to volatility, <b>theta</b> = time decay, <b>rho</b> = interest-rate sensitivity. Delta plus gamma parallel duration plus convexity - a linear term plus a curvature term.</p>
+<p>Sensitivity measures give a <b>local</b> risk picture (response to a move) whereas VaR gives a <b>probabilistic</b> loss magnitude. They are complements, not substitutes.</p>
+<div class="fml">%dP ~= -D*dy + 0.5*C*(dy)^2<br>dOption ~= Delta*dS + 0.5*Gamma*(dS)^2</div>
+<div class="callout"><span class="lbl">DIRECTION</span>Convexity/gamma is the SECOND-order term. Duration alone overstates losses on big rate rises and understates gains - convexity corrects both.</div>
+<h2>6. Scenario Analysis and Stress Testing</h2>
+<p>VaR describes normal markets; <b>scenario analysis</b> and <b>stress testing</b> probe the tail. <b>Historical scenarios</b> replay real crises (1987 crash, 2008) through today's portfolio. <b>Hypothetical scenarios</b> construct plausible-but-unseen shocks.</p>
+<p><b>Stress testing</b> can be a single-factor 'stressed VaR' (parameters set to crisis levels) or a full multi-factor scenario. <b>Reverse stress testing</b> starts from a portfolio-killing loss and works backward to find which scenarios produce it.</p>
+<p>These techniques catch what VaR misses: extreme moves, correlation breakdowns, and liquidity droughts. Regulators require them precisely because a clean VaR number can hide fragility.</p>
+<div class="callout info"><span class="lbl">COMPLEMENT</span>Stress tests are not probabilistic - they say 'if X happens, we lose Y.' They answer magnitude under extremes, where VaR is silent.</div>
+<h2>7. How Different Participants Use Risk Measures</h2>
+<p><b>Banks:</b> care about liquidity and leverage; use VaR, stressed VaR, and enterprise-wide sensitivity limits for regulatory capital (Basel) and to monitor asset-liability mismatches across trading desks.</p>
+<p><b>Pension funds:</b> focus on funded status and the surplus (assets minus liabilities). They use <b>surplus-at-risk</b> and liability-relative (tracking-error / relative VaR) measures over long horizons, with policy allocation constraints.</p>
+<p><b>Insurers:</b> distinguish P&C from life. They emphasize economic capital, asset-liability matching, and scenario testing tied to policyholder obligations; VaR supports solvency (e.g., Solvency II) frameworks.</p>
+<p><b>Asset managers:</b> emphasize <b>relative</b> risk versus a benchmark (ex-ante tracking error, active-share and position limits) and absolute VaR for total-return/hedge strategies, plus redemption/liquidity risk.</p>
+<div class="callout"><span class="lbl">RELATIVE vs ABSOLUTE</span>Pensions and index managers watch risk RELATIVE to liabilities/benchmark; banks and hedge funds watch ABSOLUTE loss. Match the measure to the mandate.</div>
+  <h2>Summary flow</h2>
+  <div class="flow">Define VaR with its 3 parameters (loss, horizon, probability) and interpret it as a minimum tail loss.<br>↓<br>
+Choose an estimation method: parametric (normal, fast), historical (real data), or Monte Carlo (flexible, intensive).<br>↓<br>
+Extend/critique VaR: add CVaR for tail magnitude and marginal/incremental VaR for position-level attribution.<br>↓<br>
+Layer in sensitivity measures - beta, duration/convexity, the Greeks - for local risk response.<br>↓<br>
+Add scenario analysis and stress testing to capture extreme, non-normal events.<br>↓<br>
+Map the toolkit to the user: banks, pensions, insurers, and asset managers by their constraints.</div>
+  <h2>Quiz</h2>
+  <div class="scorebar" id="score">0 / 0 correct</div>
+  <div id="quiz"></div>
+  <div class="foot">CFA® Level II · Portfolio Management · Measuring and Managing Market Risk.<br>
+  All content is independently written in the CFA style and does not reproduce any exam or third-party materials. CFA® is a trademark of CFA Institute.</div>
+</main>
+<script>const QUIZ=[{"q": "A portfolio has a 5% monthly VaR of $3 million. Which interpretation is correct?", "o": ["There is a 5% chance of losing at least $3M over the month", "The most the portfolio can lose in a month is $3M", "The expected (average) monthly loss is $3M"], "a": 0, "e": "5% VaR = a minimum loss reached or exceeded 5% of the time. It is a tail floor, not a maximum and not an average."}, {"q": "Portfolio value $100M, expected annual return 10%, annual sigma 20%. Using z=1.65, the 5% parametric VaR is closest to:", "o": ["$10M", "$23M", "$33M"], "a": 1, "e": "VaR = (1.65 x 0.20 - 0.10) x 100M = (0.33 - 0.10) x 100M = 0.23 x 100M = $23M. Do not forget to subtract the mean."}, {"q": "Which VaR method makes NO assumption about the shape of the return distribution and instead re-prices the portfolio over actual past returns?", "o": ["Parametric (variance-covariance)", "Historical simulation", "Monte Carlo simulation"], "a": 1, "e": "Historical simulation uses realized past risk-factor changes directly. Parametric assumes normality; Monte Carlo assumes generating processes."}, {"q": "Conditional VaR (expected shortfall) measures:", "o": ["The average loss given that the loss exceeds VaR", "The probability that VaR is breached", "The minimum loss at the 1% tail"], "a": 0, "e": "CVaR is the mean of losses beyond the VaR threshold, so it captures tail severity that VaR ignores. CVaR is greater than or equal to VaR always."}, {"q": "For an options portfolio with strongly curved payoffs, the LEAST appropriate VaR method is:", "o": ["Monte Carlo simulation", "Full-revaluation historical simulation", "Parametric VaR"], "a": 2, "e": "Parametric VaR relies on linear delta and normality, which mis-measure convex option payoffs. Simulation methods with full revaluation handle nonlinearity better."}, {"q": "Incremental VaR of a position is best described as:", "o": ["The per-unit sensitivity of VaR to the position", "Portfolio VaR with the position minus portfolio VaR without it", "The average loss beyond the VaR threshold"], "a": 1, "e": "Incremental VaR = the change in total portfolio VaR from adding/removing the position. The per-unit sensitivity is marginal VaR."}, {"q": "A pension fund most likely emphasizes which risk measure?", "o": ["Surplus at risk relative to liabilities", "Absolute daily trading VaR for regulatory capital", "Delta and gamma of an options book"], "a": 0, "e": "Pensions manage funded status, so they focus on surplus (asset-liability) risk over long horizons - a liability-relative measure, unlike a bank's absolute trading VaR."}];
+const L=['A','B','C','D'];
+const box=document.getElementById('quiz');const scoreEl=document.getElementById('score');
+let answered=0,correct=0;
+function upd(){scoreEl.textContent=correct+' / '+answered+' correct  ·  '+QUIZ.length+' questions';}
+QUIZ.forEach((it,i)=>{const q=document.createElement('div');q.className='q';
+  const h=document.createElement('div');h.className='qn';
+  h.innerHTML='<span class="qnum">Q'+(i+1)+'</span><span class="qtext">'+it.q+'</span>';q.appendChild(h);
+  it.o.forEach((opt,oi)=>{const b=document.createElement('button');b.className='opt';b.textContent=L[oi]+'. '+opt;
+    b.addEventListener('click',()=>{if(q.dataset.done)return;q.dataset.done='1';answered++;if(oi===it.a)correct++;upd();
+      q.querySelectorAll('.opt').forEach((bb,bi)=>{bb.disabled=true;if(bi===it.a)bb.classList.add('correct');else if(bi===oi)bb.classList.add('wrong');});
+      q.querySelector('.exp').classList.add('show');});q.appendChild(b);});
+  const e=document.createElement('div');e.className='exp';e.innerHTML='<b>Explanation · </b>'+it.e;q.appendChild(e);box.appendChild(q);});
+upd();
+</script>
+</body>
+</html>

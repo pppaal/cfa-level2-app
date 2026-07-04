@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backtesting &amp; Simulation · CFA L2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#16202E;--paper:#ECEDE8;--raised:#F6F6F2;--line:#D6D8D0;--muted:#5B6675;
+    --real:#2E5E8C;--real-bg:#E2ECF4;--inf:#BE842A;--inf-bg:#F3E7CE;--credit:#B0483B;--credit-bg:#F2E1DD;
+    --mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'Pretendard',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px rgba(22,32,46,.06);}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  main{max-width:820px;margin:0 auto;padding:44px 20px 90px}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin-bottom:14px}
+  .back:hover{color:var(--real)}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--real)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.12;letter-spacing:-.02em;margin-bottom:8px}
+  h2{font-size:clamp(19px,4vw,24px);font-weight:700;letter-spacing:-.02em;margin:34px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+  p{margin-bottom:10px}
+  .lead{font-size:16.5px;color:#26313F;margin:12px 0 6px}
+  .muted{color:var(--muted)}
+  a{color:var(--real)}
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--raised)}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#E4E5DF;font-weight:700;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#26313F}
+  tr:last-child td{border-bottom:none}
+  td.term{font-family:var(--mono);font-size:13px;font-weight:500;white-space:nowrap}
+  .fml{font-family:var(--mono);background:var(--ink);color:#EAF0F6;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;line-height:1.9;overflow-x:auto}
+  .callout{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px;background:var(--credit-bg);border:1px solid #E2BDB6}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--credit);font-weight:700}
+  .callout.info{background:var(--real-bg);border-color:#B9D2E6}.callout.info .lbl{color:var(--real)}
+  .flow{font-family:var(--mono);font-size:13px;background:var(--real-bg);border-radius:10px;padding:14px 16px;line-height:1.9;color:#1d3f5c}
+  .los-box{background:var(--real-bg);border:1px solid #B9D2E6;border-radius:12px;padding:14px 16px;margin:16px 0}
+  .los-box .h{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--real);font-weight:700;margin-bottom:9px}
+  .los-box ul{list-style:none}.los-box li{position:relative;padding-left:52px;margin-bottom:7px;font-size:14px}
+  .los-box li .tag{position:absolute;left:0;top:2px;font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--real);border-radius:5px;padding:1px 6px}
+  .q{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+  .qn{display:flex;gap:9px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--disp);font-weight:700;color:var(--credit);font-size:14px}
+  .qtext{font-size:15px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;font-family:var(--body);font-size:14px;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:10px 13px;margin-bottom:7px;transition:border-color .15s,background .15s;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--ink)}.opt:disabled{cursor:default}
+  .opt.correct{background:var(--real-bg);border-color:var(--real);color:#1d3f5c;font-weight:600}
+  .opt.wrong{background:var(--credit-bg);border-color:var(--credit);color:#8f382d;font-weight:600}
+  .exp{display:none;margin-top:4px;font-size:14px;background:#E9EBE4;border-radius:9px;padding:11px 13px;color:#26313F;border-left:3px solid var(--ink)}
+  .exp.show{display:block}
+  .scorebar{font-family:var(--mono);font-size:13px;color:var(--muted);margin:6px 0 2px}
+  .foot{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index-lessons.html#t=pm">← Portfolio Management · lessons</a>
+  <div class="eyebrow"><span class="dot"></span>Portfolio Management · Backtesting and Simulation</div>
+  <h1>Backtesting &amp; Simulation</h1>
+  <p class="lead">Backtesting asks: would this strategy have worked? Simulation asks: could it work under conditions history never showed us?</p>
+  <div class="los-box"><div class="h">Learning objectives this lesson covers (LOS)</div><ul><li><span class="tag">LOS a</span>Describe the objectives, steps, and typical process of backtesting an investment strategy</li><li><span class="tag">LOS b</span>Interpret metrics and visuals produced by a backtest of a factor-based strategy</li><li><span class="tag">LOS c</span>Identify problems in backtesting such as survivorship bias, look-ahead bias, and data snooping</li><li><span class="tag">LOS d</span>Explain how cross-validation and rolling-window methods reduce backtesting pitfalls</li><li><span class="tag">LOS e</span>Describe historical simulation and Monte Carlo simulation and compare their use in evaluating strategies</li><li><span class="tag">LOS f</span>Explain sensitivity analysis using altered return-distribution assumptions</li></ul></div>
+  <h2>Key Terms</h2>
+  <div class="tbl-wrap"><table><tr><th>Term</th><th>Meaning</th></tr><tr><td class="term">Backtesting</td><td>Applying an investment rule to historical data to estimate how a strategy would have performed out-of-sample in the past.</td></tr><tr><td class="term">Look-ahead bias</td><td>Using data in a backtest that was not actually available or knowable at the decision date, e.g. as-reported earnings before release.</td></tr><tr><td class="term">Survivorship bias</td><td>Testing only on securities that still exist today, omitting delisted/failed names, which inflates returns and understates risk.</td></tr><tr><td class="term">Data snooping</td><td>Over-mining the same data to find rules that fit past noise; also called overfitting or p-hacking, producing spurious signals.</td></tr><tr><td class="term">Cross-validation</td><td>Partitioning data into training and validation subsets to tune and test a model on data not used to build it.</td></tr><tr><td class="term">Rolling-window backtest</td><td>Repeatedly re-estimating and re-forming the portfolio over a sliding fixed-length window that moves forward through time.</td></tr><tr><td class="term">Monte Carlo simulation</td><td>Generating many random return paths from an assumed distribution to estimate the full range of possible strategy outcomes.</td></tr><tr><td class="term">Sensitivity analysis</td><td>Re-running simulations while changing input assumptions (mean, volatility, tails) to test how robust conclusions are.</td></tr></table></div>
+  <h2>1. Objectives, Steps &amp; Process</h2>
+<p>Backtesting estimates how an investment strategy <b>would have</b> performed had it been implemented in the past. Its core objective is to build confidence that a rule captures a genuine, repeatable edge rather than luck, and to understand the strategy's risk before committing capital.</p>
+<p>The standard process runs in stages: <b>strategy design</b> (define the investment universe, signal, rebalancing frequency, and constraints); <b>historical investment simulation</b> (form the portfolio period by period using only information available then); and <b>performance analysis</b> (compute returns, risk, and factor exposures).</p>
+<p>A key design choice is rebalancing. A <b>rolling-window</b> approach re-estimates the model and reconstitutes the portfolio each period, mimicking how a manager would actually update decisions as new data arrives.</p>
+<h2>2. Interpreting Metrics &amp; Visuals</h2>
+<p>Judge a factor strategy on <b>risk-adjusted</b> terms, not raw return. The Sharpe ratio measures excess return per unit of total volatility; the information ratio measures active return per unit of tracking error versus a benchmark. Also inspect <b>maximum drawdown</b> (worst peak-to-trough loss) and downside deviation.</p>
+<p>Return <b>distributions</b> matter: negative skew and high kurtosis warn that averages hide fat-tailed loss risk. A high mean with deep drawdowns and left-skew is more fragile than a modestly lower, symmetric one.</p>
+<p>Common visuals: cumulative return curves (smoothness signals consistency), rolling Sharpe/IR plots (is the edge stable or decaying?), drawdown charts, and factor-return correlation heat maps to check whether apparent alpha is really disguised known-factor beta.</p>
+<div class="fml">Sharpe = (Rp - Rf) / sigma_p<br>IR = (Rp - Rb) / TrackingError</div>
+<div class="callout info"><span class="lbl">RISK FIRST</span>Two strategies with equal mean return can differ hugely in drawdown and skew; always rank on risk-adjusted and tail metrics.</div>
+<h2>3. Pitfalls: The Big Three Biases</h2>
+<p><b>Survivorship bias</b>: building the test universe from securities that exist <b>today</b> drops firms that went bankrupt, delisted, or merged away. Because losers are removed, backtested returns look too high and risk too low. Fix: use a point-in-time database that includes dead securities.</p>
+<p><b>Look-ahead bias</b>: using information in a decision that was not yet available <b>at that date</b>. Examples: financial statements before their filing date, restated data, or benchmark constituents defined with hindsight. Fix: lag data to its true availability and use as-first-reported values.</p>
+<p><b>Data snooping / overfitting</b>: testing thousands of variations until one fits past noise. The winning rule then fails live. Fix: reserve untouched out-of-sample data, limit the number of trials, and demand economic rationale for the signal.</p>
+<div class="callout"><span class="lbl">LOOK-AHEAD vs SURVIVORSHIP</span>Survivorship = WRONG sample (dead names dropped). Look-ahead = RIGHT sample but using data too early (not yet knowable at the decision date).</div>
+<h2>4. Cross-Validation &amp; Rolling Windows</h2>
+<p>Because a single train/test split can be lucky, <b>cross-validation</b> repeatedly rotates which data trains the model and which validates it, then averages performance. This gives a more stable estimate of out-of-sample skill and helps detect overfitting.</p>
+<p>With time-series data, ordinary random k-fold splitting can leak the future into the past. Use <b>time-aware</b> schemes instead: always train on earlier data and validate on strictly later data.</p>
+<p>Two rolling schemes: a <b>walk-forward</b> (expanding) window keeps adding new data to a growing training set, while a <b>fixed rolling window</b> keeps the training length constant, dropping the oldest observations. Fixed windows adapt faster to regime change; expanding windows use more data and are more stable.</p>
+<div class="fml">Walk-forward: train[t0..t], test[t+1]; then slide t forward</div>
+<h2>5. Historical vs Monte Carlo Simulation</h2>
+<p><b>Historical simulation</b> resamples or replays actual past returns, so it preserves the real, observed dependence, skew, and fat tails of markets. Its weakness: it is limited to scenarios that actually happened and can be dominated by one unusual episode.</p>
+<p><b>Monte Carlo simulation</b> draws returns from an <b>assumed</b> statistical distribution (often with specified means, volatilities, and correlations), generating thousands of hypothetical paths. It can explore outcomes history never produced and stress rare events, but its results are only as valid as the assumed distribution.</p>
+<p>Use historical simulation when you trust that the past sample represents future dynamics; use Monte Carlo when you need a richer range of outcomes or want to inject specific tail or correlation assumptions.</p>
+<div class="callout info"><span class="lbl">CORE DIFFERENCE</span>Historical = replay real data (no distribution assumed). Monte Carlo = generate synthetic paths from an assumed distribution.</div>
+<h2>6. Sensitivity Analysis of Distribution Assumptions</h2>
+<p>A Monte Carlo result is conditional on its inputs, so robust analysis <b>varies</b> those inputs. In <b>sensitivity analysis</b> you re-run the simulation while altering the assumed return distribution and observe how conclusions shift.</p>
+<p>Typical changes: raise volatility, shift the mean lower, increase correlations toward 1 (diversification vanishes in crises), or swap a normal distribution for a fat-tailed one such as Student's t to capture extreme moves.</p>
+<p>If the strategy's Sharpe, drawdown, or shortfall probability stay acceptable across these altered assumptions, conclusions are <b>robust</b>. If modest changes flip the verdict, the strategy is fragile and the base-case backtest overstated its reliability.</p>
+<div class="fml">Multivariate draw: R = mu + L*z, where L*L&#x27; = Sigma (Cholesky)</div>
+  <h2>Summary flow</h2>
+  <div class="flow">Design strategy: define universe, signal, constraints, rebalancing<br>↓<br>
+Assemble point-in-time data; lag inputs to true availability<br>↓<br>
+Run rolling/walk-forward historical investment simulation<br>↓<br>
+Analyze risk-adjusted metrics, drawdown, skew, factor exposures<br>↓<br>
+Cross-validate out-of-sample; check for the three biases<br>↓<br>
+Extend with Monte Carlo and sensitivity analysis on assumptions</div>
+  <h2>Quiz</h2>
+  <div class="scorebar" id="score">0 / 0 correct</div>
+  <div id="quiz"></div>
+  <div class="foot">CFA® Level II · Portfolio Management · Backtesting and Simulation.<br>
+  All content is independently written in the CFA style and does not reproduce any exam or third-party materials. CFA® is a trademark of CFA Institute.</div>
+</main>
+<script>const QUIZ=[{"q": "A backtest builds its universe from stocks currently in the index and reports a very high Sharpe ratio. Which bias is most likely inflating results?", "o": ["Survivorship bias", "Look-ahead bias", "Data snooping"], "a": 0, "e": "Using only currently existing constituents drops delisted/failed firms, so losers are excluded and returns are overstated. That is survivorship bias."}, {"q": "An analyst ranks stocks on annual earnings using the fiscal-year-end date rather than the later filing date. Which bias does this create?", "o": ["Survivorship bias", "Look-ahead bias", "Data snooping"], "a": 1, "e": "The earnings were not public until the filing date; acting on them at fiscal year-end uses information not yet knowable, which is look-ahead bias. The sample itself is fine."}, {"q": "What best distinguishes look-ahead bias from survivorship bias?", "o": ["Look-ahead uses data too early on the correct sample; survivorship uses a sample that wrongly excludes dead securities", "They are identical; both drop failed firms", "Look-ahead only affects Monte Carlo, survivorship only affects historical simulation"], "a": 0, "e": "Survivorship is a sample-composition error (dead names removed). Look-ahead keeps the right sample but uses information before it was available at the decision date."}, {"q": "A team tests 5,000 signal variations and reports the single best one, which then fails live. This most directly illustrates:", "o": ["Data snooping / overfitting", "Survivorship bias", "Rolling-window error"], "a": 0, "e": "Mining many variants on the same data finds rules that fit past noise; the winner does not generalize. This is data snooping / overfitting."}, {"q": "Which statement correctly contrasts historical and Monte Carlo simulation?", "o": ["Historical replays actual past returns; Monte Carlo generates paths from an assumed distribution", "Historical assumes normality; Monte Carlo only uses realized data", "Both require the same fixed number of scenarios"], "a": 0, "e": "Historical simulation reuses observed data (no distribution assumed), while Monte Carlo draws synthetic paths from a specified distribution, allowing unseen scenarios."}, {"q": "Why should time-series backtests avoid ordinary random k-fold cross-validation?", "o": ["It can train on future data and validate on the past, leaking information", "It always overstates volatility", "It cannot compute a Sharpe ratio"], "a": 0, "e": "Random folds mix time order, letting future observations inform predictions of the past. Time-aware (walk-forward) splitting keeps training strictly before validation."}, {"q": "In sensitivity analysis, an analyst replaces the normal return assumption with a fat-tailed Student's t and raises correlations. What is the purpose?", "o": ["To test whether conclusions remain robust under adverse assumptions", "To eliminate survivorship bias", "To reduce the number of Monte Carlo trials"], "a": 0, "e": "Altering distribution and correlation inputs checks how sensitive the results are; robustness across stressed assumptions builds confidence, fragility warns of overstated backtests."}, {"q": "A factor backtest shows high average return but deep drawdowns and strong negative skew. The best interpretation is:", "o": ["The strategy carries hidden tail risk despite the attractive mean", "It is clearly superior because mean return is highest", "Skewness is irrelevant to strategy selection"], "a": 0, "e": "Negative skew and large drawdowns signal fat-tailed downside; the high mean masks fragility, so risk-adjusted and tail metrics must drive the judgment."}];
+const L=['A','B','C','D'];
+const box=document.getElementById('quiz');const scoreEl=document.getElementById('score');
+let answered=0,correct=0;
+function upd(){scoreEl.textContent=correct+' / '+answered+' correct  ·  '+QUIZ.length+' questions';}
+QUIZ.forEach((it,i)=>{const q=document.createElement('div');q.className='q';
+  const h=document.createElement('div');h.className='qn';
+  h.innerHTML='<span class="qnum">Q'+(i+1)+'</span><span class="qtext">'+it.q+'</span>';q.appendChild(h);
+  it.o.forEach((opt,oi)=>{const b=document.createElement('button');b.className='opt';b.textContent=L[oi]+'. '+opt;
+    b.addEventListener('click',()=>{if(q.dataset.done)return;q.dataset.done='1';answered++;if(oi===it.a)correct++;upd();
+      q.querySelectorAll('.opt').forEach((bb,bi)=>{bb.disabled=true;if(bi===it.a)bb.classList.add('correct');else if(bi===oi)bb.classList.add('wrong');});
+      q.querySelector('.exp').classList.add('show');});q.appendChild(b);});
+  const e=document.createElement('div');e.className='exp';e.innerHTML='<b>Explanation · </b>'+it.e;q.appendChild(e);box.appendChild(q);});
+upd();
+</script>
+</body>
+</html>

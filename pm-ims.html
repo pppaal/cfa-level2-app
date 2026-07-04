@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Manager Selection · CFA L2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#16202E;--paper:#ECEDE8;--raised:#F6F6F2;--line:#D6D8D0;--muted:#5B6675;
+    --real:#2E5E8C;--real-bg:#E2ECF4;--inf:#BE842A;--inf-bg:#F3E7CE;--credit:#B0483B;--credit-bg:#F2E1DD;
+    --mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'Pretendard',system-ui,sans-serif;
+    --shadow:0 1px 2px rgba(22,32,46,.05),0 8px 24px rgba(22,32,46,.06);}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+  main{max-width:820px;margin:0 auto;padding:44px 20px 90px}
+  .back{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin-bottom:14px}
+  .back:hover{color:var(--real)}
+  .eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--real)}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.12;letter-spacing:-.02em;margin-bottom:8px}
+  h2{font-size:clamp(19px,4vw,24px);font-weight:700;letter-spacing:-.02em;margin:34px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+  p{margin-bottom:10px}
+  .lead{font-size:16.5px;color:#26313F;margin:12px 0 6px}
+  .muted{color:var(--muted)}
+  a{color:var(--real)}
+  .tbl-wrap{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:14px;background:var(--raised)}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#E4E5DF;font-weight:700;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:#26313F}
+  tr:last-child td{border-bottom:none}
+  td.term{font-family:var(--mono);font-size:13px;font-weight:500;white-space:nowrap}
+  .fml{font-family:var(--mono);background:var(--ink);color:#EAF0F6;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;line-height:1.9;overflow-x:auto}
+  .callout{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px;background:var(--credit-bg);border:1px solid #E2BDB6}
+  .callout .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--credit);font-weight:700}
+  .callout.info{background:var(--real-bg);border-color:#B9D2E6}.callout.info .lbl{color:var(--real)}
+  .flow{font-family:var(--mono);font-size:13px;background:var(--real-bg);border-radius:10px;padding:14px 16px;line-height:1.9;color:#1d3f5c}
+  .los-box{background:var(--real-bg);border:1px solid #B9D2E6;border-radius:12px;padding:14px 16px;margin:16px 0}
+  .los-box .h{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--real);font-weight:700;margin-bottom:9px}
+  .los-box ul{list-style:none}.los-box li{position:relative;padding-left:52px;margin-bottom:7px;font-size:14px}
+  .los-box li .tag{position:absolute;left:0;top:2px;font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;background:var(--real);border-radius:5px;padding:1px 6px}
+  .q{background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+  .qn{display:flex;gap:9px;align-items:baseline;margin-bottom:10px}
+  .qnum{font-family:var(--disp);font-weight:700;color:var(--credit);font-size:14px}
+  .qtext{font-size:15px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;cursor:pointer;font-family:var(--body);font-size:14px;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:10px 13px;margin-bottom:7px;transition:border-color .15s,background .15s;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--ink)}.opt:disabled{cursor:default}
+  .opt.correct{background:var(--real-bg);border-color:var(--real);color:#1d3f5c;font-weight:600}
+  .opt.wrong{background:var(--credit-bg);border-color:var(--credit);color:#8f382d;font-weight:600}
+  .exp{display:none;margin-top:4px;font-size:14px;background:#E9EBE4;border-radius:9px;padding:11px 13px;color:#26313F;border-left:3px solid var(--ink)}
+  .exp.show{display:block}
+  .scorebar{font-family:var(--mono);font-size:13px;color:var(--muted);margin:6px 0 2px}
+  .foot{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index-lessons.html#t=pm">← Portfolio Management · lessons</a>
+  <div class="eyebrow"><span class="dot"></span>Portfolio Management · Investment Manager Selection</div>
+  <h1>Investment Manager Selection</h1>
+  <p class="lead">Picking a manager is hypothesis testing: is there real skill? Get the error type wrong and you fire winners or hire pretenders.</p>
+  <div class="los-box"><div class="h">Learning objectives this lesson covers (LOS)</div><ul><li><span class="tag">LOS a</span>Describe the components and objectives of a manager-selection process</li><li><span class="tag">LOS b</span>Contrast Type I and Type II errors in manager hiring and firing decisions</li><li><span class="tag">LOS c</span>Explain quantitative return-based and holdings-based style analysis of a manager</li><li><span class="tag">LOS d</span>Describe qualitative due diligence including investment philosophy, process, people, and operations</li><li><span class="tag">LOS e</span>Evaluate a manager&#x27;s fee structure and its alignment with investor interests</li></ul></div>
+  <h2>Key Terms</h2>
+  <div class="tbl-wrap"><table><tr><th>Term</th><th>Meaning</th></tr><tr><td class="term">Manager selection process</td><td>Structured search: universe definition, quantitative screening, and qualitative due diligence to choose a manager fitting the mandate.</td></tr><tr><td class="term">Type I error (hiring)</td><td>Rejecting a true null of no skill: hiring or keeping a manager who actually has no genuine skill (false positive).</td></tr><tr><td class="term">Type II error (firing)</td><td>Failing to reject false null: firing or not hiring a manager who truly does have skill (false negative).</td></tr><tr><td class="term">Return-based style analysis (RBSA)</td><td>Regresses fund returns on index returns to infer style exposures; cheap, uniform, but backward-looking and imprecise.</td></tr><tr><td class="term">Holdings-based style analysis (HBSA)</td><td>Aggregates actual portfolio holdings to characterize style; current and precise but data-heavy and less comparable.</td></tr><tr><td class="term">Style drift</td><td>A manager's actual exposures moving away from the stated mandate over time, detectable via style analysis.</td></tr><tr><td class="term">Operational due diligence</td><td>Review of back-office controls, custody, compliance, valuation, and counterparties to assess non-investment risk.</td></tr><tr><td class="term">Performance-based fee</td><td>Fee tied to returns above a hurdle, often with a high-water mark, aligning manager pay with client outcomes.</td></tr></table></div>
+  <h2>1. Components and Objectives of Selection</h2>
+<p>The goal of manager selection is not simply to find the best past performer but to identify a manager whose expected future results, adjusted for risk and cost, best fit a specific mandate. Strong past returns are noisy and easily produced by luck, so selection combines statistical evidence with judgment.</p>
+<p>The process has three linked stages. First, the <b>universe</b> is defined by the mandate (asset class, style, constraints). Second, a <b>quantitative</b> stage screens performance, risk, and style consistency. Third, a <b>qualitative</b> stage conducts due diligence on philosophy, process, people, and operations. Quantitative work says <b>what</b> happened; qualitative work explains <b>why</b> and whether it is repeatable.</p>
+<div class="callout info"><span class="lbl">FIT OVER FAME</span>Selection optimizes mandate fit and repeatable skill, not headline returns. A top performer that drifts from the mandate is a poor selection.</div>
+<h2>2. Type I vs Type II Errors</h2>
+<p>Frame hiring as a hypothesis test where the null is <b>the manager has no skill</b>. A <b>Type I error</b> is wrongly rejecting a true null: you conclude skill exists and hire (or retain) a manager who in fact has none. A <b>Type II error</b> is failing to reject a false null: you conclude no skill and reject (or fire) a manager who truly does have skill.</p>
+<p>Both errors carry real costs. Type I brings underperformance, fees, and eventual disruption from replacing the manager. Type II brings the opportunity cost of forgone alpha plus the transaction and search costs of switching. Tightening standards to cut one error type typically raises the other, so committees must weigh the relative costs rather than eliminate errors.</p>
+<div class="fml">H0: no skill<br>Type I  = reject true H0 = HIRE a no-skill manager<br>Type II = accept false H0 = FIRE a skilled manager</div>
+<div class="callout"><span class="lbl">DON&#x27;T FLIP</span>Type I = hiring the pretender (false positive on skill). Type II = firing the star (false negative). Anchor to the null 'no skill' to avoid reversing them.</div>
+<h2>3. Return-Based Style Analysis</h2>
+<p><b>RBSA</b> regresses a fund's historical returns against a set of style indices, constraining the coefficients to be non-negative and to sum to one, so they read as an effective style mix. It needs only a return series, applies uniformly across managers, and is inexpensive and quick to run.</p>
+<p>Its weaknesses follow from using only returns. It is <b>backward-looking</b>, blends exposures over the estimation window, and can lag real shifts or misread a manager whose true holdings are unusual. Low explanatory power (R<sup>2</sup>) or unstable coefficients can flag style drift or benchmark mismatch.</p>
+<div class="fml">r_fund = a + b_1*I_1 + ... + b_n*I_n + e<br>subject to: b_i &gt;= 0 and sum(b_i) = 1</div>
+<h2>4. Holdings-Based Style Analysis</h2>
+<p><b>HBSA</b> classifies the actual securities in the portfolio (by size, value/growth metrics, sector, credit, duration) and aggregates them to a current style profile. Because it uses positions, it is <b>forward-consistent and precise</b>, detects drift faster, and pinpoints the sources of exposure.</p>
+<p>The trade-offs are practical: it demands frequent, detailed holdings data that may be disclosed with a lag, is computationally heavier, and depends on a consistent classification scheme, making cross-manager comparison harder. In practice RBSA and HBSA are complementary checks.</p>
+<div class="callout info"><span class="lbl">PAIR THEM</span>RBSA is cheap and uniform but stale; HBSA is precise and current but data-hungry. Agreement between them raises confidence; divergence flags a problem.</div>
+<h2>5. Qualitative Due Diligence</h2>
+<p>Due diligence tests whether observed results reflect a sound, repeatable approach. Review the investment <b>philosophy</b> (the economic rationale for the edge), the <b>process</b> (idea generation, portfolio construction, risk controls, sell discipline, and whether it is actually followed), and the <b>people</b> (experience, depth, incentives, ownership, and key-person risk).</p>
+<p><b>Operations</b> cover the non-investment risks that can be catastrophic: custody and asset safekeeping, independent valuation, compliance and controls, trading and counterparties, technology, and business viability. A brilliant strategy on a weak operational platform is not investable, so operational red flags can veto an otherwise strong candidate.</p>
+<div class="callout"><span class="lbl">OPS CAN VETO</span>The four P's plus operations. Weak controls, self-valuation, or key-person risk can disqualify a manager regardless of returns.</div>
+<h2>6. Fees and Alignment of Interests</h2>
+<p>Fee structure shapes incentives. An <b>ad valorem</b> (assets-under-management) fee is predictable for clients but rewards asset gathering over performance. A <b>performance-based</b> fee pays a base plus a share of returns above a <b>hurdle</b>, better aligning pay with results but potentially encouraging risk-taking.</p>
+<p>Alignment tools temper that risk. A <b>high-water mark</b> stops the manager from earning incentive fees on gains that merely recover prior losses. A <b>hurdle rate</b> requires beating a threshold before sharing. <b>Symmetric (fulcrum) fees</b> that penalize underperformance, along with fee caps and the manager investing personal capital, further align interests. Lower, simpler fees also raise the after-cost return the client keeps.</p>
+<div class="fml">Perf fee = base + k * max(0, R - hurdle)<br>High-water mark: incentive paid only on new peak NAV</div>
+<div class="callout info"><span class="lbl">NET IS KING</span>Compare managers on expected net-of-fee, risk-adjusted return. High-water marks and hurdles protect clients from paying for recovered losses.</div>
+  <h2>Summary flow</h2>
+  <div class="flow">Define the universe from the mandate (asset class, style, constraints)<br>↓<br>
+Screen quantitatively: risk-adjusted returns, consistency, style analysis (RBSA + HBSA)<br>↓<br>
+Run qualitative due diligence on philosophy, process, people, and operations<br>↓<br>
+Weigh Type I vs Type II error costs when deciding to hire, retain, or fire<br>↓<br>
+Assess fees and alignment; compare candidates on net-of-fee, risk-adjusted terms<br>↓<br>
+Select, then monitor for style drift and mandate fit over time</div>
+  <h2>Quiz</h2>
+  <div class="scorebar" id="score">0 / 0 correct</div>
+  <div id="quiz"></div>
+  <div class="foot">CFA® Level II · Portfolio Management · Investment Manager Selection.<br>
+  All content is independently written in the CFA style and does not reproduce any exam or third-party materials. CFA® is a trademark of CFA Institute.</div>
+</main>
+<script>const QUIZ=[{"q": "Treating 'the manager has no skill' as the null hypothesis, which mistake is hiring a manager who genuinely has no skill?", "o": ["Type I error", "Type II error", "Sampling error"], "a": 0, "e": "Hiring a truly unskilled manager wrongly rejects a true null (no skill), which is a Type I error, a false positive."}, {"q": "Which mistake is firing (or not hiring) a manager who truly does possess skill?", "o": ["Type I error", "Type II error", "Anchoring error"], "a": 1, "e": "Rejecting a manager who actually has skill fails to reject a false null, a Type II error, a false negative that forgoes real alpha."}, {"q": "A key advantage of return-based style analysis over holdings-based analysis is that it:", "o": ["Detects style drift almost instantly", "Requires only a return series and is cheap and uniform", "Pinpoints the exact securities driving exposure"], "a": 1, "e": "RBSA needs only returns, making it inexpensive and uniformly applicable; detecting drift instantly and pinpointing securities are HBSA strengths."}, {"q": "Compared with RBSA, holdings-based style analysis primarily offers:", "o": ["Lower data requirements", "Greater current precision and faster drift detection", "Easier cross-manager comparability"], "a": 1, "e": "HBSA uses actual positions, giving current, precise exposures and quicker drift detection, at the cost of heavier data needs and weaker comparability."}, {"q": "Which item belongs to operational (rather than investment) due diligence?", "o": ["The economic rationale behind the manager's edge", "Independent valuation and custody of assets", "The portfolio construction and sell discipline"], "a": 1, "e": "Custody and independent valuation are operational controls; rationale and construction are part of philosophy and process."}, {"q": "A high-water mark in a performance fee primarily ensures that the manager:", "o": ["Earns incentive fees only on gains above the prior peak NAV", "Receives a fixed fee regardless of performance", "Beats a market index every quarter"], "a": 0, "e": "A high-water mark blocks incentive fees on gains that only recover previous losses, so the client does not pay twice for the same performance."}, {"q": "Why is a manager's strong past return, by itself, a weak selection criterion?", "o": ["It is always fabricated", "It can arise from luck and may reflect style drift, not repeatable skill", "Regulators prohibit using returns"], "a": 1, "e": "Past returns are noisy; luck or off-mandate drift can produce them, so selection also needs style consistency and qualitative evidence of repeatable skill."}, {"q": "Increasing the evidentiary bar required to hire a manager will most likely:", "o": ["Eliminate both Type I and Type II errors", "Reduce Type I errors but raise Type II errors", "Reduce Type II errors but raise Type I errors"], "a": 1, "e": "A stricter bar rejects more candidates, cutting false hires (Type I) but rejecting more genuinely skilled managers (Type II); the two errors trade off."}];
+const L=['A','B','C','D'];
+const box=document.getElementById('quiz');const scoreEl=document.getElementById('score');
+let answered=0,correct=0;
+function upd(){scoreEl.textContent=correct+' / '+answered+' correct  ·  '+QUIZ.length+' questions';}
+QUIZ.forEach((it,i)=>{const q=document.createElement('div');q.className='q';
+  const h=document.createElement('div');h.className='qn';
+  h.innerHTML='<span class="qnum">Q'+(i+1)+'</span><span class="qtext">'+it.q+'</span>';q.appendChild(h);
+  it.o.forEach((opt,oi)=>{const b=document.createElement('button');b.className='opt';b.textContent=L[oi]+'. '+opt;
+    b.addEventListener('click',()=>{if(q.dataset.done)return;q.dataset.done='1';answered++;if(oi===it.a)correct++;upd();
+      q.querySelectorAll('.opt').forEach((bb,bi)=>{bb.disabled=true;if(bi===it.a)bb.classList.add('correct');else if(bi===oi)bb.classList.add('wrong');});
+      q.querySelector('.exp').classList.add('show');});q.appendChild(b);});
+  const e=document.createElement('div');e.className='exp';e.innerHTML='<b>Explanation · </b>'+it.e;q.appendChild(e);box.appendChild(q);});
+upd();
+</script>
+</body>
+</html>
