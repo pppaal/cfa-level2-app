@@ -223,8 +223,10 @@ const CARDS = {
       b: "Transforms correlated variables to orthogonal principal components ordered by variance. Keep top components capturing e.g., 85-95% variance. Use for noise reduction, visualization, collinearity. Components not directly interpretable." },
 
     // ---- Big Data Projects ----
+    { m: "Big Data Projects", f: "Why it matters — big data & ML in investing",
+      b: "Alternative/real-time data (news, social sentiment, card transactions, satellite, IoT) + machine learning are now core to quant investing — sources of ALPHA and risk signals that traditional quarterly financials miss. Analysts rarely code the models, but must understand the process to: (1) evaluate & oversee data-science teams and vendors, (2) judge data VERACITY and avoid pitfalls (overfitting, look-ahead/survivorship bias, class imbalance), and (3) integrate ML output responsibly. That's why the CFA tests the concepts, not the coding." },
     { m: "Big Data Projects", f: "Steps in ML project workflow",
-      b: "1) Conceptualization (goal)  2) Data collection  3) Data preparation & wrangling (clean, normalize)  4) Exploration  5) Model training (split train/valid/test, tune)  6) Model evaluation  7) Deployment & monitoring." },
+      b: "CFA framing = 5 ITERATIVE steps: 1) Conceptualize the modeling task (output? use? how embedded?)  2) Data collection  3) Data preparation & wrangling (cleanse, preprocess)  4) Data exploration (EDA, feature selection & engineering)  5) Model training (method selection, performance evaluation, tuning). Note: evaluation & tuning sit INSIDE step 5; deployment/monitoring follow in practice but are beyond the reading. Text projects mirror these with text-specific first four steps." },
     { m: "Big Data Projects", f: "Data preparation & wrangling",
       b: "Incompleteness (missing vals: drop/impute), invalidity, inaccuracy (outliers: winsorize/trim), inconsistency, non-uniformity (normalize/standardize), duplication. For text: tokenize, remove stopwords, stem/lemmatize." },
     { m: "Big Data Projects", f: "Model performance — classification metrics",

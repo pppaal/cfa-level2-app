@@ -4,7 +4,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 
 ## Features
 
-**📚 Flashcards** — 454 cards across all 10 topics, organized by module
+**📚 Flashcards** — 455 cards across all 10 topics, organized by module
 - Click / `Space` to flip
 - `←` `→` to navigate
 - `K` mark as known, `D` don't know
@@ -37,7 +37,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 | Topic | Cards | Item sets |
 |---|---|---|
 | Ethics & GIPS | 42 | 2 |
-| Quantitative Methods | 64 | 7 |
+| Quantitative Methods | 65 | 7 |
 | Economics | 33 | 2 |
 | Financial Statement Analysis | 54 | 3 |
 | Corporate Issuers | 27 | 1 |
