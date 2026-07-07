@@ -100,7 +100,7 @@ _The candidate should be able to:_
 - describe unsupervised machine learning algorithms—including principal components analysis, k-means clustering, and hierarchical clustering—and determine the problems for which they are best suited
 
 ### ✅ Big Data Projects
-_Coverage: flashcards · exam Q4 (model-building) · Q5 (data exploration) · ML Pipeline Builder · Data-Exploration Sorter_
+_Coverage: flashcards · exam Q4 (forecasting/model-building) · Q5 (data exploration) · Q6 (data prep & wrangling) · Q7 (model training & evaluation) · ML Pipeline Builder · Data-Exploration Sorter — all 4 curriculum lessons covered_
 
 _The candidate should be able to:_
 

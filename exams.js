@@ -397,6 +397,130 @@ She performs exploratory data analysis (EDA), then feature selection and feature
       }
     ]
   },
+  {
+    id: "Q6", topic: "quant",
+    title: "Big Data Projects: Data Preparation & Wrangling",
+    vignette: `An analyst prepares two datasets for a machine-learning model (step 3 of the workflow).
+
+STRUCTURED — a table of companies. Several issues are present: some rows have a missing price-to-book (P/B) ratio; one company's age is recorded as 999 years; two rows are exact duplicates; and the features are on very different scales (age in years, net profit in millions of dollars, P/B as a small ratio).
+
+TEXT — a corpus of regulatory filings scraped from the web. The raw text contains HTML tags (<p>, <br>), punctuation, mixed upper/lower case, and many occurrences of the related words "analyze", "analyzing", and "analyzed".
+
+The analyst plans to cleanse each dataset, then preprocess (wrangle) it into a form suitable for modeling.`,
+    questions: [
+      {
+        q: "Resolving the missing P/B values, the out-of-range age of 999, and the duplicate rows are all examples of:",
+        c: ["A. Data cleansing.",
+            "B. Feature engineering.",
+            "C. Model tuning."],
+        a: 0,
+        e: "A is correct. Data cleansing addresses incomplete (missing), invalid/out-of-range, inaccurate, inconsistent, non-uniform, and duplicate data. Feature engineering creates new features (a later, exploration-stage task); model tuning adjusts hyperparameters during training. Missing values, an implausible age, and duplicates are classic cleansing problems."
+      },
+      {
+        q: "To rescale company age, net profit, and P/B onto a common [0, 1] range so no feature dominates because of its units, the analyst should apply normalization, computed as:",
+        c: ["A. (x − μ) / σ.",
+            "B. (x − min) / (max − min).",
+            "C. (x − median) / IQR."],
+        a: 1,
+        e: "B is correct. Normalization rescales a feature to [0, 1] using (x − min)/(max − min). Choice A is standardization (z-score), which centers to mean 0 and scales by the standard deviation but is not bounded to [0, 1]. C is a robust-scaling formula, not the normalization defined in the curriculum."
+      },
+      {
+        q: "Compared with normalization, standardization (the z-score transformation) is BEST described as:",
+        c: ["A. Bounding every value strictly between 0 and 1.",
+            "B. Centering data to mean 0 and unit standard deviation, and generally assuming the data are approximately normally distributed.",
+            "C. Guaranteed to remove all outliers from the data."],
+        a: 1,
+        e: "B is correct. Standardization produces z-scores, (x − μ)/σ, centering the data at mean 0 with unit standard deviation; it is not bounded to [0,1] and generally assumes an approximately normal distribution. Normalization (not standardization) bounds values to [0,1]. Neither transformation removes outliers—standardization is simply less sensitive to them than normalization."
+      },
+      {
+        q: "For the TEXT data, removing the HTML tags (<p>, <br>) and punctuation is part of:",
+        c: ["A. Text cleansing.",
+            "B. Model training.",
+            "C. Feature selection."],
+        a: 0,
+        e: "A is correct. Text cleansing removes noise from raw text — HTML tags, punctuation, numbers, and extra white space — before tokenization. Feature selection (removing non-informative tokens) and model training come later in the workflow."
+      },
+      {
+        q: "Reducing \"analyze\", \"analyzing\", and \"analyzed\" to a common root form so they are treated as one token is BEST described as:",
+        c: ["A. Stop-word removal.",
+            "B. Stemming (or lemmatization).",
+            "C. One-hot encoding."],
+        a: 1,
+        e: "B is correct. Stemming chops inflected words to a common root (e.g., 'analyz'), and lemmatization maps them to a dictionary base form; both collapse related word forms into one token, reducing sparsity. Stop-word removal deletes common low-information words; one-hot encoding is for categorical structured features, not text normalization."
+      },
+      {
+        q: "After tokenizing and normalizing the text, the analyst organizes it into a bag-of-words / document-term matrix. The PRIMARY purpose of this structure is to:",
+        c: ["A. Preserve the exact grammatical order of every sentence.",
+            "B. Represent the text numerically (token counts per document) so an algorithm can process it.",
+            "C. Encrypt the text for secure storage."],
+        a: 1,
+        e: "B is correct. A bag-of-words / document-term matrix converts unstructured text into a numerical, structured representation—counts (or frequencies) of each token per document—so a machine-learning algorithm can operate on it. A plain bag-of-words discards word order (n-grams partially restore it); encryption is unrelated."
+      }
+    ]
+  },
+  {
+    id: "Q7", topic: "quant",
+    title: "Big Data Projects: Model Training & Evaluation",
+    vignette: `An analyst trains a classifier to flag fraudulent transactions (step 5 of the workflow). Each historical transaction is labeled fraud (1) or legitimate (0); fraud is rare — about 4% of cases.
+
+The analyst splits the data, selects an algorithm, and evaluates it. On a hold-out sample of 1,000 transactions the confusion matrix is:
+
+                 Predicted fraud   Predicted legit
+Actual fraud            40                20
+Actual legit            10               930
+
+The model achieves 97% accuracy on this sample, but the analyst is concerned because it performs far better on the training data than on the validation data.`,
+    questions: [
+      {
+        q: "Because each transaction carries a labeled fraud/legit target, the analyst is performing:",
+        c: ["A. Unsupervised learning (e.g., clustering).",
+            "B. Supervised learning — specifically classification.",
+            "C. Reinforcement learning."],
+        a: 1,
+        e: "B is correct. A labeled target variable means supervised learning; because the target is categorical (fraud vs legit), it is a classification problem. Unsupervised learning has no labels (it finds structure, e.g., clusters); reinforcement learning trains via reward feedback, not a fixed labeled dataset."
+      },
+      {
+        q: "The analyst splits the data into training, validation, and test sets (and uses k-fold cross-validation). The MAIN purpose of the validation set is to:",
+        c: ["A. Provide additional data purely to increase the training sample size.",
+            "B. Tune the model and estimate out-of-sample performance while keeping the test set untouched for a final, unbiased evaluation.",
+            "C. Guarantee the model cannot overfit."],
+        a: 1,
+        e: "B is correct. The validation set (or cross-validation) is used to tune hyperparameters and gauge out-of-sample performance during development, while the test set is held back for a single final unbiased estimate. It does not simply enlarge the training set, and no split can guarantee the absence of overfitting."
+      },
+      {
+        q: "Using the confusion matrix, the model's precision for the fraud class is CLOSEST to:",
+        c: ["A. 0.67.",
+            "B. 0.80.",
+            "C. 0.97."],
+        a: 1,
+        e: "B is correct. Precision = TP/(TP+FP) = 40/(40+10) = 40/50 = 0.80. (Recall = TP/(TP+FN) = 40/(40+20) = 0.67, which is choice A. Accuracy = (40+930)/1000 = 0.97, choice C.) Precision answers: of all transactions flagged as fraud, what fraction really were fraud."
+      },
+      {
+        q: "Although accuracy is 97%, the analyst is right to distrust it here MAINLY because:",
+        c: ["A. Accuracy can never be computed from a confusion matrix.",
+            "B. With only ~4% fraud, a model could reach ~96% accuracy by predicting 'legit' for everything; F1 (balancing precision and recall) is more informative for imbalanced classes.",
+            "C. Accuracy and precision are always identical."],
+        a: 1,
+        e: "B is correct. With heavily imbalanced classes, high accuracy is easy to achieve by favoring the majority class, so it can mask poor detection of the rare class. Precision, recall, and especially their harmonic mean F1 give a more informative picture. Accuracy is computable (contradicting A) and is not equal to precision (contradicting C)."
+      },
+      {
+        q: "The model fits the training data much better than the validation data. This is a symptom of, and BEST remedied by:",
+        c: ["A. Underfitting (high bias); add more features and a more complex model.",
+            "B. Overfitting (high variance); use regularization, a simpler model, more data, or cross-validation.",
+            "C. Data leakage; there is no way to address it."],
+        a: 1,
+        e: "B is correct. Strong in-sample but weak out-of-sample performance signals overfitting — low bias but high variance (the model memorized noise). Remedies include regularization, reducing model complexity, gathering more data, and cross-validation. A describes the opposite problem (underfitting). Data leakage is a real issue but is not what this train-vs-validation gap primarily indicates, and it can be addressed."
+      },
+      {
+        q: "To compare classifiers across all classification thresholds, the analyst plots the true-positive rate against the false-positive rate. This curve and its summary statistic are:",
+        c: ["A. The ROC curve and the area under the curve (AUC).",
+            "B. The RMSE curve and its slope.",
+            "C. The scree plot and its elbow."],
+        a: 0,
+        e: "A is correct. The receiver operating characteristic (ROC) curve plots the true-positive rate against the false-positive rate across thresholds; the area under it (AUC) summarizes discrimination (closer to 1 is better). RMSE evaluates continuous/regression predictions, not classification thresholds; a scree plot is used to choose components in PCA."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS
