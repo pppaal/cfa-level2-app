@@ -12,38 +12,38 @@ covers, so we can see what is filled in and what still needs work.
 
 ## 1. Curriculum at a glance (2026 — official)
 
-- **10 topic areas**, **45 learning modules** total.
+- **10 topic areas**, **45 learning modules**, **370 Learning Outcome Statements (LOS)** total.
 - 2026 is **unchanged vs. 2025 except one LOS removed** in Quantitative Methods.
 - The Level II exam is **item-set (vignette) based**.
+- Counts below are parsed from the official **CFA Institute _2026 Level II Topic
+  Outlines_** PDF. The full verbatim LOS list with per-module coverage is in [`LOS.md`](./LOS.md).
 
-### Topic weights & structure
+### Topic weights & structure (official)
 
-| # | Topic | 2026 exam weight | App module-groups | Curriculum LOS* |
-|---|-------|:---:|:---:|:---:|
-| 1 | Ethical & Professional Standards | 5–10% | 10 | _verify_ |
-| 2 | Quantitative Methods | 5–10% | 7 | _verify_ |
-| 3 | Economics | 5–10% | 3 | _verify_ |
-| 4 | Financial Statement Analysis | 10–15% | 6 | _verify_ |
-| 5 | Corporate Issuers | 5–10% | 4 | _verify_ |
-| 6 | Equity Valuation | 10–15% | 8 | _verify_ |
-| 7 | Fixed Income | 10–15% | 6 | _verify_ |
-| 8 | Derivatives | 5–10% | 2 | _verify_ |
-| 9 | Alternative Investments | 5–10% | 4 | _verify_ |
-| 10 | Portfolio Management | 10–15% | 8 | _verify_ |
-| | **Total** | **100%** | **58** | **~150–200 (est.)** |
+| # | Topic | 2026 exam weight | Modules | LOS | ✅ modules |
+|---|-------|:---:|:---:|:---:|:---:|
+| 1 | Quantitative Methods | 5–10% | 7 | 39 | 5/7 |
+| 2 | Economics | 5–10% | 2 | 25 | 2/2 |
+| 3 | Financial Statement Analysis | 10–15% | 6 | 42 | 3/6 |
+| 4 | Corporate Issuers | 5–10% | 4 | 31 | 1/4 |
+| 5 | Equity Valuation | 10–15% | 6 | 75 | 3/6 |
+| 6 | Fixed Income | 10–15% | 5 | 50 | 2/5 |
+| 7 | Derivatives | 5–10% | 2 | 21 | 2/2 |
+| 8 | Alternative Investments | 5–10% | 4 | 29 | 1/4 |
+| 9 | Portfolio Management | 10–15% | 6 | 52 | 2/6 |
+| 10 | Ethical & Professional Standards | 5–10% | 3 | 6 | 3/3 |
+| | **Total** | **100%** | **45** | **370** | **24/45** |
 
-> **\*LOS note (honesty flag).** The exact number of Learning Outcome Statements
-> per topic is published by CFA Institute in the **2026 Level II Topic Outlines**
-> (see Sources). Those pages block automated fetching, so the precise per-topic
-> LOS counts are **not yet reproduced here** — the "Curriculum LOS" column is
-> left as _verify_ on purpose rather than filled with guessed numbers. As an
-> order-of-magnitude anchor: 45 modules × ~3–5 LOS each ≈ **150–200 LOS** total.
-> Drop the official numbers into the column once confirmed from the source PDF.
+> **Coverage:** all **45/45** official modules have baseline flashcard coverage;
+> **24/45** also have item-set questions and/or an interactive tool (the "✅ modules"
+> column). Marks are tracked at **module** granularity in `LOS.md`.
 >
-> Also note: the **App module-groups** column is *our* organizational grouping
-> (the `m:` field in `cards.js`), not the official module list. It matches the
-> curriculum closely for most topics (e.g., Quant = 7), but Ethics is split by
-> Standard (10 groups) where the curriculum groups it more coarsely — so 58 ≠ 45.
+> **Heads-up — app has some off-syllabus groups.** A few `cards.js` module-groups
+> are **not** 2026 L2 modules: Economics of Regulation, Equity "Return Concepts" &
+> "Industry & Company Analysis", Fixed Income "MBS & ABS", Alternatives "Private
+> Equity", PM "Trading Costs" & "Professionalism", and Ethics "GIPS". They reflect
+> older curricula/adjacent material — review, retire, or re-map. (This is why the
+> app shows 58 module-groups vs. the official 45.)
 
 ---
 
