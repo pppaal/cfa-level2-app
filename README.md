@@ -13,17 +13,23 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 - Progress saved in `localStorage`
 - Dark / light theme
 
-**📝 Exam Practice** — 21 item sets, ~105 original practice questions in CFA vignette + MCQ format
+**📝 Exam Practice** — 22 item sets, ~110 original practice questions in CFA vignette + MCQ format
 - Read vignette → answer A/B/C → instant feedback + detailed explanation
 - Score tracked per item set
 - All calculations Python-verified
+
+**🧮 Regression Lab** — interactive Simple vs. Multiple linear regression demo (Quant)
+- Toggle between a simple (1-variable) and multiple (2-variable) model
+- Drag sliders for the independent variables and watch the least-squares equation, coefficient interpretation, and predicted value update live
+- Illustrates partial slope coefficients (holding other variables constant) and why coefficients change when a correlated variable is added
+- Settings persist in `localStorage`
 
 ## Topics (2026 curriculum)
 
 | Topic | Cards | Item sets |
 |---|---|---|
 | Ethics & GIPS | 42 | 2 |
-| Quantitative Methods | 45 | 2 |
+| Quantitative Methods | 45 | 3 |
 | Economics | 33 | 2 |
 | Financial Statement Analysis | 54 | 3 |
 | Corporate Issuers | 27 | 1 |

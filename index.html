@@ -503,6 +503,155 @@
       margin-top: 16px;
     }
 
+    /* ===== Regression Lab view ===== */
+    .lab-intro {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .lab-intro strong { color: var(--text); }
+
+    .lab-toggle {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .lab-toggle button {
+      padding: 9px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .lab-toggle button.active { background: var(--accent); color: white; }
+
+    .lab-panel {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+      margin-bottom: 18px;
+    }
+    .lab-panel-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .lab-equation {
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 14px 8px 6px;
+      color: var(--text-card);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+    .lab-equation .coef { color: var(--accent); font-weight: 700; }
+    .lab-equation .added { color: var(--success); font-weight: 700; }
+
+    .lab-control { margin-bottom: 20px; }
+    .lab-control:last-child { margin-bottom: 0; }
+    .lab-control-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+    .lab-control-name { font-weight: 600; font-size: 0.95rem; color: var(--text-card); }
+    .lab-control-val {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .lab-control input[type=range] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .lab-control.disabled { opacity: 0.35; }
+    .lab-control-desc { font-size: 0.78rem; color: var(--text-card-muted); margin-top: 5px; }
+
+    .lab-calc {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-card);
+      background: var(--bg-card-back);
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .lab-result {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--success);
+      text-align: center;
+      margin-top: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    .lab-result span { font-size: 1rem; color: var(--text-card-muted); font-weight: 500; }
+
+    .lab-bars { margin-top: 18px; display: flex; flex-direction: column; gap: 9px; }
+    .lab-bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 72px;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--text-card);
+    }
+    .lab-bar-track { background: var(--bg-alt); border-radius: 4px; height: 16px; overflow: hidden; }
+    .lab-bar-fill { height: 100%; border-radius: 4px; transition: width 0.25s ease; min-width: 2px; }
+    .lab-bar-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    .lab-interp { display: flex; flex-direction: column; gap: 10px; }
+    .lab-interp-item {
+      background: var(--bg-card-back);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text-card);
+    }
+    .lab-interp-item strong { color: var(--accent); }
+
+    .lab-note {
+      padding: 14px 16px;
+      background: rgba(245, 158, 11, 0.12);
+      border-left: 4px solid var(--warning);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-card);
+    }
+    .lab-note strong { color: var(--warning); }
+
     @media (max-width: 640px) {
       body { padding: 12px; }
       h1 { font-size: 1.15rem; }
@@ -513,6 +662,11 @@
       .nav .btn { min-width: 0; flex: 1; padding: 8px; font-size: 0.82rem; }
       .exam-panel { padding: 20px 18px; }
       .mode-tab { padding: 8px 14px; font-size: 0.85rem; }
+      .lab-panel { padding: 20px 18px; }
+      .lab-equation { font-size: 1.1rem; }
+      .lab-calc { font-size: 0.85rem; }
+      .lab-result { font-size: 1.5rem; }
+      .lab-bar-row { grid-template-columns: 110px 1fr 60px; font-size: 0.76rem; }
     }
   </style>
 </head>
@@ -529,6 +683,7 @@
     <div class="mode-tabs">
       <button class="mode-tab active" data-mode="flash">📚 Flashcards</button>
       <button class="mode-tab" data-mode="exam">📝 Exam Practice</button>
+      <button class="mode-tab" data-mode="lab">🧮 Regression Lab</button>
     </div>
 
     <div class="topics" id="topics"></div>
@@ -637,6 +792,69 @@
       </div>
     </div>
 
+    <!-- REGRESSION LAB VIEW -->
+    <div class="view" id="labView">
+      <div class="lab-intro">
+        <strong>Interactive: Simple vs. Multiple Regression.</strong>
+        Explore how a bonus (in months of salary) is predicted from company performance.
+        Switch between a <strong>simple</strong> model (profit only) and a <strong>multiple</strong> model
+        (profit + stock price gain), drag the sliders to set the independent variables, and watch the
+        least-squares equation, the coefficient interpretation, and the predicted value update live.
+      </div>
+
+      <div class="lab-toggle" id="labToggle">
+        <button data-model="simple">Simple &nbsp;·&nbsp; 1 variable</button>
+        <button data-model="multiple">Multiple &nbsp;·&nbsp; 2 variables</button>
+      </div>
+
+      <div class="lab-panel">
+        <div class="lab-panel-label">Estimated regression equation</div>
+        <div class="lab-equation" id="labEquation"></div>
+        <div class="lab-control-desc" style="text-align:center;">
+          Ŷ is the predicted (estimated) bonus in months. Coefficients are estimated by the least squares method.
+        </div>
+      </div>
+
+      <div class="lab-panel">
+        <div class="lab-panel-label">Independent variables (inputs)</div>
+
+        <div class="lab-control" id="labCtrlX1">
+          <div class="lab-control-head">
+            <span class="lab-control-name">X₁ — Company profit</span>
+            <span class="lab-control-val" id="labX1Val"></span>
+          </div>
+          <input type="range" id="labX1" min="0" max="20" step="0.5" />
+          <div class="lab-control-desc">Full-year company profit, in $ millions.</div>
+        </div>
+
+        <div class="lab-control" id="labCtrlX2">
+          <div class="lab-control-head">
+            <span class="lab-control-name">X₂ — Stock price gain</span>
+            <span class="lab-control-val" id="labX2Val"></span>
+          </div>
+          <input type="range" id="labX2" min="-10" max="40" step="1" />
+          <div class="lab-control-desc">Full-year stock price gain (%). Entered into the model as a decimal (18% → 0.18).</div>
+        </div>
+      </div>
+
+      <div class="lab-panel">
+        <div class="lab-panel-label">Prediction (LOS: calculate the predicted value)</div>
+        <div class="lab-calc" id="labCalc"></div>
+        <div class="lab-result" id="labResult"></div>
+        <div class="lab-bars" id="labBars"></div>
+      </div>
+
+      <div class="lab-panel">
+        <div class="lab-panel-label">Interpreting the coefficients</div>
+        <div class="lab-interp" id="labInterp"></div>
+      </div>
+
+      <div class="lab-panel" style="border-top-color: var(--warning);">
+        <div class="lab-panel-label" style="color: var(--warning);">Why the coefficients change</div>
+        <div class="lab-note" id="labNote"></div>
+      </div>
+    </div>
+
   </div>
 
   <script src="cards.js"></script>
@@ -654,6 +872,17 @@
       examAnswers: JSON.parse(localStorage.getItem("cfa_exam_ans") || "{}"),   // { examId: { qIdx: choiceIdx } }
       currentExam: null,      // current exam id being played
       currentExamQ: 0,
+      // Regression Lab
+      labModel: localStorage.getItem("cfa_lab_model") || "simple",   // "simple" | "multiple"
+      labX1: parseFloat(localStorage.getItem("cfa_lab_x1") ?? "10"),  // company profit ($M)
+      labX2: parseFloat(localStorage.getItem("cfa_lab_x2") ?? "18"),  // stock price gain (%)
+    };
+
+    // Estimated (least-squares) coefficients for the bonus example.
+    // X₂ (stock price gain) enters the model as a decimal, so its slope applies to a proportion.
+    const LAB = {
+      simple:   { b0: 1.14, b1: 0.30, b2: null },
+      multiple: { b0: 0.95, b1: 0.20, b2: 6.00 },
     };
 
     const $ = (id) => document.getElementById(id);
@@ -690,6 +919,10 @@
         b.classList.toggle("active", b.dataset.mode === mode));
       $("flashView").classList.toggle("active", mode === "flash");
       $("examView").classList.toggle("active", mode === "exam");
+      $("labView").classList.toggle("active", mode === "lab");
+      // The Regression Lab is a self-contained conceptual demo — the per-topic bar doesn't apply.
+      $("topics").style.display = mode === "lab" ? "none" : "flex";
+      if (mode === "lab") { renderLab(); return; }
       renderTopics();
       if (mode === "flash") renderFlash();
       else renderExamList();
@@ -956,6 +1189,90 @@
       }
     }
 
+    // ============ REGRESSION LAB ============
+    function fmt(n, d = 2) {
+      return n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+    }
+
+    function setLabModel(model) {
+      state.labModel = model;
+      localStorage.setItem("cfa_lab_model", model);
+      renderLab();
+    }
+
+    function renderLab() {
+      const isMulti = state.labModel === "multiple";
+      const m = isMulti ? LAB.multiple : LAB.simple;
+      const x1 = state.labX1;
+      const x2pct = state.labX2;          // percent, as shown on the slider
+      const x2 = x2pct / 100;             // decimal, as used in the model
+
+      // ---- toggle buttons ----
+      document.querySelectorAll("#labToggle button").forEach(b =>
+        b.classList.toggle("active", b.dataset.model === state.labModel));
+
+      // ---- sliders ----
+      $("labX1").value = x1;
+      $("labX2").value = x2pct;
+      $("labX1Val").textContent = `$${fmt(x1, 1)}M`;
+      $("labX2Val").textContent = `${x2pct > 0 ? "+" : ""}${fmt(x2pct, 0)}%  (${fmt(x2, 2)})`;
+      $("labCtrlX2").classList.toggle("disabled", !isMulti);
+      $("labX2").disabled = !isMulti;
+
+      // ---- equation ----
+      $("labEquation").innerHTML = isMulti
+        ? `Ŷ = <span class="coef">${fmt(m.b0)}</span> + <span class="coef">${fmt(m.b1)}</span>·X₁ + <span class="added">${fmt(m.b2)}</span>·X₂`
+        : `Ŷ = <span class="coef">${fmt(m.b0)}</span> + <span class="coef">${fmt(m.b1)}</span>·X₁`;
+
+      // ---- prediction (step by step) ----
+      const t0 = m.b0;
+      const t1 = m.b1 * x1;
+      const t2 = isMulti ? m.b2 * x2 : 0;
+      const yhat = t0 + t1 + t2;
+
+      const calc = isMulti
+        ? `Ŷ = ${fmt(m.b0)} + ${fmt(m.b1)} × ${fmt(x1, 1)} + ${fmt(m.b2)} × ${fmt(x2)}\n`
+          + `  = ${fmt(t0)} + ${fmt(t1)} + ${fmt(t2)}`
+        : `Ŷ = ${fmt(m.b0)} + ${fmt(m.b1)} × ${fmt(x1, 1)}\n`
+          + `  = ${fmt(t0)} + ${fmt(t1)}`;
+      $("labCalc").textContent = calc;
+      $("labResult").innerHTML = `Ŷ = ${fmt(yhat)} <span>months of bonus</span>`;
+
+      // ---- contribution bars ----
+      const terms = [
+        { name: "Intercept (b̂₀)", val: t0, color: "#64748b" },
+        { name: "Profit term (b̂₁·X₁)", val: t1, color: "var(--accent)" },
+      ];
+      if (isMulti) terms.push({ name: "Stock-gain term (b̂₂·X₂)", val: t2, color: "var(--success)" });
+      const denom = terms.reduce((s, t) => s + Math.abs(t.val), 0) || 1;
+      $("labBars").innerHTML = terms.map(t => {
+        const pct = (Math.abs(t.val) / denom) * 100;
+        const color = t.val < 0 ? "var(--danger)" : t.color;
+        return `<div class="lab-bar-row">
+            <span>${t.name}</span>
+            <div class="lab-bar-track"><div class="lab-bar-fill" style="width:${pct.toFixed(1)}%;background:${color};"></div></div>
+            <span class="lab-bar-val">${t.val >= 0 ? "+" : ""}${fmt(t.val)}</span>
+          </div>`;
+      }).join("");
+
+      // ---- coefficient interpretation ----
+      const interp = [];
+      if (isMulti) {
+        interp.push(`<div class="lab-interp-item"><strong>Intercept b̂₀ = ${fmt(m.b0)}:</strong> the predicted bonus when <em>both</em> profit and stock price gain equal zero — ${fmt(m.b0)} months.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Partial slope b̂₁ = ${fmt(m.b1)}:</strong> for each additional $1M of profit, the predicted bonus rises by ${fmt(m.b1)} months, <em>holding stock price gain constant</em>.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Partial slope b̂₂ = ${fmt(m.b2)}:</strong> a 1 percentage-point (0.01) rise in stock price gain changes the predicted bonus by ${fmt(m.b2)} × 0.01 = ${fmt(m.b2 * 0.01)} months, <em>holding profit constant</em>.</div>`);
+      } else {
+        interp.push(`<div class="lab-interp-item"><strong>Intercept b̂₀ = ${fmt(m.b0)}:</strong> the predicted bonus when profit equals zero — ${fmt(m.b0)} months.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Slope b̂₁ = ${fmt(m.b1)}:</strong> for each additional $1M of profit, the predicted bonus rises by ${fmt(m.b1)} months. With only one variable, this slope also absorbs the effect of anything correlated with profit.</div>`);
+      }
+      $("labInterp").innerHTML = interp.join("");
+
+      // ---- "why coefficients change" note ----
+      $("labNote").innerHTML = isMulti
+        ? `Adding stock price gain changed the intercept (<strong>1.14 → 0.95</strong>) and the profit slope (<strong>0.30 → 0.20</strong>). Because profit and stock price gain are positively correlated, the simple model's 0.30 slope was partly crediting profit with stock-gain's effect. The multiple model separates them, so each slope now measures a <strong>partial effect</strong> — the change in the bonus per unit of one variable while holding the other constant.`
+        : `You are viewing the <strong>simple</strong> model. Switch to <strong>Multiple · 2 variables</strong> to add stock price gain (X₂) and watch the intercept and profit slope change from 1.14 and 0.30 to 0.95 and 0.20 — a consequence of profit and stock-gain being correlated.`;
+    }
+
     // ============ THEME ============
     function applyTheme() {
       document.body.setAttribute("data-theme", state.theme);
@@ -987,6 +1304,21 @@
     $("examNextQ").addEventListener("click", examNextQ);
     $("examPrevQ").addEventListener("click", examPrevQ);
 
+    // Regression Lab events
+    document.querySelectorAll("#labToggle button").forEach(btn => {
+      btn.addEventListener("click", () => setLabModel(btn.dataset.model));
+    });
+    $("labX1").addEventListener("input", (e) => {
+      state.labX1 = parseFloat(e.target.value);
+      localStorage.setItem("cfa_lab_x1", state.labX1);
+      renderLab();
+    });
+    $("labX2").addEventListener("input", (e) => {
+      state.labX2 = parseFloat(e.target.value);
+      localStorage.setItem("cfa_lab_x2", state.labX2);
+      renderLab();
+    });
+
     // Header
     $("themeBtn").addEventListener("click", () => {
       state.theme = state.theme === "dark" ? "light" : "dark";
@@ -1000,7 +1332,7 @@
         localStorage.removeItem("cfa_progress");
         localStorage.removeItem("cfa_exam_ans");
         if (state.mode === "flash") renderFlash();
-        else renderExamList();
+        else if (state.mode === "exam") renderExamList();
       }
     });
 

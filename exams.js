@@ -224,6 +224,63 @@ Residual diagnostics:
       }
     ]
   },
+  {
+    id: "Q3", topic: "quant",
+    title: "Multiple Regression: Interpreting Coefficients & Predicting",
+    vignette: `An analyst studies how executive year-end bonuses (measured in months of salary) relate to firm performance. The dependent variable is the bonus in months (Y). Two independent variables are considered:
+
+• X₁ = company profit, in $ millions
+• X₂ = company stock price gain over the year, expressed as a decimal (e.g., an 18% gain is entered as 0.18)
+
+The analyst first estimates a simple regression using only profit, then a multiple regression adding stock price gain. Both are fit by ordinary least squares (the least squares method), which chooses coefficients that minimize the sum of squared residuals.
+
+Simple model:    Ŷ = 1.14 + 0.30·X₁
+Multiple model:  Ŷ = 0.95 + 0.20·X₁ + 6.00·X₂
+
+The analyst notes that profit and stock price gain are positively correlated across the firms in the sample.`,
+    questions: [
+      {
+        q: "In the MULTIPLE regression model, the partial slope coefficient on profit (b̂₁ = 0.20) is BEST interpreted as: for each additional $1 million of profit, the predicted bonus increases by 0.20 months,",
+        c: ["A. without any conditions on the other variables.",
+            "B. holding the company's stock price gain constant.",
+            "C. only when the stock price gain is also increasing."],
+        a: 1,
+        e: "B is correct. In multiple regression, each slope is a PARTIAL slope coefficient: it measures the change in Y for a one-unit change in that independent variable while holding all other independent variables constant. So b̂₁ = 0.20 means a $1M rise in profit predicts a 0.20-month higher bonus, holding stock price gain fixed. A ignores the 'holding others constant' condition (that is the simple-regression interpretation). C misstates the condition — the other variable is held fixed, not required to move."
+      },
+      {
+        q: "Using the multiple model, the predicted bonus for a firm with profit of $8.0M and a stock price gain of 18% is CLOSEST to:",
+        c: ["A. 2.55 months.",
+            "B. 3.63 months.",
+            "C. 4.14 months."],
+        a: 1,
+        e: "B is correct. Substitute X₁ = 8.0 and X₂ = 0.18 (18% as a decimal): Ŷ = 0.95 + 0.20(8.0) + 6.00(0.18) = 0.95 + 1.60 + 1.08 = 3.63 months. Choice C (4.14) is the SIMPLE model's prediction at X₁ = 10 (1.14 + 0.30×10), not this case. A omits the stock-gain term."
+      },
+      {
+        q: "The intercept in the multiple model (b̂₀ = 0.95) represents the predicted bonus when:",
+        c: ["A. profit equals its sample average and stock gain is zero.",
+            "B. both profit and stock price gain equal zero.",
+            "C. profit equals zero, regardless of stock price gain."],
+        a: 1,
+        e: "B is correct. The intercept is the predicted value of the dependent variable when ALL independent variables equal zero — here, when both profit (X₁) and stock price gain (X₂) are zero, the predicted bonus is 0.95 months. C is wrong because in a multiple regression the intercept requires every X (not just profit) to be zero."
+      },
+      {
+        q: "The coefficient on profit falls from 0.30 in the simple model to 0.20 in the multiple model. The MOST likely reason is that:",
+        c: ["A. adding a variable always reduces every other coefficient by construction.",
+            "B. profit and stock price gain are correlated, so the simple model's slope partly captured stock gain's effect; the multiple model isolates profit's partial effect.",
+            "C. the multiple model violates the least squares criterion."],
+        a: 1,
+        e: "B is correct. Because profit and stock price gain are positively correlated, the simple regression's 0.30 slope on profit absorbed some of the influence that actually belongs to stock price gain (an omitted-variable effect). When stock gain is added, the model separates the two, and profit's partial slope drops to 0.20. The intercept shifts (1.14 → 0.95) for the same reason. A is false — coefficients can rise, fall, or change sign. C is false — both models are estimated by least squares."
+      },
+      {
+        q: "Because X₂ is entered as a decimal, a coefficient of 6.00 on stock price gain means that a 1 percentage point (0.01) increase in the stock price gain, holding profit constant, changes the predicted bonus by:",
+        c: ["A. 6.00 months.",
+            "B. 0.60 months.",
+            "C. 0.06 months."],
+        a: 2,
+        e: "C is correct. A one-unit change in X₂ means a change of 1.00 in the decimal (i.e., a 100 percentage-point move), which would move the bonus by 6.00 months. A 1 percentage point move is only 0.01 in decimal terms, so the effect is 6.00 × 0.01 = 0.06 months, holding profit constant. This highlights why the units of each independent variable matter when interpreting slope coefficients."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS
