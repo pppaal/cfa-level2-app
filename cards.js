@@ -220,7 +220,15 @@ const CARDS = {
     { m: "Machine Learning", f: "Clustering — k-means vs hierarchical",
       b: "K-means: partition into k clusters minimizing within-cluster sum of squares; need to specify k. Hierarchical: agglomerative (bottom-up) or divisive (top-down), dendrogram; no k needed upfront but O(n²) or worse." },
     { m: "Machine Learning", f: "Dimensionality reduction — PCA",
-      b: "Transforms correlated variables to orthogonal principal components ordered by variance. Keep top components capturing e.g., 85-95% variance. Use for noise reduction, visualization, collinearity. Components not directly interpretable." },
+      b: "Transforms correlated variables to orthogonal principal components ordered by variance. Keep top components capturing e.g., 85-95% variance. Use for noise reduction, visualization, collinearity. Components not directly interpretable. Eigenvector = a principal component; eigenvalue = proportion of total variance it explains (scree plot shows this per component)." },
+    { m: "Machine Learning", f: "Bias, variance & base error",
+      b: "Total error = BIAS + VARIANCE + BASE error. BIAS error: in-sample error from an oversimplified model (UNDERFITTING, high bias). VARIANCE error: out-of-sample error from an overly complex model that fits noise (OVERFITTING, high variance). BASE error: irreducible residual from random noise. Learning curves: underfit = high bias; overfit = low bias/high variance; robust = low bias & low variance at optimal complexity." },
+    { m: "Machine Learning", f: "k-fold cross-validation",
+      b: "Reduces sampling bias when estimating out-of-sample error. Split data into k parts; train on k−1 parts, validate on the remaining 1; repeat k times using different combinations; average the k errors → estimate of out-of-sample (generalization) error. Helps when a single hold-out sample would be too small / unrepresentative." },
+    { m: "Machine Learning", f: "Neural networks — propagation & structure",
+      b: "Nodes (neurons) in input → hidden → output layers, connected by weighted links. Each node: weighted SUM of inputs → non-linear ACTIVATION function. FORWARD propagation generates the prediction; BACKWARD propagation feeds the error (e.g., MSE) back to adjust weights and reduce total error. Structure (# hidden layers, # nodes) = hyperparameters set in advance. Inputs scaled for comparability." },
+    { m: "Machine Learning", f: "Reinforcement learning",
+      b: "An AGENT takes ACTIONS to maximize a defined REWARD subject to the constraints of its ENVIRONMENT, learning from immediate feedback over many trials (no labeled data set of correct answers). Example: DeepMind AlphaGo. Efficacy in investment decision-making is unproven given the complexity of financial markets." },
 
     // ---- Big Data Projects ----
     { m: "Big Data Projects", f: "Why it matters — big data & ML in investing",

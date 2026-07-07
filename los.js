@@ -79,8 +79,8 @@ const LOS_DATA = {
     },
     {
      "title": "Machine Learning",
-     "coverage": "partial",
-     "note": "flashcards",
+     "coverage": "full",
+     "note": "flashcards · exams Q8–Q12",
      "los": [
       "describe supervised machine learning, unsupervised machine learning, and deep learning",
       "describe overfitting and identify methods of addressing it",

@@ -521,6 +521,267 @@ The model achieves 97% accuracy on this sample, but the analyst is concerned bec
       }
     ]
   },
+  {
+    id: "Q8", topic: "quant",
+    title: "Machine Learning: Types & Algorithm Selection",
+    vignette: `A quant team evaluates machine-learning (ML) methods for several tasks. Unlike a classical statistical regression, where the analyst pre-specifies a functional form (e.g., a linear relationship) and estimates its parameters, the team wants algorithms that can learn patterns directly from the data, handling many variables and non-linear relationships.
+
+The team lists four tasks:
+• Task 1 — predict next-quarter stock return (a continuous number) from a labeled history of firm features.
+• Task 2 — classify each issuer as "will default" or "will not default" from labeled data.
+• Task 3 — group 1,000 stocks into segments based on similarities in their features, with no target label.
+• Task 4 — condense a large set of correlated fundamental factors into a much smaller set of uncorrelated composite variables.`,
+    questions: [
+      {
+        q: "Compared with a classical statistical regression, a machine-learning approach is BEST described as one that:",
+        c: ["A. Requires the analyst to specify the model's functional form in advance and assumes a linear relationship.",
+            "B. Learns patterns directly from the data with fewer prior assumptions, accommodating many variables and non-linear relationships.",
+            "C. Can only be applied to labeled (supervised) data sets."],
+        a: 1,
+        e: "B is correct. Machine learning extracts relationships from the data itself, without the analyst pre-specifying a functional form, and it handles high dimensionality and non-linearity well. A describes the classical statistical approach. C is false — ML includes both supervised (labeled) and unsupervised (unlabeled) methods."
+      },
+      {
+        q: "Task 1 (predict a continuous return from labeled data) is BEST classified as:",
+        c: ["A. Supervised learning — regression.",
+            "B. Supervised learning — classification.",
+            "C. Unsupervised learning — dimension reduction."],
+        a: 0,
+        e: "A is correct. A labeled target makes it supervised learning; because the target variable is continuous, it is a regression problem. Classification applies when the target is categorical; dimension reduction is an unsupervised task with no target."
+      },
+      {
+        q: "Task 2 (label each issuer 'default' vs 'not default') is BEST classified as:",
+        c: ["A. Unsupervised clustering.",
+            "B. Supervised classification.",
+            "C. Reinforcement learning."],
+        a: 1,
+        e: "B is correct. The data are labeled (supervised) and the target is categorical (default / no default), so it is a classification problem. Clustering is unsupervised (no labels); reinforcement learning trains an agent via reward feedback, not a fixed labeled data set."
+      },
+      {
+        q: "Task 3 (group stocks by similarity with no target label) is BEST addressed by:",
+        c: ["A. A clustering algorithm (unsupervised learning).",
+            "B. A support vector machine (supervised classification).",
+            "C. Penalized regression."],
+        a: 0,
+        e: "A is correct. With no target variable and the goal of grouping observations by feature similarity, this is unsupervised clustering (e.g., k-means or hierarchical). SVM and penalized regression are supervised methods that require labeled targets."
+      },
+      {
+        q: "Task 4 (condense many correlated factors into fewer uncorrelated composites) is BEST addressed by:",
+        c: ["A. K-means clustering.",
+            "B. Principal components analysis (dimension reduction).",
+            "C. K-nearest neighbor."],
+        a: 1,
+        e: "B is correct. Reducing a large number of correlated features into a smaller set of uncorrelated composite variables is dimension reduction, for which principal components analysis (PCA) is the standard unsupervised technique. K-means groups observations (not features), and KNN is a supervised classifier."
+      }
+    ]
+  },
+  {
+    id: "Q9", topic: "quant",
+    title: "Machine Learning: Overfitting",
+    vignette: `An analyst trains a supervised model and evaluates it on out-of-sample data. She observes three candidate models:
+
+• Model U: a very simple specification (ŷ = b̂₀) that fits poorly on BOTH the training (in-sample) and validation (out-of-sample) data.
+• Model O: a highly complex specification that achieves an extremely high R² in-sample but generalizes poorly, with much lower out-of-sample accuracy.
+• Model R: a moderate specification that fits well both in-sample and out-of-sample.
+
+She decomposes total error into components and uses resampling to obtain a reliable estimate of out-of-sample performance.`,
+    questions: [
+      {
+        q: "Model O (great in-sample fit, poor out-of-sample) is BEST described as:",
+        c: ["A. Underfitting — the model is too simple.",
+            "B. Overfitting — the model is too complex and treats noise as if it were signal.",
+            "C. A well-generalized (robust) model."],
+        a: 1,
+        e: "B is correct. Overfitting occurs when an overly complex model fits the training data extremely well (very high in-sample R²) but fails to generalize, because it has fit random noise as if it were a real pattern. Model U is the underfitting case; Model R is the robust case."
+      },
+      {
+        q: "In bias–variance terms, Model U (Model O) exhibits, respectively:",
+        c: ["A. High bias error (high variance error).",
+            "B. High variance error (high bias error).",
+            "C. High base error (zero error)."],
+        a: 0,
+        e: "A is correct. Underfitting (Model U) produces high bias error — an oversimplified model with poor in-sample fit. Overfitting (Model O) produces high variance error — an out-of-sample error from a model that does not generalize. A robust model (Model R) has both low bias and low variance."
+      },
+      {
+        q: "The analyst separates total error into bias, variance, and base error. The base error is BEST described as:",
+        c: ["A. Error from an oversimplified model that underfits.",
+            "B. Error from an overfitted model that fails to generalize.",
+            "C. Residual (irreducible) error due to random noise in the data."],
+        a: 2,
+        e: "C is correct. Base error is the residual error due to random noise in the data — it cannot be eliminated by any model. Bias error comes from underfitting (poor in-sample fit); variance error comes from overfitting (poor out-of-sample generalization)."
+      },
+      {
+        q: "One method to reduce overfitting in a supervised model is complexity reduction, which:",
+        c: ["A. Adds a penalty term that increases with each feature used, forcing the model to keep only features that improve out-of-sample performance.",
+            "B. Maximizes the in-sample R² regardless of the number of features.",
+            "C. Removes the validation sample from the workflow."],
+        a: 0,
+        e: "A is correct. Complexity reduction imposes a penalty that grows with the number of features, discouraging features that do not improve out-of-sample prediction — yielding a more parsimonious model that generalizes better. Maximizing in-sample fit encourages overfitting; the validation sample is needed, not removed."
+      },
+      {
+        q: "To obtain a reliable estimate of out-of-sample error while limiting sampling bias from a small hold-out set, the analyst should use:",
+        c: ["A. k-fold cross-validation — split the data into k parts, train on k−1 and validate on the remaining part, repeating k times and averaging the errors.",
+            "B. A single 50/50 split evaluated once.",
+            "C. Training and testing on the same in-sample data."],
+        a: 0,
+        e: "A is correct. k-fold cross-validation partitions the data into k parts and rotates which part is held out for validation, training k times and averaging the k errors to estimate out-of-sample error. This reduces the sampling bias that a single small hold-out set can introduce. Testing on the training data gives an optimistic, biased estimate."
+      }
+    ]
+  },
+  {
+    id: "Q10", topic: "quant",
+    title: "Machine Learning: Supervised Algorithms",
+    vignette: `An analyst compares supervised algorithms for credit and equity classification problems: penalized regression (LASSO), support vector machine (SVM), k-nearest neighbor (KNN), classification and regression trees (CART), and ensemble methods (random forests).
+
+She notes several features of the data: there are many candidate variables (some likely irrelevant); some class boundaries are non-linear; and stakeholders want to understand the reasoning behind predictions.`,
+    questions: [
+      {
+        q: "LASSO (least absolute shrinkage and selection operator) controls overfitting by adding a penalty equal to λ times the sum of the absolute values of the slope coefficients. Its distinctive effect is that it:",
+        c: ["A. Shrinks some coefficients exactly to zero, dropping less-relevant features to build a parsimonious model.",
+            "B. Guarantees every feature is retained in the model.",
+            "C. Only works on unlabeled data."],
+        a: 0,
+        e: "A is correct. LASSO is a penalized-regression (regularization) technique whose penalty, λΣ|bⱼ|, forces the coefficients of non-performing features toward — and often exactly to — zero, effectively performing feature selection and producing a parsimonious model. λ is a hyperparameter that trades off fit against parsimony. LASSO is supervised, so C is wrong."
+      },
+      {
+        q: "In a support vector machine, the 'support vectors' are:",
+        c: ["A. The observations lying closest to the discriminant boundary.",
+            "B. The features with the highest correlation to the target.",
+            "C. The hyperparameters that set the number of layers."],
+        a: 0,
+        e: "A is correct. SVM finds the discriminant boundary that maximizes the margin (is furthest from the data); the observations closest to that boundary are the support vectors. When classes are not perfectly separable, soft-margin classification adds a penalty for each misclassified observation. Features/hyperparameters are unrelated to the definition of support vectors."
+      },
+      {
+        q: "For KNN, the choice of k (the number of nearest neighbors) matters because:",
+        c: ["A. A k that is too small can produce noisy, high-error classifications, while a k that is too large dilutes the result by averaging over too many outcomes.",
+            "B. A larger k always improves accuracy without limit.",
+            "C. k must equal the number of features."],
+        a: 0,
+        e: "A is correct. k is a hyperparameter: too small makes the classifier sensitive to noise (high error rate), while too large blurs class distinctions by averaging over too many neighbors. k is often chosen to be odd to avoid ties. KNN is also sensitive to feature scaling and to which features are included; k is unrelated to the number of features."
+      },
+      {
+        q: "Stakeholders want to see the reasoning behind each prediction. Which algorithm BEST meets this need?",
+        c: ["A. CART — the tree provides a transparent, visual sequence of if/then splits.",
+            "B. A random forest — its aggregated trees are fully transparent.",
+            "C. A deep neural network."],
+        a: 0,
+        e: "A is correct. A single CART yields an interpretable tree of binary decision rules — a key advantage over 'black box' models. Overfitting in CART is controlled by limiting maximum tree depth or the number of decision nodes. Random forests and deep neural networks improve accuracy but sacrifice this transparency (they are black boxes)."
+      },
+      {
+        q: "A random forest improves on a single decision tree MAINLY by:",
+        c: ["A. Growing one very deep tree on all features to eliminate bias.",
+            "B. Aggregating many trees, each trained on a bootstrap sample (bagging) using a random subset of features, so that errors across trees cancel and variance falls.",
+            "C. Requiring labeled data to be discarded."],
+        a: 1,
+        e: "B is correct. A random forest is an ensemble of CART models built with bootstrap aggregating (bagging) — each tree uses a randomly generated bag of data and a random subset of features. Averaging across diverse trees cancels idiosyncratic errors, raises the signal-to-noise ratio, and reduces overfitting/variance, at the cost of CART's transparency. A describes a single overfit tree; C is nonsensical for a supervised method."
+      },
+      {
+        q: "The analyst also considers combining an SVM, a KNN, and a CART into a single voting classifier. This is an example of:",
+        c: ["A. Ensemble learning by aggregating heterogeneous learners.",
+            "B. Principal components analysis.",
+            "C. Reinforcement learning."],
+        a: 0,
+        e: "A is correct. Combining different algorithms (SVM, KNN, CART) whose predictions are pooled by a voting classifier is ensemble learning with heterogeneous learners; it tends to produce more accurate and stable predictions than any single model. (Aggregating many instances of the same algorithm on different data is the homogeneous case, e.g., bagging.) PCA and reinforcement learning are unrelated."
+      }
+    ]
+  },
+  {
+    id: "Q11", topic: "quant",
+    title: "Machine Learning: Unsupervised Algorithms",
+    vignette: `An analyst applies unsupervised methods to an unlabeled data set of many correlated fundamental factors and a universe of stocks.
+
+First she runs principal components analysis (PCA) to reduce dimensionality. A scree plot shows the first three principal components explain 45%, 24%, and 17% of total variance, respectively. She then clusters the stocks by similarity of their features.`,
+    questions: [
+      {
+        q: "The PRIMARY objective of PCA here is to:",
+        c: ["A. Summarize a large number of correlated factors into a smaller set of mutually uncorrelated composite variables.",
+            "B. Assign each stock a labeled target class.",
+            "C. Maximize the number of features used by the model."],
+        a: 0,
+        e: "A is correct. PCA is a dimension-reduction technique that transforms many correlated features into a smaller number of uncorrelated (orthogonal) composite variables — the principal components — while retaining most of the information. It is unsupervised (no target label), and it reduces, not increases, dimensionality."
+      },
+      {
+        q: "In PCA, the eigenvalue associated with a principal component (eigenvector) represents:",
+        c: ["A. The proportion of total variance in the data explained by that component.",
+            "B. The number of observations in that component.",
+            "C. The correlation between two raw features."],
+        a: 0,
+        e: "A is correct. Each eigenvector is a principal component (a linear combination of the original features), and its eigenvalue is the proportion of total variance it explains. The first eigenvector has the largest eigenvalue; successive components are orthogonal (uncorrelated) to prior ones."
+      },
+      {
+        q: "Given the scree plot (45% + 24% + 17% = 86% of variance in the first three components), a reasonable decision is to:",
+        c: ["A. Retain the first three components, since collectively explaining roughly 85%–95% of total variance is generally considered sufficient.",
+            "B. Retain all components to reach exactly 100% of variance.",
+            "C. Discard the first component because it explains the most variance."],
+        a: 0,
+        e: "A is correct. A common rule of thumb is to keep enough principal components to explain about 85%–95% of total variance; here three components explain 86%, so retaining three is reasonable. A drawback of PCA is that the resulting components are difficult to interpret. Keeping all components defeats the purpose of dimension reduction; the first component is the most important, not discarded."
+      },
+      {
+        q: "For k-means clustering, a defining characteristic (and limitation) is that:",
+        c: ["A. The number of clusters, k, must be specified in advance.",
+            "B. It requires a labeled target variable.",
+            "C. It produces a dendrogram without needing k."],
+        a: 0,
+        e: "A is correct. K-means partitions observations into k non-overlapping clusters, and k is a hyperparameter that must be chosen before running the algorithm — a key limitation. The algorithm iterates (assign to nearest centroid → recompute centroids → reassign) until no observation is reassigned (convergence). It is unsupervised (no labels); the dendrogram belongs to hierarchical clustering."
+      },
+      {
+        q: "The analyst wants to explore cluster structure WITHOUT committing to a number of clusters up front. She should use:",
+        c: ["A. Hierarchical clustering, which builds a nested structure via agglomerative (bottom-up) or divisive (top-down) grouping and does not require k in advance.",
+            "B. K-means clustering with k fixed at 3.",
+            "C. A support vector machine."],
+        a: 0,
+        e: "A is correct. Hierarchical clustering does not require the number of clusters to be pre-specified; it builds a hierarchy either agglomeratively (bottom-up, merging observations) or divisively (top-down, splitting), which can be cut at different levels of granularity (a dendrogram). K-means requires k in advance; SVM is a supervised classifier."
+      }
+    ]
+  },
+  {
+    id: "Q12", topic: "quant",
+    title: "Machine Learning: Neural Networks & Reinforcement Learning",
+    vignette: `A quant group builds an artificial neural network (ANN) to model a complex, non-linear pricing relationship, and later experiments with a deep learning network (DLN) and a reinforcement-learning (RL) trading agent.
+
+The ANN has an input layer (with scaled feature values), one or more hidden layers of nodes, and an output layer that produces the prediction. Each node computes a weighted sum of its inputs and passes it through a non-linear activation function.`,
+    questions: [
+      {
+        q: "Within a single neural-network node, the sequence of operations is BEST described as:",
+        c: ["A. A weighted summation of the inputs, followed by a non-linear activation function.",
+            "B. A simple average of the raw inputs with no transformation.",
+            "C. A sort of the inputs into clusters."],
+        a: 0,
+        e: "A is correct. Each node (neuron) forms a weighted sum of its inputs and then applies a non-linear activation function; passing these signals from the input layer through hidden layers to the output layer is forward propagation. Inputs are typically scaled so features are comparable across nodes."
+      },
+      {
+        q: "After the network produces a prediction, it compares it with the actual value (e.g., via MSE) and adjusts the connection weights to reduce total error. This step is called:",
+        c: ["A. Forward propagation.",
+            "B. Backward propagation.",
+            "C. Principal components analysis."],
+        a: 1,
+        e: "B is correct. Backward propagation feeds the prediction error (from a performance measure such as mean squared error) back through the network to adjust the weights so as to reduce total error. Forward propagation is the initial left-to-right pass that generates the prediction; PCA is an unrelated dimension-reduction method."
+      },
+      {
+        q: "Before training an ANN, the analyst must specify the number of hidden layers and the number of nodes per layer. These are:",
+        c: ["A. Hyperparameters set in advance.",
+            "B. Outputs learned automatically from the labels.",
+            "C. Support vectors."],
+        a: 0,
+        e: "A is correct. The network's structure — the number of hidden layers and nodes — comprises hyperparameters that must be specified in advance (not learned from the data like the weights). Support vectors are a concept from SVMs, unrelated to network architecture."
+      },
+      {
+        q: "A deep learning network (DLN) differs from a shallow neural network chiefly in that it:",
+        c: ["A. Has many hidden layers (often more than 20), enabling it to model highly complex patterns for tasks such as image recognition, fraud detection, and NLP.",
+            "B. Contains no hidden layers at all.",
+            "C. Can only perform linear regression."],
+        a: 0,
+        e: "A is correct. Deep learning networks are neural networks with many hidden layers (typically >20). Their adoption has been driven by advances in analytical methods, faster computing, and big data, and they excel at complex tasks such as computer vision, credit-card fraud detection, and natural language processing. B and C contradict the definition."
+      },
+      {
+        q: "The reinforcement-learning trading agent is BEST described as one that:",
+        c: ["A. Learns by maximizing a defined reward subject to the constraints of its environment, improving through feedback over many trials.",
+            "B. Requires a fully labeled training data set of correct actions.",
+            "C. Is proven to reliably outperform in financial markets."],
+        a: 0,
+        e: "A is correct. In reinforcement learning, an agent takes actions to maximize a defined reward given the constraints of its environment, learning from immediate feedback across many trials (e.g., AlphaGo). It does not rely on a labeled data set of correct answers. Its efficacy in investment decision-making remains unproven given the complexity of financial markets, so C overstates the evidence."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS

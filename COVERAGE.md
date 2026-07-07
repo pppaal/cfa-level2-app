@@ -22,7 +22,7 @@ covers, so we can see what is filled in and what still needs work.
 
 | # | Topic | 2026 exam weight | Modules | LOS | ✅ modules |
 |---|-------|:---:|:---:|:---:|:---:|
-| 1 | Quantitative Methods | 5–10% | 7 | 39 | 5/7 |
+| 1 | Quantitative Methods | 5–10% | 7 | 39 | 6/7 |
 | 2 | Economics | 5–10% | 2 | 25 | 2/2 |
 | 3 | Financial Statement Analysis | 10–15% | 6 | 42 | 3/6 |
 | 4 | Corporate Issuers | 5–10% | 4 | 31 | 1/4 |
@@ -32,10 +32,10 @@ covers, so we can see what is filled in and what still needs work.
 | 8 | Alternative Investments | 5–10% | 4 | 29 | 1/4 |
 | 9 | Portfolio Management | 10–15% | 6 | 52 | 2/6 |
 | 10 | Ethical & Professional Standards | 5–10% | 3 | 6 | 3/3 |
-| | **Total** | **100%** | **45** | **370** | **24/45** |
+| | **Total** | **100%** | **45** | **370** | **25/45** |
 
 > **Coverage:** all **45/45** official modules have baseline flashcard coverage;
-> **24/45** also have item-set questions and/or an interactive tool (the "✅ modules"
+> **25/45** also have item-set questions and/or an interactive tool (the "✅ modules"
 > column). Marks are tracked at **module** granularity in `LOS.md`.
 >
 > **Heads-up — app has some off-syllabus groups.** A few `cards.js` module-groups
@@ -54,7 +54,7 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Topic | Flashcards | Module-groups | Item sets | Questions |
 |-------|:---:|:---:|:---:|:---:|
 | Ethics & GIPS | 42 | 10 | 2 | 9 |
-| Quantitative Methods | 65 | 7 | 7 | 37 |
+| Quantitative Methods | 69 | 7 | 12 | 63 |
 | Economics | 33 | 3 | 2 | 8 |
 | Financial Statement Analysis | 54 | 6 | 3 | 15 |
 | Corporate Issuers | 27 | 4 | 1 | 5 |
@@ -63,7 +63,7 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Derivatives | 34 | 2 | 2 | 9 |
 | Alternative Investments | 36 | 4 | 2 | 9 |
 | Portfolio Management | 45 | 8 | 2 | 10 |
-| **Total** | **455** | **58** | **26** | **125** |
+| **Total** | **459** | **58** | **31** | **151** |
 
 Plus **3 interactive tools** (under the 🧪 Interactive tab), all Quant:
 Regression Lab, ML Pipeline Builder, and Data-Exploration Sorter.

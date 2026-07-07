@@ -13,7 +13,7 @@ Verbatim Learning Outcome Statements for all 10 topics, parsed from the official
 
 | Topic | Weight | Modules | LOS | ✅ modules |
 |-------|:---:|:---:|:---:|:---:|
-| Quantitative Methods | 5–10% | 7 | 39 | 5/7 |
+| Quantitative Methods | 5–10% | 7 | 39 | 6/7 |
 | Economics | 5–10% | 2 | 25 | 2/2 |
 | Financial Statement Analysis | 10–15% | 6 | 42 | 3/6 |
 | Corporate Issuers | 5–10% | 4 | 31 | 1/4 |
@@ -23,9 +23,9 @@ Verbatim Learning Outcome Statements for all 10 topics, parsed from the official
 | Alternative Investments | 5–10% | 4 | 29 | 1/4 |
 | Portfolio Management | 10–15% | 6 | 52 | 2/6 |
 | Ethical and Professional Standards | 5–10% | 3 | 6 | 3/3 |
-| **Total** | **100%** | **45** | **370** | **24/45** |
+| **Total** | **100%** | **45** | **370** | **25/45** |
 
-> Every one of the 45 official modules has at least flashcard coverage; **24 of 45** also have item-set questions and/or an interactive tool.
+> Every one of the 45 official modules has at least flashcard coverage; **25 of 45** also have item-set questions and/or an interactive tool.
 
 ---
 
@@ -89,8 +89,8 @@ _The candidate should be able to:_
 - explain how time-series variables should be analyzed for nonstationarity and/or cointegration before use in a linear regression
 - determine an appropriate time-series model to analyze a given investment problem and justify that choice
 
-### 🟡 Machine Learning
-_Coverage: flashcards_
+### ✅ Machine Learning
+_Coverage: flashcards · exams Q8–Q12 (types, overfitting, supervised & unsupervised algos, neural nets/RL)_
 
 _The candidate should be able to:_
 
