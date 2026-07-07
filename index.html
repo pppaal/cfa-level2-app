@@ -516,6 +516,34 @@
     }
     .lab-intro strong { color: var(--text); }
 
+    /* LOS section headers */
+    .lab-los {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 26px 2px 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .lab-los-tag {
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .lab-los-sub {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      flex-basis: 100%;
+    }
+
     .lab-toggle {
       display: flex;
       gap: 6px;
@@ -796,10 +824,10 @@
     <div class="view" id="labView">
       <div class="lab-intro">
         <strong>Interactive: Simple vs. Multiple Regression.</strong>
-        Explore how a bonus (in months of salary) is predicted from company performance.
-        Switch between a <strong>simple</strong> model (profit only) and a <strong>multiple</strong> model
-        (profit + stock price gain), drag the sliders to set the independent variables, and watch the
-        least-squares equation, the coefficient interpretation, and the predicted value update live.
+        Explore how a bonus (in months of salary) is predicted from company performance, organized by the
+        three learning outcomes: <strong>[a]</strong> formulate the model,
+        <strong>[b]</strong> interpret the coefficients, and <strong>[f]</strong> calculate the predicted value.
+        Toggle the model below — every LOS section updates live.
       </div>
 
       <div class="lab-toggle" id="labToggle">
@@ -807,16 +835,44 @@
         <button data-model="multiple">Multiple &nbsp;·&nbsp; 2 variables</button>
       </div>
 
-      <div class="lab-panel">
+      <!-- ===== LOS a — Formulate the model ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#6366f1;">LOS a</span>
+        Formulate the model
+        <span class="lab-los-sub">— write the multiple regression equation</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#6366f1;">
         <div class="lab-panel-label">Estimated regression equation</div>
         <div class="lab-equation" id="labEquation"></div>
         <div class="lab-control-desc" style="text-align:center;">
-          Ŷ is the predicted (estimated) bonus in months. Coefficients are estimated by the least squares method.
+          Ŷ is the predicted (estimated) bonus in months. Coefficients are estimated by the least squares method
+          — the values of b̂₀, b̂₁, (and b̂₂) that minimize the sum of squared residuals, Σ(Yᵢ − Ŷᵢ)².
         </div>
       </div>
 
-      <div class="lab-panel">
-        <div class="lab-panel-label">Independent variables (inputs)</div>
+      <!-- ===== LOS b — Interpret the coefficients ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#ec4899;">LOS b</span>
+        Interpret the coefficients
+        <span class="lab-los-sub">— partial slopes, holding the other variables constant</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#ec4899;">
+        <div class="lab-panel-label" style="color:#ec4899;">What each coefficient means</div>
+        <div class="lab-interp" id="labInterp"></div>
+      </div>
+      <div class="lab-panel" style="border-top-color: var(--warning);">
+        <div class="lab-panel-label" style="color: var(--warning);">Why the coefficients change</div>
+        <div class="lab-note" id="labNote"></div>
+      </div>
+
+      <!-- ===== LOS f — Calculate the predicted value ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#10b981;">LOS f</span>
+        Calculate the predicted value
+        <span class="lab-los-sub">— plug the independent variables into the equation</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#10b981;">
+        <div class="lab-panel-label">Step 1 — Set the independent variables (inputs)</div>
 
         <div class="lab-control" id="labCtrlX1">
           <div class="lab-control-head">
@@ -837,21 +893,11 @@
         </div>
       </div>
 
-      <div class="lab-panel">
-        <div class="lab-panel-label">Prediction (LOS: calculate the predicted value)</div>
+      <div class="lab-panel" style="border-top-color:#10b981;">
+        <div class="lab-panel-label">Step 2 — Compute the prediction</div>
         <div class="lab-calc" id="labCalc"></div>
         <div class="lab-result" id="labResult"></div>
         <div class="lab-bars" id="labBars"></div>
-      </div>
-
-      <div class="lab-panel">
-        <div class="lab-panel-label">Interpreting the coefficients</div>
-        <div class="lab-interp" id="labInterp"></div>
-      </div>
-
-      <div class="lab-panel" style="border-top-color: var(--warning);">
-        <div class="lab-panel-label" style="color: var(--warning);">Why the coefficients change</div>
-        <div class="lab-note" id="labNote"></div>
       </div>
     </div>
 
