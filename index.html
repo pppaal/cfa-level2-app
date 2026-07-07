@@ -635,6 +635,55 @@
     .sort-chip.incorrect { box-shadow: 0 0 0 2px var(--danger) inset; opacity: 0.85; }
     .sort-drop-empty { color: var(--text-card-muted); font-size: 0.8rem; font-style: italic; align-self: center; margin: auto; }
 
+    /* ===== LOS search view ===== */
+    .los-intro {
+      background: var(--bg-alt); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 14px; color: var(--text-muted);
+      font-size: 0.9rem; line-height: 1.6;
+    }
+    .los-intro strong { color: var(--text); }
+    .los-searchbar { display: flex; gap: 8px; margin-bottom: 10px; }
+    .los-searchbar input {
+      flex: 1; padding: 12px 14px; background: var(--bg-alt);
+      border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; font-size: 0.95rem; font-family: inherit;
+    }
+    .los-searchbar input:focus { outline: none; border-color: var(--accent); }
+    .los-count { color: var(--text-muted); font-size: 0.82rem; margin-bottom: 12px; min-height: 1em; }
+
+    .los-topic { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; background: var(--bg-alt); }
+    .los-topic-head {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      padding: 12px 16px; user-select: none; transition: background 0.12s;
+    }
+    .los-topic-head:hover { background: var(--bg-card-back); }
+    .los-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.15s; width: 12px; }
+    .los-topic.open .los-chevron { transform: rotate(90deg); }
+    .los-topic-name { font-weight: 700; font-size: 0.98rem; color: var(--text); }
+    .los-topic-meta { margin-left: auto; font-size: 0.76rem; color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .los-topic-body { display: none; padding: 4px 16px 12px; }
+    .los-topic.open .los-topic-body { display: block; }
+
+    .los-module { padding: 10px 0; border-top: 1px solid var(--border); }
+    .los-module:first-child { border-top: none; }
+    .los-mod-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .los-mod-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+    .los-mod-note { font-size: 0.74rem; color: var(--text-muted); }
+    .los-badge {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    .los-badge.full { background: rgba(16,185,129,.18); color: var(--success); }
+    .los-badge.partial { background: rgba(245,158,11,.18); color: var(--warning); }
+    .los-badge.none { background: rgba(148,163,184,.18); color: var(--text-muted); }
+    .los-items { list-style: none; margin: 0; padding: 0; }
+    .los-items li {
+      position: relative; padding: 4px 0 4px 18px; font-size: 0.86rem;
+      line-height: 1.5; color: var(--text); border-bottom: 1px dashed transparent;
+    }
+    .los-items li::before { content: "•"; position: absolute; left: 4px; color: var(--accent); }
+    .los-items mark { background: var(--warning); color: #1a1a1a; border-radius: 3px; padding: 0 2px; }
+    .los-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; }
+
     /* LOS section headers */
     .lab-los {
       display: flex;
@@ -833,6 +882,7 @@
       <button class="mode-tab active" data-mode="flash">📚 Flashcards</button>
       <button class="mode-tab" data-mode="exam">📝 Exam Practice</button>
       <button class="mode-tab" data-mode="lab">🧪 Interactive</button>
+      <button class="mode-tab" data-mode="los">📋 LOS Search</button>
     </div>
 
     <div class="topics" id="topics"></div>
@@ -1086,10 +1136,27 @@
       </div>
     </div>
 
+    <!-- LOS SEARCH VIEW -->
+    <div class="view" id="losView">
+      <div class="los-intro">
+        Search the <strong>official 2026 Level II Learning Outcome Statements</strong>
+        (<span id="losTotals"></span>). Type a keyword to filter; each module shows whether the app already covers it
+        (<span class="los-badge full">✓ covered</span> <span class="los-badge partial">~ flashcards</span>
+        <span class="los-badge none">– not yet</span>). Click a topic to expand.
+      </div>
+      <div class="los-searchbar">
+        <input type="text" id="losSearch" placeholder="🔎  Search LOS, module, or topic — e.g. “duration”, “predicted value”, “VaR”" autocomplete="off" />
+        <button class="btn" id="losClear" title="Clear">✕</button>
+      </div>
+      <div class="los-count" id="losCount"></div>
+      <div id="losList"></div>
+    </div>
+
   </div>
 
   <script src="cards.js"></script>
   <script src="exams.js"></script>
+  <script src="los.js"></script>
   <script>
     // ============ STATE ============
     const state = {
@@ -1201,9 +1268,11 @@
       $("flashView").classList.toggle("active", mode === "flash");
       $("examView").classList.toggle("active", mode === "exam");
       $("labView").classList.toggle("active", mode === "lab");
-      // The Regression Lab is a self-contained conceptual demo — the per-topic bar doesn't apply.
-      $("topics").style.display = mode === "lab" ? "none" : "flex";
+      $("losView").classList.toggle("active", mode === "los");
+      // Interactive and LOS Search are self-contained — the per-topic bar doesn't apply.
+      $("topics").style.display = (mode === "lab" || mode === "los") ? "none" : "flex";
       if (mode === "lab") { renderLab(); return; }
+      if (mode === "los") { renderLos(); return; }
       renderTopics();
       if (mode === "flash") renderFlash();
       else renderExamList();
@@ -1738,6 +1807,66 @@
 
     let sortDrag = null;  // item id being dragged
 
+    // ============ LOS SEARCH ============
+    const losState = { q: "", open: new Set() };
+
+    function losEscape(s) {
+      return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    }
+    function losHighlight(text, q) {
+      if (!q) return losEscape(text);
+      const tl = text.toLowerCase(), ql = q.toLowerCase();
+      let out = "", i = 0, p;
+      while ((p = tl.indexOf(ql, i)) !== -1) {
+        out += losEscape(text.slice(i, p)) + "<mark>" + losEscape(text.slice(p, p + q.length)) + "</mark>";
+        i = p + q.length;
+      }
+      return out + losEscape(text.slice(i));
+    }
+
+    function renderLos() {
+      const q = losState.q.trim(), ql = q.toLowerCase();
+      const T = LOS_DATA.totals;
+      $("losTotals").textContent = `${T.topics} topics · ${T.modules} modules · ${T.los} LOS`;
+
+      let html = "", shownTopics = 0;
+      LOS_DATA.topics.forEach(topic => {
+        const topicHit = ql && topic.name.toLowerCase().includes(ql);
+        let modsHtml = "", topicHasContent = false;
+        topic.modules.forEach(m => {
+          const modHit = ql && m.title.toLowerCase().includes(ql);
+          const los = (!ql || topicHit || modHit) ? m.los : m.los.filter(l => l.toLowerCase().includes(ql));
+          if (ql && los.length === 0) return;
+          topicHasContent = true;
+          const badge = m.coverage === "full" ? `<span class="los-badge full">✓ covered</span>`
+                      : m.coverage === "partial" ? `<span class="los-badge partial">~ flashcards</span>`
+                      : `<span class="los-badge none">– not yet</span>`;
+          const note = (m.note && m.note !== "—") ? `<span class="los-mod-note">${losEscape(m.note)}</span>` : "";
+          modsHtml += `<div class="los-module"><div class="los-mod-head">${badge}`
+            + `<span class="los-mod-title">${losHighlight(m.title, q)}</span>${note}</div>`
+            + `<ul class="los-items">${los.map(l => `<li>${losHighlight(l, q)}</li>`).join("")}</ul></div>`;
+        });
+        if (ql && !topicHasContent) return;
+        shownTopics++;
+        const isOpen = ql ? true : losState.open.has(topic.name);
+        const losN = topic.modules.reduce((a, m) => a + m.los.length, 0);
+        html += `<div class="los-topic${isOpen ? " open" : ""}" data-topic="${losEscape(topic.name)}">`
+          + `<div class="los-topic-head"><span class="los-chevron">▶</span>`
+          + `<span class="los-topic-name">${losHighlight(topic.name, q)}</span>`
+          + `<span class="los-topic-meta">${topic.weight} · ${topic.modules.length} modules · ${losN} LOS</span></div>`
+          + `<div class="los-topic-body">${modsHtml}</div></div>`;
+      });
+
+      $("losList").innerHTML = html || `<div class="los-empty">No LOS match “${losEscape(q)}”.</div>`;
+      if (ql) {
+        const n = LOS_DATA.topics.reduce((a, t) =>
+          a + t.modules.reduce((b, m) => b + m.los.filter(l => l.toLowerCase().includes(ql)).length, 0), 0);
+        $("losCount").textContent = `${n} matching LOS · ${shownTopics} topic${shownTopics === 1 ? "" : "s"}`;
+      } else {
+        $("losCount").textContent = "Tip: click a topic to expand its modules and LOS.";
+      }
+    }
+
     // ============ THEME ============
     function applyTheme() {
       document.body.setAttribute("data-theme", state.theme);
@@ -1897,6 +2026,17 @@
       renderSort();
     });
     $("sortReset").addEventListener("click", () => { initSort(); renderSort(); });
+
+    // LOS search
+    $("losSearch").addEventListener("input", (e) => { losState.q = e.target.value; renderLos(); });
+    $("losClear").addEventListener("click", () => { losState.q = ""; $("losSearch").value = ""; $("losSearch").focus(); renderLos(); });
+    $("losList").addEventListener("click", (e) => {
+      const head = e.target.closest(".los-topic-head");
+      if (!head) return;
+      const name = head.parentElement.dataset.topic;
+      if (losState.open.has(name)) losState.open.delete(name); else losState.open.add(name);
+      renderLos();
+    });
 
     // Header
     $("themeBtn").addEventListener("click", () => {

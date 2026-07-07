@@ -32,6 +32,11 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
   - Check answers with per-chip ✓/✗ feedback and a score
 - Settings persist in `localStorage`
 
+**📋 LOS Search** — search the official 2026 Level II Learning Outcome Statements
+- All 370 verbatim LOS (10 topics, 45 modules), parsed from the CFA Institute 2026 Topic Outlines
+- Live keyword search across LOS text, module, and topic names, with match highlighting
+- Collapsible topic sections; each module shows a coverage badge (✓ covered / ~ flashcards / – not yet) mapping it to app content
+
 ## Topics (2026 curriculum)
 
 | Topic | Cards | Item sets |
@@ -52,6 +57,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 - `index.html` — UI + logic + CSS (single file)
 - `cards.js` — flashcard data
 - `exams.js` — item set practice questions + explanations
+- `los.js` — official 2026 Level II LOS (for LOS Search), with per-module coverage marks
 
 ## Usage
 
