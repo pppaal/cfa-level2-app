@@ -782,6 +782,256 @@ The ANN has an input layer (with scaled feature values), one or more hidden laye
       }
     ]
   },
+  {
+    id: "Q13", topic: "quant",
+    title: "Time-Series: Linear & Log-Linear Trend Models",
+    vignette: `Ravi models the combined earnings (CE, in $ billions) of Megaland's top 100 companies using six years of annual data (t = 1, 2, …, 6). He fits two trend models by least squares:
+
+Linear:      CE_t = 67.2 + 4.3·t        (R² = 0.35; both coefficients statistically insignificant)
+Log-linear:  ln(CE_t) = 4.27 + 0.10·t    (R² = 0.91; both coefficients statistically significant)
+
+He wants to forecast this year (t = 7) and judge which model is more reliable. He is also aware that trend models have a well-known limitation.`,
+    questions: [
+      {
+        q: "Using the LINEAR trend model, the forecast of combined earnings for t = 7 is CLOSEST to:",
+        c: ["A. $93.0B.",
+            "B. $97.3B.",
+            "C. $101.6B."],
+        a: 1,
+        e: "B is correct. CE₇ = 67.2 + 4.3(7) = 67.2 + 30.1 = $97.3B. A linear trend model assumes the variable changes by a constant absolute amount (here 4.3) each period."
+      },
+      {
+        q: "A log-linear trend model (rather than a linear one) is MOST appropriate when the series:",
+        c: ["A. Grows by a constant absolute amount each period.",
+            "B. Grows at a constant rate each period (i.e., exhibits exponential growth, such as compounding).",
+            "C. Has no trend at all."],
+        a: 1,
+        e: "B is correct. The log-linear model, ln(Yₜ) = b₀ + b₁t, fits data that grow at a constant rate (exponential growth) — common for financial series with compounding (e.g., revenue, prices). A linear trend fits a constant absolute change per period. Taking logs converts the exponential relationship into a linear one that can be estimated by regression."
+      },
+      {
+        q: "Using the LOG-LINEAR model, the forecast of combined earnings for t = 7 is CLOSEST to (note e^4.97 ≈ 144):",
+        c: ["A. $4.97B.",
+            "B. $97.3B.",
+            "C. $144B."],
+        a: 2,
+        e: "C is correct. First forecast the log: ln(CE₇) = 4.27 + 0.10(7) = 4.97. Then exponentiate: CE₇ = e^4.97 ≈ $144B. Choice A forgets to exponentiate; B is the linear model's forecast."
+      },
+      {
+        q: "Which model should Ravi rely on, and why?",
+        c: ["A. The linear model, because it has fewer parameters.",
+            "B. The log-linear model, because its R² is far higher (0.91 vs 0.35) and its coefficients are statistically significant.",
+            "C. Neither — trend models can never be used for forecasting."],
+        a: 1,
+        e: "B is correct. The log-linear model fits far better (R² = 0.91 vs 0.35) with statistically significant coefficients, so its forecast is more trustworthy; the linear model's low R² and insignificant coefficients make its forecast unreliable. Model choice should be driven by fit and significance, not parameter count alone."
+      },
+      {
+        q: "The BEST-known limitation of trend models is that the residuals often exhibit:",
+        c: ["A. Serial correlation (autocorrelation), which can be detected with the Durbin–Watson statistic and leads to unreliable estimates.",
+            "B. Perfect multicollinearity.",
+            "C. A guaranteed unit root."],
+        a: 0,
+        e: "A is correct. Trend-model residuals frequently show serial correlation (autocorrelation) — detectable via the Durbin–Watson test — which biases the standard errors and undermines inference. When serial correlation is present, an autoregressive (AR) model is typically used instead. Multicollinearity and unit roots are separate issues, not the defining limitation of trend models."
+      }
+    ]
+  },
+  {
+    id: "Q14", topic: "quant",
+    title: "Time-Series: Autoregressive (AR) Models",
+    vignette: `Ravi estimates an AR(1) model for Megaland's quarterly inflation rate (%) using data from 2010–2015:
+
+y_t = 0.5 + 0.8·y_(t−1)
+
+The most recent quarter's inflation is 3.6%. He evaluates forecasts, the model's long-run behavior, its statistical validity, and how to compare it with an AR(2) alternative.`,
+    questions: [
+      {
+        q: "The one-quarter-ahead and two-quarter-ahead inflation forecasts are CLOSEST to:",
+        c: ["A. 3.38% and 3.20%.",
+            "B. 3.38% and 3.38%.",
+            "C. 2.88% and 2.30%."],
+        a: 0,
+        e: "A is correct. One-period: ŷₜ₊₁ = 0.5 + 0.8(3.6) = 3.38%. Two-period (chain rule, feeding the forecast back in): ŷₜ₊₂ = 0.5 + 0.8(3.38) = 3.20%. Because each forecast carries error forward, multi-period forecasts are more uncertain."
+      },
+      {
+        q: "The mean-reverting level of this AR(1) process is CLOSEST to, and the next forecast relative to the current 3.6% will be:",
+        c: ["A. 2.5%; the forecast moves down toward it.",
+            "B. 2.5%; the forecast moves up away from it.",
+            "C. 4.0%; the forecast moves up toward it."],
+        a: 0,
+        e: "A is correct. Mean-reverting level = b₀/(1 − b₁) = 0.5/(1 − 0.8) = 0.5/0.2 = 2.5%. Because the current value (3.6%) is above the mean-reverting level, the series is expected to decline toward 2.5% — consistent with the falling forecasts (3.38%, 3.20%)."
+      },
+      {
+        q: "For the least-squares estimates of this AR(1) model to be valid, the series must be covariance stationary, which requires that:",
+        c: ["A. The mean, variance, and covariance (at each lag) are constant and finite over time.",
+            "B. The slope coefficient b₁ equals exactly 1.",
+            "C. The series has a deterministic linear trend."],
+        a: 0,
+        e: "A is correct. Covariance stationarity requires (1) a constant and finite expected value (mean reversion), (2) a constant and finite variance, and (3) a constant and finite covariance between values at each given lag. For an AR(1), this holds when |b₁| < 1. b₁ = 1 is a unit root (non-stationary); a deterministic trend is a different structure."
+      },
+      {
+        q: "To test whether this AR(1) model is correctly specified (no residual serial correlation), Ravi should:",
+        c: ["A. Use the Durbin–Watson statistic, which is the appropriate test for AR models.",
+            "B. Perform t-tests on the autocorrelations of the residuals at various lags; the Durbin–Watson test is NOT appropriate for AR models.",
+            "C. Re-run the regression with time t as the independent variable."],
+        a: 1,
+        e: "B is correct. In autoregressive models the Durbin–Watson statistic is not valid; instead, test the residual autocorrelations at each lag with t-tests (t = autocorrelation ÷ [1/√T]). If any residual autocorrelation is significant, the model is misspecified (e.g., add lags). Time t is not an independent variable in an AR model."
+      },
+      {
+        q: "To choose between the AR(1) and an AR(2) model, Ravi should prefer the one with the lower:",
+        c: ["A. In-sample R².",
+            "B. Out-of-sample root mean squared error (RMSE).",
+            "C. Number of observations."],
+        a: 1,
+        e: "B is correct. Forecast accuracy is compared using RMSE = √[Σ(ŷₜ − yₜ)²/N], and out-of-sample RMSE (computed on a separate test period) is preferred over in-sample fit because it reflects genuine predictive power. A lower out-of-sample RMSE indicates the better forecasting model."
+      }
+    ]
+  },
+  {
+    id: "Q15", topic: "quant",
+    title: "Time-Series: Random Walk & Unit Root",
+    vignette: `Ravi estimates an AR(1) model for the daily USD/MGD exchange rate using 180 observations:
+
+ŷ_t = 0.0452 + 0.9987·y_(t−1)
+
+The estimated slope is very close to 1, so he suspects the series may be a random walk (a unit root), which would make the AR(1) model invalid. He investigates using the appropriate test and correction.`,
+    questions: [
+      {
+        q: "A random walk is an AR(1) process in which:",
+        c: ["A. b₁ = 1 (a unit root); with b₀ = 0 it is a random walk without drift, and with b₀ ≠ 0 it is a random walk with drift.",
+            "B. b₁ = 0, so the series is pure noise.",
+            "C. b₁ < 0, so the series alternates in sign."],
+        a: 0,
+        e: "A is correct. A random walk has b₁ = 1 (a unit root): yₜ = b₀ + yₜ₋₁ + εₜ. With b₀ = 0 it is a random walk without drift (yₜ = yₜ₋₁ + εₜ); with b₀ ≠ 0 it is a random walk with drift, expected to change by b₀ each period."
+      },
+      {
+        q: "For a random walk, the mean-reverting level b₀/(1 − b₁) is:",
+        c: ["A. Zero.",
+            "B. Undefined, because 1 − b₁ = 0 when b₁ = 1; the series is not covariance stationary (its variance grows without bound).",
+            "C. Equal to b₀."],
+        a: 1,
+        e: "B is correct. With b₁ = 1, the denominator 1 − b₁ = 0, so the mean-reverting level is undefined — the series does not mean-revert and is not covariance stationary (its variance increases over time). This is why an ordinary AR(1) cannot be validly estimated on it."
+      },
+      {
+        q: "Ravi cannot simply run an ordinary t-test of H₀: b₁ = 1 on the AR(1) output because:",
+        c: ["A. If the series has a unit root it is non-stationary, so the regression is invalid and the usual t-statistic does not follow its standard distribution; the Dickey–Fuller test is used instead.",
+            "B. The t-test can only test whether a coefficient equals zero.",
+            "C. Exchange rates cannot be modeled statistically."],
+        a: 0,
+        e: "A is correct. When a unit root is present the series is not covariance stationary, so the estimated model is misspecified and the conventional t-statistic is unreliable. The Dickey–Fuller test addresses this by transforming the equation and using specially computed (larger) critical values."
+      },
+      {
+        q: "The Dickey–Fuller test transforms the AR(1) equation by subtracting y_(t−1) from both sides, giving y_t − y_(t−1) = b₀ + (b₁ − 1)·y_(t−1) + ε_t, and then tests:",
+        c: ["A. H₀: (b₁ − 1) = 0 (unit root) vs Hₐ: (b₁ − 1) < 0 (covariance stationary), using Dickey–Fuller critical values that are larger than conventional t-values.",
+            "B. H₀: b₀ = 0 vs Hₐ: b₀ ≠ 0, using standard t-values.",
+            "C. Whether R² exceeds 0.90."],
+        a: 0,
+        e: "A is correct. Letting g₁ = b₁ − 1, the test is H₀: g₁ = 0 (a unit root / random walk) against Hₐ: g₁ < 0 (the series is covariance stationary). Rejecting H₀ means no unit root. The revised critical values, computed by Dickey and Fuller, are larger (in absolute value) than ordinary t-table values."
+      },
+      {
+        q: "If the series does contain a unit root, Ravi can obtain a covariance-stationary series to model by:",
+        c: ["A. First-differencing the series (z_t = y_t − y_(t−1)) and modeling the differences.",
+            "B. Adding a squared time trend.",
+            "C. Dropping the intercept only.",
+            "D. Increasing the sample size."],
+        a: 0,
+        e: "A is correct. First differencing a random walk gives zₜ = yₜ − yₜ₋₁ = εₜ, which is covariance stationary (mean-reverting level c₀/(1 − c₁) = 0), so an autoregressive model can validly be estimated on the differenced series. The other options do not remove a unit root."
+      }
+    ]
+  },
+  {
+    id: "Q16", topic: "quant",
+    title: "Time-Series: Seasonality",
+    vignette: `Emily models Megaland's quarterly retail sales (RS, in $B) with a log AR model using seven years of data (28 observations). Her first specification is:
+
+ln(RS_t) = 1.57 − 0.35·ln(RS_(t−1))
+
+The residual autocorrelations for lags 1–3 are statistically insignificant, but the lag-4 residual autocorrelation is 0.462 with a t-statistic of 2.401 (5% critical value ≈ 2.06).`,
+    questions: [
+      {
+        q: "The significant residual autocorrelation at lag 4 (with quarterly data) MOST likely indicates:",
+        c: ["A. Seasonality — a pattern that repeats every four quarters — meaning the model is misspecified.",
+            "B. A unit root in the series.",
+            "C. Heteroskedasticity in the residuals."],
+        a: 0,
+        e: "A is correct. A significant residual autocorrelation at the seasonal lag (lag 4 for quarterly data; lag 12 for monthly data) signals seasonality — e.g., systematically higher Q4 sales — which means the AR model is misspecified. It is not a unit-root or heteroskedasticity diagnostic."
+      },
+      {
+        q: "To correct the model for the detected seasonality, Emily should:",
+        c: ["A. Add a seasonal lag term corresponding to the seasonal period, i.e., include ln(RS_(t−4)) as an additional independent variable.",
+            "B. First-difference the series.",
+            "C. Drop the lag-1 term entirely."],
+        a: 0,
+        e: "A is correct. Seasonality is handled by adding the seasonal lag as an extra regressor: ln(RSₜ) = c₀ + c₁·ln(RSₜ₋₁) + c₂·ln(RSₜ₋₄) + εₜ. After adding the lag-4 term, the residual autocorrelations should no longer be significant, indicating a correctly specified model. First differencing addresses unit roots, not seasonality."
+      },
+      {
+        q: "Emily's corrected model is ln(RS_t) = 0.41 + 0.23·ln(RS_(t−1)) + 0.66·ln(RS_(t−4)). Given 2019 quarterly sales of Q1 = 9.67, …, Q4 = 12.54, the forecast for 2020 Q1 is CLOSEST to (ln 12.54 ≈ 2.53, ln 9.67 ≈ 2.27):",
+        c: ["A. $8.9B.",
+            "B. $12.1B.",
+            "C. $2.49B."],
+        a: 1,
+        e: "B is correct. For 2020Q1 the lag-1 value is 2019Q4 and the lag-4 value is 2019Q1: ln(RS) = 0.41 + 0.23·ln(12.54) + 0.66·ln(9.67) = 0.41 + 0.23(2.53) + 0.66(2.27) ≈ 2.489. Exponentiating: RS = e^2.489 ≈ $12.05B ≈ $12.1B. Choice C forgets to exponentiate the log value."
+      },
+      {
+        q: "After adding the seasonal lag, Emily confirms the model is correctly specified by checking that:",
+        c: ["A. None of the residual autocorrelations (including lag 4) are significantly different from zero.",
+            "B. The R² equals 1.0.",
+            "C. The lag-4 coefficient is negative."],
+        a: 0,
+        e: "A is correct. A correctly specified time-series model has residuals with no significant autocorrelation at any lag — including the seasonal lag. Once all residual autocorrelations are insignificant, the seasonality has been captured. R² = 1.0 is neither expected nor required, and the sign of the seasonal coefficient is not the specification test."
+      }
+    ]
+  },
+  {
+    id: "Q17", topic: "quant",
+    title: "Time-Series: Regression with Two Series, Cointegration & Steps",
+    vignette: `Rather than modeling one variable over time, Ravi wants to explain one time series (y_t) using another (x_t):
+
+y_t = b₀ + b₁·x_t + ε_t
+
+Both y_t and x_t are macroeconomic series that may contain unit roots. He works through the conditions under which this regression is valid, and reviews the diagnostics used when building any time-series model.`,
+    questions: [
+      {
+        q: "For an ordinary regression of one time series on another to be valid, the general requirement is that:",
+        c: ["A. Both the dependent and the independent time series are covariance stationary (no unit roots).",
+            "B. Both series have a unit root.",
+            "C. The two series are perfectly correlated."],
+        a: 0,
+        e: "A is correct. If either series is not covariance stationary (i.e., has a unit root), the regression is generally misspecified and the usual t-tests are unreliable (risk of spurious regression). Each series should be checked for a unit root with the Dickey–Fuller test before regressing one on the other."
+      },
+      {
+        q: "Suppose BOTH y_t and x_t are found to contain a unit root. The regression can STILL be valid if the two series are:",
+        c: ["A. Cointegrated — economically linked so they share a common trend and their long-run relationship is stable.",
+            "B. Perfectly uncorrelated.",
+            "C. Both first-differenced twice."],
+        a: 0,
+        e: "A is correct. When two series each have a unit root, a regression between them is valid only if they are cointegrated — they move together because of an economic link (a common stochastic trend), so the long-run relationship is not expected to change and the error term is covariance stationary."
+      },
+      {
+        q: "To test for cointegration, Ravi applies the Engle–Granger (Dickey–Fuller) test to the regression RESIDUALS. Cointegration is supported when:",
+        c: ["A. He rejects H₀ that the residuals have a unit root, implying the residuals are covariance stationary; the test uses Engle–Granger's adjusted critical values.",
+            "B. He fails to reject that the residuals have a unit root.",
+            "C. The R² of the regression exceeds 0.5.",
+            "D. The Durbin–Watson statistic equals exactly 2."],
+        a: 0,
+        e: "A is correct. The Engle–Granger (DF-EG) test checks whether the regression residuals have a unit root: H₀ = residuals have a unit root (not cointegrated). Rejecting H₀ means the residuals are covariance stationary, so y and x are cointegrated and the regression's t-tests are reliable. The test uses adjusted (Engle–Granger) critical values, not standard t- or DF-values."
+      },
+      {
+        q: "While building an AR model, Ravi tests the squared residuals with ε̂²_t = a₀ + a₁·ε̂²_(t−1) + μ_t and finds a₁ is statistically significant. This indicates:",
+        c: ["A. Autoregressive conditional heteroskedasticity (ARCH) — the error variance depends on prior squared errors — so standard errors are unreliable; use generalized least squares or model the variance.",
+            "B. A unit root, requiring first differencing.",
+            "C. Seasonality, requiring a seasonal lag."],
+        a: 0,
+        e: "A is correct. A significant a₁ in the regression of squared residuals on their own lag indicates ARCH — the variance of the errors is not constant but depends on the previous period's squared error. This makes the standard errors (and inference) unreliable; remedies include generalized least squares or explicitly modeling the time-varying variance (e.g., to forecast volatility). It is neither a unit-root nor a seasonality diagnostic."
+      },
+      {
+        q: "In the general model-building workflow, if a plotted series shows a significant structural shift (a change in the underlying relationship partway through), the analyst should:",
+        c: ["A. Split the sample at the shift and analyze the sub-periods separately.",
+            "B. Always use the full sample to maximize the number of observations.",
+            "C. Ignore it, since structural change does not affect time-series models."],
+        a: 0,
+        e: "A is correct. A significant structural change means the coefficients are not stable across the whole sample, so estimating over the full period would blend two different regimes. The data should be split at the shift and each sub-period modeled separately. There is a trade-off: a shorter, more recent sample improves stability but reduces statistical reliability (fewer observations)."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS

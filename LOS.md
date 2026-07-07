@@ -69,7 +69,7 @@ _The candidate should be able to:_
 - formulate and interpret a logistic regression model
 
 ### ✅ Time-Series Analysis
-_Coverage: flashcards · exam Q2_
+_Coverage: flashcards · exams Q2, Q13 (trend), Q14 (AR), Q15 (random walk/unit root), Q16 (seasonality), Q17 (two-series/cointegration/ARCH) — all 5 lessons_
 
 _The candidate should be able to:_
 

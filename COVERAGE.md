@@ -54,7 +54,7 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Topic | Flashcards | Module-groups | Item sets | Questions |
 |-------|:---:|:---:|:---:|:---:|
 | Ethics & GIPS | 42 | 10 | 2 | 9 |
-| Quantitative Methods | 69 | 7 | 12 | 63 |
+| Quantitative Methods | 71 | 7 | 17 | 87 |
 | Economics | 33 | 3 | 2 | 8 |
 | Financial Statement Analysis | 54 | 6 | 3 | 15 |
 | Corporate Issuers | 27 | 4 | 1 | 5 |
@@ -63,7 +63,7 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Derivatives | 34 | 2 | 2 | 9 |
 | Alternative Investments | 36 | 4 | 2 | 9 |
 | Portfolio Management | 45 | 8 | 2 | 10 |
-| **Total** | **459** | **58** | **31** | **151** |
+| **Total** | **461** | **58** | **36** | **175** |
 
 Plus **3 interactive tools** (under the 🧪 Interactive tab), all Quant:
 Regression Lab, ML Pipeline Builder, and Data-Exploration Sorter.
