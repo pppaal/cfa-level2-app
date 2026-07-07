@@ -5,6 +5,9 @@ _Last updated: 2026-07-07_
 This document tracks how much of the 2026 CFA Level II curriculum the study app
 covers, so we can see what is filled in and what still needs work.
 
+> 📋 The **full topic → module → LOS outline for all 10 subjects** lives in
+> [`LOS.md`](./LOS.md), with a per-LOS coverage marker (✅ / 🟡 / ⬜).
+
 ---
 
 ## 1. Curriculum at a glance (2026 — official)
