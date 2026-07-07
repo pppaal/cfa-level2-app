@@ -27,6 +27,9 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 - *ML Pipeline Builder* — order the machine-learning workflow steps
   - Drag or click steps into the correct order for the structured-data and unstructured-text pipelines
   - Check answers with per-step ✓/✗ feedback and a score
+- *Data-Exploration Sorter* — classify techniques into EDA / feature selection / feature engineering
+  - Drag or tap each technique (histogram, chi-square, one-hot encoding, n-grams, …) into its category
+  - Check answers with per-chip ✓/✗ feedback and a score
 - Settings persist in `localStorage`
 
 ## Topics (2026 curriculum)

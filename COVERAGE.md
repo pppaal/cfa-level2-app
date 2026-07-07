@@ -65,8 +65,8 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Portfolio Management | 45 | 8 | 2 | 10 |
 | **Total** | **446** | **58** | **24** | **113** |
 
-Plus **2 interactive tools** (under the 🧪 Interactive tab), both Quant:
-Regression Lab and ML Pipeline Builder.
+Plus **3 interactive tools** (under the 🧪 Interactive tab), all Quant:
+Regression Lab, ML Pipeline Builder, and Data-Exploration Sorter.
 
 ---
 

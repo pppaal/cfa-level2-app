@@ -606,6 +606,34 @@
     }
     .pipe-chip:active { cursor: grabbing; }
     .pipe-bank-empty { color: var(--text-card-muted); font-size: 0.82rem; font-style: italic; align-self: center; }
+    .pipe-chip.sel { outline: 3px solid var(--warning); outline-offset: 2px; }
+
+    /* Data-Exploration sorter */
+    .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .sort-col {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .sort-col-title {
+      font-weight: 700; font-size: 0.92rem; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sort-col-desc { font-size: 0.76rem; color: var(--text-card-muted); margin-bottom: 12px; }
+    .sort-drop {
+      flex: 1; min-height: 120px;
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 10px; border: 2px dashed var(--border); border-radius: 10px;
+      background: var(--bg-card-back); transition: all 0.12s;
+    }
+    .sort-drop.dragover { border-color: var(--accent); background: rgba(99,102,241,.1); }
+    .sort-drop .pipe-chip { cursor: pointer; text-align: left; }
+    .sort-chip.correct { box-shadow: 0 0 0 2px var(--success) inset; }
+    .sort-chip.incorrect { box-shadow: 0 0 0 2px var(--danger) inset; opacity: 0.85; }
+    .sort-drop-empty { color: var(--text-card-muted); font-size: 0.8rem; font-style: italic; align-self: center; margin: auto; }
 
     /* LOS section headers */
     .lab-los {
@@ -787,6 +815,7 @@
       .lab-result { font-size: 1.5rem; }
       .lab-bar-row { grid-template-columns: 110px 1fr 60px; font-size: 0.76rem; }
       .pipe-grid { grid-template-columns: 1fr; }
+      .sort-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -917,6 +946,7 @@
       <div class="lab-toolbar" id="labToolbar">
         <button data-tool="regression">📈 Regression Lab</button>
         <button data-tool="pipeline">🧩 ML Pipeline Builder</button>
+        <button data-tool="sort">🗂️ Data-Exploration Sorter</button>
       </div>
 
       <!-- ===== Tool 1: Regression Lab ===== -->
@@ -1027,6 +1057,33 @@
           identical to the structured workflow.
         </div>
       </div>
+
+      <!-- ===== Tool 3: Data-Exploration Sorter ===== -->
+      <div id="labToolSort" style="display:none;">
+        <div class="lab-intro">
+          <strong>Sort the data-exploration techniques.</strong>
+          Data exploration has three parts. <strong>Tap a technique</strong> to pick it up, then tap the category
+          it belongs to (or drag it). Tap a placed technique to send it back. Then press <strong>Check answers</strong>.
+        </div>
+
+        <div class="pipe-actions">
+          <button class="btn primary" id="sortCheck">✓ Check answers</button>
+          <button class="btn" id="sortReset">↺ Reset</button>
+          <span class="pipe-score" id="sortScore"></span>
+        </div>
+
+        <div class="pipe-bank-label">Techniques</div>
+        <div class="pipe-bank" id="sortBank" data-bucket="bank"></div>
+
+        <div class="sort-grid" id="sortGrid"></div>
+
+        <div class="lab-note" style="margin-top:18px;">
+          <strong>Key idea:</strong> <em>EDA</em> describes and visualizes the data (summary stats, plots, word
+          clouds); <em>feature selection</em> keeps only the features/tokens that add out-of-sample predictive
+          power (χ², mutual information, dimension reduction); <em>feature engineering</em> creates new features
+          (one-hot encoding, n-grams, POS/NER tags, domain indicators).
+        </div>
+      </div>
     </div>
 
   </div>
@@ -1052,6 +1109,7 @@
       labX1: parseFloat(localStorage.getItem("cfa_lab_x1") ?? "10"),  // company profit ($M)
       labX2: parseFloat(localStorage.getItem("cfa_lab_x2") ?? "18"),  // stock price gain (%)
       pipe: null,   // ML pipeline builder state, initialized on load
+      sort: null,   // data-exploration sorter state, initialized on load
     };
 
     // ML pipeline steps in their CORRECT order (index 0 = Step 1).
@@ -1079,6 +1137,27 @@
         ],
       },
     };
+
+    // Data-exploration sorter: each technique belongs to one of three categories.
+    const SORT_BUCKETS = [
+      { key: "eda",      name: "Exploratory Data Analysis", color: "#0ea5e9", desc: "describe & visualize the data" },
+      { key: "select",   name: "Feature Selection",         color: "#ec4899", desc: "keep only useful features" },
+      { key: "engineer", name: "Feature Engineering",       color: "#10b981", desc: "create new features" },
+    ];
+    const SORT_ITEMS = [
+      { id: "hist",    label: "Histogram",                         cat: "eda" },
+      { id: "box",     label: "Box plot",                          cat: "eda" },
+      { id: "corr",    label: "Correlation matrix",                cat: "eda" },
+      { id: "cloud",   label: "Word cloud",                        cat: "eda" },
+      { id: "chi",     label: "Chi-square (χ²)",                   cat: "select" },
+      { id: "mi",      label: "Mutual information (MI)",           cat: "select" },
+      { id: "dimred",  label: "Dimension-reduction algorithm",    cat: "select" },
+      { id: "freq",    label: "Drop very high/low-freq. tokens",  cat: "select" },
+      { id: "ohe",     label: "One-hot encoding",                 cat: "engineer" },
+      { id: "ngram",   label: "N-gram (bigram)",                  cat: "engineer" },
+      { id: "pos",     label: "Parts-of-speech (POS) tagging",    cat: "engineer" },
+      { id: "startup", label: "“is_startup” indicator", cat: "engineer" },
+    ];
 
     // Estimated (least-squares) coefficients for the bonus example.
     // X₂ (stock price gain) enters the model as a decimal, so its slope applies to a proportion.
@@ -1409,7 +1488,9 @@
         b.classList.toggle("active", b.dataset.tool === tool));
       $("labToolRegression").style.display = tool === "regression" ? "block" : "none";
       $("labToolPipeline").style.display = tool === "pipeline" ? "block" : "none";
+      $("labToolSort").style.display = tool === "sort" ? "block" : "none";
       if (tool === "pipeline") renderPipeline();
+      else if (tool === "sort") renderSort();
       else renderRegression();
     }
 
@@ -1598,6 +1679,65 @@
 
     let pipeDrag = null;   // { key, idx, fromSlot|null }
 
+    // ============ DATA-EXPLORATION SORTER ============
+    function initSort() {
+      const place = {};
+      SORT_ITEMS.forEach(it => { place[it.id] = "bank"; });
+      state.sort = { place, order: shuffled(SORT_ITEMS.map(it => it.id)), sel: null, checked: false };
+    }
+    const SORT_BY_ID = Object.fromEntries(SORT_ITEMS.map(it => [it.id, it]));
+
+    function sortChipHtml(id, placed) {
+      const it = SORT_BY_ID[id];
+      const st = state.sort;
+      let cls = "pipe-chip sort-chip";
+      if (!placed && st.sel === id) cls += " sel";
+      if (placed && st.checked) cls += (st.place[id] === it.cat ? " correct" : " incorrect");
+      const bg = placed ? SORT_BUCKETS.find(b => b.key === st.place[id]).color : "#64748b";
+      return `<div class="${cls}" data-sid="${id}" draggable="true" style="background:${bg}">${it.label}</div>`;
+    }
+
+    function renderSort() {
+      if (!state.sort) initSort();
+      const st = state.sort;
+      // bank
+      const bankIds = st.order.filter(id => st.place[id] === "bank");
+      $("sortBank").innerHTML = bankIds.length
+        ? bankIds.map(id => sortChipHtml(id, false)).join("")
+        : `<span class="pipe-bank-empty">All techniques placed</span>`;
+      // buckets
+      $("sortGrid").innerHTML = SORT_BUCKETS.map(b => {
+        const ids = st.order.filter(id => st.place[id] === b.key);
+        const body = ids.length
+          ? ids.map(id => sortChipHtml(id, true)).join("")
+          : `<span class="sort-drop-empty">drop here</span>`;
+        return `<div class="sort-col" style="border-top:3px solid ${b.color}">
+            <div class="sort-col-title"><span class="pipe-dot" style="background:${b.color}"></span>${b.name}</div>
+            <div class="sort-col-desc">${b.desc}</div>
+            <div class="sort-drop" data-bucket="${b.key}">${body}</div>
+          </div>`;
+      }).join("");
+      // score
+      if (st.checked) {
+        const placed = SORT_ITEMS.filter(it => st.place[it.id] !== "bank");
+        const correct = placed.filter(it => st.place[it.id] === it.cat).length;
+        const perfect = correct === SORT_ITEMS.length;
+        $("sortScore").innerHTML = `<span style="color:${perfect ? "var(--success)" : "var(--warning)"}">` +
+          `${perfect ? "🎉 " : ""}${correct}/${SORT_ITEMS.length} correct</span>`;
+      } else {
+        $("sortScore").textContent = "";
+      }
+    }
+
+    function sortPlace(id, bucket) {
+      state.sort.place[id] = bucket;
+      state.sort.sel = null;
+      state.sort.checked = false;
+      renderSort();
+    }
+
+    let sortDrag = null;  // item id being dragged
+
     // ============ THEME ============
     function applyTheme() {
       document.body.setAttribute("data-theme", state.theme);
@@ -1703,6 +1843,61 @@
     });
     $("pipeReset").addEventListener("click", () => { initPipe(); renderPipeline(); });
 
+    // Data-Exploration sorter — click to select / place / return
+    $("labToolSort").addEventListener("click", (e) => {
+      const st = state.sort;
+      const chip = e.target.closest(".pipe-chip");
+      const drop = e.target.closest(".sort-drop");
+      if (drop) {
+        // A selection takes priority so occupied buckets still accept the chip.
+        if (st.sel) { sortPlace(st.sel, drop.dataset.bucket); }
+        else if (chip) { sortPlace(chip.dataset.sid, "bank"); }   // placed chip, no selection → return
+        return;
+      }
+      if (chip) {                                                 // bank chip → toggle selection
+        const id = chip.dataset.sid;
+        st.sel = (st.sel === id) ? null : id;
+        renderSort();
+        return;
+      }
+      if (st.sel) { sortPlace(st.sel, "bank"); }                  // empty bank area → drop selection back
+    });
+    // Data-Exploration sorter — drag and drop
+    $("labToolSort").addEventListener("dragstart", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      if (!chip) return;
+      sortDrag = chip.dataset.sid;
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", sortDrag); } catch (_) {}
+    });
+    $("labToolSort").addEventListener("dragover", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (!zone || !sortDrag) return;
+      e.preventDefault(); e.dataTransfer.dropEffect = "move";
+      zone.classList.add("dragover");
+    });
+    $("labToolSort").addEventListener("dragleave", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (zone) zone.classList.remove("dragover");
+    });
+    $("labToolSort").addEventListener("drop", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (!zone || !sortDrag) return;
+      e.preventDefault();
+      sortPlace(sortDrag, zone.dataset.bucket);   // bank zone has data-bucket="bank"
+      sortDrag = null;
+    });
+    $("labToolSort").addEventListener("dragend", () => {
+      sortDrag = null;
+      document.querySelectorAll("#labToolSort .dragover").forEach(el => el.classList.remove("dragover"));
+    });
+    $("sortCheck").addEventListener("click", () => {
+      if (!state.sort) initSort();
+      state.sort.checked = true; state.sort.sel = null;
+      renderSort();
+    });
+    $("sortReset").addEventListener("click", () => { initSort(); renderSort(); });
+
     // Header
     $("themeBtn").addEventListener("click", () => {
       state.theme = state.theme === "dark" ? "light" : "dark";
@@ -1739,6 +1934,7 @@
     applyTheme();
     buildOrder();
     initPipe();
+    initSort();
     setMode(state.mode);
   </script>
 </body>
