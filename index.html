@@ -516,6 +516,97 @@
     }
     .lab-intro strong { color: var(--text); }
 
+    /* Interactive tool selector */
+    .lab-toolbar {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 18px;
+      width: fit-content;
+      flex-wrap: wrap;
+    }
+    .lab-toolbar button {
+      padding: 9px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .lab-toolbar button.active { background: var(--accent); color: #fff; }
+
+    /* ML Pipeline builder */
+    .pipe-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .pipe-score { font-weight: 700; font-size: 0.95rem; }
+    .pipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pipe-col {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .pipe-col-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pipe-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .pipe-slots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .pipe-slot-row { display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 8px; }
+    .pipe-slot-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--bg-alt); color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+    }
+    .pipe-slot {
+      min-height: 46px;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex; align-items: center;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-card);
+      transition: all 0.12s;
+    }
+    .pipe-slot.filled { border-style: solid; background: var(--bg-card-back); cursor: grab; }
+    .pipe-slot.filled:active { cursor: grabbing; }
+    .pipe-slot.correct { border-color: var(--success); background: rgba(16,185,129,.14); }
+    .pipe-slot.incorrect { border-color: var(--danger); background: rgba(239,68,68,.1); }
+    .pipe-slot.dragover { border-color: var(--accent); background: rgba(99,102,241,.12); }
+    .pipe-slot-ph { color: var(--text-card-muted); font-style: italic; font-size: 0.82rem; font-weight: 400; }
+    .pipe-slot-mark { margin-left: auto; font-weight: 700; }
+
+    .pipe-bank-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-card-muted); margin-bottom: 8px;
+    }
+    .pipe-bank {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      min-height: 48px; padding: 8px;
+      border: 1px dashed var(--border); border-radius: 8px;
+      background: var(--bg-card-back);
+    }
+    .pipe-bank.dragover { border-color: var(--accent); }
+    .pipe-chip {
+      color: #fff; border-radius: 8px; padding: 8px 12px;
+      font-size: 0.85rem; font-weight: 600; cursor: grab; user-select: none;
+    }
+    .pipe-chip:active { cursor: grabbing; }
+    .pipe-bank-empty { color: var(--text-card-muted); font-size: 0.82rem; font-style: italic; align-self: center; }
+
     /* LOS section headers */
     .lab-los {
       display: flex;
@@ -695,6 +786,7 @@
       .lab-calc { font-size: 0.85rem; }
       .lab-result { font-size: 1.5rem; }
       .lab-bar-row { grid-template-columns: 110px 1fr 60px; font-size: 0.76rem; }
+      .pipe-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -711,7 +803,7 @@
     <div class="mode-tabs">
       <button class="mode-tab active" data-mode="flash">📚 Flashcards</button>
       <button class="mode-tab" data-mode="exam">📝 Exam Practice</button>
-      <button class="mode-tab" data-mode="lab">🧮 Regression Lab</button>
+      <button class="mode-tab" data-mode="lab">🧪 Interactive</button>
     </div>
 
     <div class="topics" id="topics"></div>
@@ -820,8 +912,15 @@
       </div>
     </div>
 
-    <!-- REGRESSION LAB VIEW -->
+    <!-- INTERACTIVE VIEW -->
     <div class="view" id="labView">
+      <div class="lab-toolbar" id="labToolbar">
+        <button data-tool="regression">📈 Regression Lab</button>
+        <button data-tool="pipeline">🧩 ML Pipeline Builder</button>
+      </div>
+
+      <!-- ===== Tool 1: Regression Lab ===== -->
+      <div id="labToolRegression">
       <div class="lab-intro">
         <strong>Interactive: Simple vs. Multiple Regression.</strong>
         Explore how a bonus (in months of salary) is predicted from company performance, organized by the
@@ -899,6 +998,35 @@
         <div class="lab-result" id="labResult"></div>
         <div class="lab-bars" id="labBars"></div>
       </div>
+      </div><!-- /labToolRegression -->
+
+      <!-- ===== Tool 2: ML Pipeline Builder ===== -->
+      <div id="labToolPipeline" style="display:none;">
+        <div class="lab-intro">
+          <strong>Build the ML Pipeline.</strong>
+          Each pipeline has a bank of five steps. <strong>Click a step</strong> to drop it into the next open
+          slot (or drag it), and arrange all five in the correct order. Click a filled slot to send its step
+          back to the bank. Then press <strong>Check answers</strong>.
+        </div>
+
+        <div class="pipe-actions">
+          <button class="btn primary" id="pipeCheck">✓ Check answers</button>
+          <button class="btn" id="pipeReset">↺ Reset</button>
+          <span class="pipe-score" id="pipeScore"></span>
+        </div>
+
+        <div class="pipe-grid">
+          <div class="pipe-col" id="pipeStructured"></div>
+          <div class="pipe-col" id="pipeText"></div>
+        </div>
+
+        <div class="lab-note" style="margin-top:18px;">
+          <strong>Key idea:</strong> both pipelines share the same 5-step skeleton — Conceptualize → Collect →
+          Prep &amp; Wrangle → Explore → Train. For unstructured <em>text</em>, the first four steps do the heavy
+          lifting of turning raw documents into a structured, numerical form; once that is done, model training is
+          identical to the structured workflow.
+        </div>
+      </div>
     </div>
 
   </div>
@@ -918,10 +1046,38 @@
       examAnswers: JSON.parse(localStorage.getItem("cfa_exam_ans") || "{}"),   // { examId: { qIdx: choiceIdx } }
       currentExam: null,      // current exam id being played
       currentExamQ: 0,
-      // Regression Lab
+      // Interactive
+      labTool: localStorage.getItem("cfa_lab_tool") || "regression",  // "regression" | "pipeline"
       labModel: localStorage.getItem("cfa_lab_model") || "simple",   // "simple" | "multiple"
       labX1: parseFloat(localStorage.getItem("cfa_lab_x1") ?? "10"),  // company profit ($M)
       labX2: parseFloat(localStorage.getItem("cfa_lab_x2") ?? "18"),  // stock price gain (%)
+      pipe: null,   // ML pipeline builder state, initialized on load
+    };
+
+    // ML pipeline steps in their CORRECT order (index 0 = Step 1).
+    const PIPELINES = {
+      structured: {
+        label: "Structured Data Pipeline",
+        accent: "#0ea5e9",
+        steps: [
+          "Conceptualize modeling task",
+          "Data collection",
+          "Data prep & wrangling",
+          "Data exploration",
+          "Model training",
+        ],
+      },
+      text: {
+        label: "Unstructured (Text) Data Pipeline",
+        accent: "#8b5cf6",
+        steps: [
+          "Formulate text problem",
+          "Data collection & curation (label)",
+          "Text prep & wrangling",
+          "Text exploration",
+          "Model training",
+        ],
+      },
     };
 
     // Estimated (least-squares) coefficients for the bonus example.
@@ -1243,10 +1399,27 @@
     function setLabModel(model) {
       state.labModel = model;
       localStorage.setItem("cfa_lab_model", model);
+      renderRegression();
+    }
+
+    // Dispatcher: show the selected interactive tool.
+    function renderLab() {
+      const tool = state.labTool;
+      document.querySelectorAll("#labToolbar button").forEach(b =>
+        b.classList.toggle("active", b.dataset.tool === tool));
+      $("labToolRegression").style.display = tool === "regression" ? "block" : "none";
+      $("labToolPipeline").style.display = tool === "pipeline" ? "block" : "none";
+      if (tool === "pipeline") renderPipeline();
+      else renderRegression();
+    }
+
+    function setLabTool(tool) {
+      state.labTool = tool;
+      localStorage.setItem("cfa_lab_tool", tool);
       renderLab();
     }
 
-    function renderLab() {
+    function renderRegression() {
       const isMulti = state.labModel === "multiple";
       const m = isMulti ? LAB.multiple : LAB.simple;
       const x1 = state.labX1;
@@ -1319,6 +1492,112 @@
         : `You are viewing the <strong>simple</strong> model. Switch to <strong>Multiple · 2 variables</strong> to add stock price gain (X₂) and watch the intercept and profit slope change from 1.14 and 0.30 to 0.95 and 0.20 — a consequence of profit and stock-gain being correlated.`;
     }
 
+    // ============ ML PIPELINE BUILDER ============
+    function shuffled(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function initPipe() {
+      const mk = () => ({ slots: [null, null, null, null, null], order: shuffled([0, 1, 2, 3, 4]), checked: false });
+      state.pipe = { structured: mk(), text: mk() };
+    }
+
+    const PIPE_EL = { structured: "pipeStructured", text: "pipeText" };
+
+    function pipeBank(key) {
+      // Bank = steps not currently placed in a slot, preserving the shuffled order.
+      const slots = state.pipe[key].slots;
+      return state.pipe[key].order.filter(idx => !slots.includes(idx));
+    }
+
+    function renderPipeCol(key) {
+      const def = PIPELINES[key];
+      const st = state.pipe[key];
+
+      let slotsHtml = "";
+      for (let i = 0; i < 5; i++) {
+        const idx = st.slots[i];
+        const filled = idx !== null && idx !== undefined;
+        let cls = "pipe-slot" + (filled ? " filled" : "");
+        let mark = "";
+        if (st.checked && filled) {
+          const ok = idx === i;
+          cls += ok ? " correct" : " incorrect";
+          mark = `<span class="pipe-slot-mark">${ok ? "✓" : "✗"}</span>`;
+        }
+        const content = filled ? `${def.steps[idx]}${mark}` : `<span class="pipe-slot-ph">drop step here</span>`;
+        slotsHtml += `<div class="pipe-slot-row">
+            <span class="pipe-slot-num">${i + 1}</span>
+            <div class="${cls}" data-key="${key}" data-slot="${i}"${filled ? ' draggable="true"' : ""}>${content}</div>
+          </div>`;
+      }
+
+      const bank = pipeBank(key);
+      const bankHtml = bank.length
+        ? bank.map(idx => `<div class="pipe-chip" data-key="${key}" data-step="${idx}" draggable="true" style="background:${def.accent}">${def.steps[idx]}</div>`).join("")
+        : `<span class="pipe-bank-empty">All steps placed</span>`;
+
+      $(PIPE_EL[key]).innerHTML = `
+        <div class="pipe-col-title" style="border-color:${def.accent}">
+          <span class="pipe-dot" style="background:${def.accent}"></span>${def.label}
+        </div>
+        <div class="pipe-slots">${slotsHtml}</div>
+        <div class="pipe-bank-label">Available steps</div>
+        <div class="pipe-bank" data-key="${key}" data-bank="1">${bankHtml}</div>`;
+    }
+
+    function renderPipeline() {
+      if (!state.pipe) initPipe();
+      renderPipeCol("structured");
+      renderPipeCol("text");
+      const anyChecked = state.pipe.structured.checked || state.pipe.text.checked;
+      if (anyChecked) {
+        const line = k => {
+          const n = state.pipe[k].slots.filter((s, i) => s === i).length;
+          return `${PIPELINES[k].label.split(" ")[0]}: ${n}/5`;
+        };
+        const perfect = state.pipe.structured.slots.every((s, i) => s === i) &&
+                        state.pipe.text.slots.every((s, i) => s === i);
+        $("pipeScore").innerHTML = `<span style="color:${perfect ? "var(--success)" : "var(--warning)"}">` +
+          `${perfect ? "🎉 All correct! " : ""}${line("structured")} · ${line("text")}</span>`;
+      } else {
+        $("pipeScore").textContent = "";
+      }
+    }
+
+    // Mutations (bank is derived, so we only ever move step-indices in/out of slots).
+    function pipePlaceNext(key, idx) {
+      const slots = state.pipe[key].slots;
+      const empty = slots.indexOf(null);
+      if (empty === -1) return;
+      slots[empty] = idx;
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+    function pipeClearSlot(key, slot) {
+      state.pipe[key].slots[slot] = null;
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+    function pipeDropOnSlot(key, targetSlot, idx, fromSlot) {
+      const slots = state.pipe[key].slots;
+      const displaced = slots[targetSlot];
+      slots[targetSlot] = idx;
+      if (fromSlot !== null && fromSlot !== undefined) {
+        slots[fromSlot] = displaced;   // swap (displaced may be null)
+      }
+      // if from bank and target was occupied, `displaced` simply returns to the bank (derived)
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+
+    let pipeDrag = null;   // { key, idx, fromSlot|null }
+
     // ============ THEME ============
     function applyTheme() {
       document.body.setAttribute("data-theme", state.theme);
@@ -1362,8 +1641,67 @@
     $("labX2").addEventListener("input", (e) => {
       state.labX2 = parseFloat(e.target.value);
       localStorage.setItem("cfa_lab_x2", state.labX2);
-      renderLab();
+      renderRegression();
     });
+
+    // Interactive tool selector
+    document.querySelectorAll("#labToolbar button").forEach(btn => {
+      btn.addEventListener("click", () => setLabTool(btn.dataset.tool));
+    });
+
+    // ML Pipeline builder — click to place / remove
+    $("labToolPipeline").addEventListener("click", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      if (chip) { pipePlaceNext(chip.dataset.key, +chip.dataset.step); return; }
+      const slot = e.target.closest(".pipe-slot.filled");
+      if (slot) { pipeClearSlot(slot.dataset.key, +slot.dataset.slot); }
+    });
+    // ML Pipeline builder — drag and drop (same pipeline only)
+    $("labToolPipeline").addEventListener("dragstart", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      const slot = e.target.closest(".pipe-slot.filled");
+      if (chip) {
+        pipeDrag = { key: chip.dataset.key, idx: +chip.dataset.step, fromSlot: null };
+      } else if (slot) {
+        pipeDrag = { key: slot.dataset.key, idx: state.pipe[slot.dataset.key].slots[+slot.dataset.slot], fromSlot: +slot.dataset.slot };
+      } else { return; }
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", String(pipeDrag.idx)); } catch (_) {}
+    });
+    $("labToolPipeline").addEventListener("dragover", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (!target || !pipeDrag || target.dataset.key !== pipeDrag.key) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      target.classList.add("dragover");
+    });
+    $("labToolPipeline").addEventListener("dragleave", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (target) target.classList.remove("dragover");
+    });
+    $("labToolPipeline").addEventListener("drop", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (!target || !pipeDrag || target.dataset.key !== pipeDrag.key) return;
+      e.preventDefault();
+      const { key, idx, fromSlot } = pipeDrag;
+      if (target.dataset.bank) {
+        if (fromSlot !== null) pipeClearSlot(key, fromSlot);
+      } else {
+        pipeDropOnSlot(key, +target.dataset.slot, idx, fromSlot);
+      }
+      pipeDrag = null;
+    });
+    $("labToolPipeline").addEventListener("dragend", () => {
+      pipeDrag = null;
+      document.querySelectorAll("#labToolPipeline .dragover").forEach(el => el.classList.remove("dragover"));
+    });
+    $("pipeCheck").addEventListener("click", () => {
+      if (!state.pipe) initPipe();
+      state.pipe.structured.checked = true;
+      state.pipe.text.checked = true;
+      renderPipeline();
+    });
+    $("pipeReset").addEventListener("click", () => { initPipe(); renderPipeline(); });
 
     // Header
     $("themeBtn").addEventListener("click", () => {
@@ -1400,6 +1738,7 @@
     $("filter").value = state.filter;
     applyTheme();
     buildOrder();
+    initPipe();
     setMode(state.mode);
   </script>
 </body>

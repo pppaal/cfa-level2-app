@@ -4,7 +4,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 
 ## Features
 
-**📚 Flashcards** — 435 cards across all 10 topics, organized by module
+**📚 Flashcards** — 440 cards across all 10 topics, organized by module
 - Click / `Space` to flip
 - `←` `→` to navigate
 - `K` mark as known, `D` don't know
@@ -13,15 +13,20 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 - Progress saved in `localStorage`
 - Dark / light theme
 
-**📝 Exam Practice** — 22 item sets, ~110 original practice questions in CFA vignette + MCQ format
+**📝 Exam Practice** — 23 item sets, ~110 original practice questions in CFA vignette + MCQ format
 - Read vignette → answer A/B/C → instant feedback + detailed explanation
 - Score tracked per item set
 - All calculations Python-verified
 
-**🧮 Regression Lab** — interactive Simple vs. Multiple linear regression demo (Quant)
-- Toggle between a simple (1-variable) and multiple (2-variable) model
-- Drag sliders for the independent variables and watch the least-squares equation, coefficient interpretation, and predicted value update live
-- Illustrates partial slope coefficients (holding other variables constant) and why coefficients change when a correlated variable is added
+**🧪 Interactive** — hands-on Quant demos, organized by learning outcome
+
+- *Regression Lab* — Simple vs. Multiple linear regression
+  - Toggle between a simple (1-variable) and multiple (2-variable) model
+  - Sliders for the independent variables update the least-squares equation, coefficient interpretation, and predicted value live
+  - Split by LOS: [a] formulate the model, [b] interpret partial-slope coefficients, [f] calculate the predicted value
+- *ML Pipeline Builder* — order the machine-learning workflow steps
+  - Drag or click steps into the correct order for the structured-data and unstructured-text pipelines
+  - Check answers with per-step ✓/✗ feedback and a score
 - Settings persist in `localStorage`
 
 ## Topics (2026 curriculum)
@@ -29,7 +34,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 | Topic | Cards | Item sets |
 |---|---|---|
 | Ethics & GIPS | 42 | 2 |
-| Quantitative Methods | 45 | 3 |
+| Quantitative Methods | 50 | 4 |
 | Economics | 33 | 2 |
 | Financial Statement Analysis | 54 | 3 |
 | Corporate Issuers | 27 | 1 |

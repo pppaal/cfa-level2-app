@@ -281,6 +281,61 @@ The analyst notes that profit and stock price gain are positively correlated acr
       }
     ]
   },
+  {
+    id: "Q4", topic: "quant",
+    title: "Big Data & the ML Model-Building Process",
+    vignette: `A quantitative research team at an asset manager is building a model to forecast short-horizon stock returns. They plan to combine two data streams:
+
+• A "structured" stream of traditional inputs — financial ratios and macroeconomic indicators (GDP, inflation). These arrive mostly on a quarterly basis.
+• An "unstructured" stream — real-time news headlines, investor-forum posts, and social-media messages, gathered continuously using automated web crawlers.
+
+The team classifies its data along the standard characteristics of Big Data (the "V"s) and follows a systematic machine-learning model-building workflow. For the text stream, a junior analyst proposes feeding the raw social-media messages directly into the return-forecasting algorithm.
+
+The team lead notes: "Before any text can enter the model, we must curate and label a training sample, then transform the messages into a numerical representation."`,
+    questions: [
+      {
+        q: "The team's use of continuously arriving, real-time news and social-media messages BEST illustrates which characteristic of Big Data?",
+        c: ["A. Volume — the sheer size of the data in petabytes.",
+            "B. Velocity — the speed at which data is generated and communicated.",
+            "C. Veracity — the trustworthiness and validity of the data."],
+        a: 1,
+        e: "B is correct. Velocity refers to the speed at which data is generated and communicated, ranging from high-latency (batch, e.g., quarterly reports) to low-latency (real-time feeds such as streaming news and social media). Volume is about size; veracity is about quality/trustworthiness. Real-time streaming is the defining feature of high velocity / low latency."
+      },
+      {
+        q: "Social-media text, online news, and voice recordings are BEST classified under the Variety dimension as:",
+        c: ["A. Structured data.",
+            "B. Semi-structured data.",
+            "C. Unstructured data."],
+        a: 2,
+        e: "C is correct. Unstructured data has no pre-defined data model (video, social-media text, voice recordings). Structured data is highly organized and tabular (spreadsheets, databases). Semi-structured data has some organizational properties or metadata (HTML/XML, photos with metadata). A core challenge of the text ML workflow is converting unstructured text into a structured, numerical form."
+      },
+      {
+        q: "The team lead's insistence on curating and LABELING a training sample of messages before modeling is MOST directly associated with:",
+        c: ["A. The data collection/curation step for supervised learning on text.",
+            "B. Hyperparameter tuning during model training.",
+            "C. Exploratory data analysis (EDA).",
+            "D. Feature neutralization."],
+        a: 0,
+        e: "A is correct. In the text (unstructured) workflow, the data collection/curation step gathers text (often via web crawlers) and, for supervised learning, annotates (labels) each document with the target variable. Labeling supplies the ground truth the algorithm learns from. Hyperparameter tuning and EDA occur at later steps; feature neutralization is not part of this workflow."
+      },
+      {
+        q: "The junior analyst's proposal to feed raw social-media messages directly into the forecasting algorithm is problematic MAINLY because:",
+        c: ["A. Text data is always less predictive than structured data and should be discarded.",
+            "B. Raw text must first be prepared and wrangled into a structured, numerical representation (e.g., a document-term matrix) before an algorithm can process it.",
+            "C. Machine learning algorithms cannot be used on any alternative data source."],
+        a: 1,
+        e: "B is correct. Algorithms operate on numerical inputs, so the text prep & wrangling step must convert raw text into a structured representation (e.g., a document-term matrix) before model training. The bulk of the effort in the text workflow lies in the first four steps that structure the data. A and C are false — text can be highly predictive, and ML is widely applied to alternative data."
+      },
+      {
+        q: "Once the text stream has been converted into structured features, the analyst wants to combine it with the traditional financial-ratio inputs. The MOST appropriate design is to:",
+        c: ["A. Use the structured output of the text model as an additional input to the primary model that also uses traditional structured data, forming a hybrid model.",
+            "B. Discard the traditional structured data and rely on the text features alone.",
+            "C. Keep the two models permanently separate because their data can never be combined."],
+        a: 0,
+        e: "A is correct. The lesson's hybrid design feeds the structured output of the text ML model as an extra input into the primary model that also uses traditional structured data, producing a more robust forecast that captures both slow-moving fundamentals and real-time sentiment. B needlessly throws away information; C is false — converting text to structured features is precisely what makes combination possible."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS

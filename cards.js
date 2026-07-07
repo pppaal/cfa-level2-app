@@ -231,6 +231,16 @@ const CARDS = {
       b: "Accuracy = (TP+TN)/all; Precision = TP/(TP+FP); Recall/Sensitivity = TP/(TP+FN); F1 = 2×P×R/(P+R); ROC curve (TPR vs FPR); AUC. Confusion matrix. For imbalanced data, accuracy misleading." },
     { m: "Big Data Projects", f: "Text analytics / NLP basics",
       b: "Bag-of-words, TF-IDF (term-freq × inverse-doc-freq). Pipeline: cleanse, tokenize, remove stopwords/punctuation, stem/lemmatize, create features. Sentiment analysis, topic modeling (LDA) common applications in finance." },
+    { m: "Big Data Projects", f: "Big Data — definition & sources",
+      b: "All potentially useful info generated in the economy. TRADITIONAL: financial markets (prices, volume, dividends), financial data (firm performance, ratios), economic data (GDP, inflation, sentiment). NON-TRADITIONAL (alternative): individuals (social media, reviews, web searches), business processes (credit-card txns, sales, 'corporate exhaust'), sensors (smartphones, cameras, RFID, IoT)." },
+    { m: "Big Data Projects", f: "Characteristics of Big Data — the 'V's",
+      b: "VOLUME: amount of data (MB→GB→TB→PB; 1 PB = 10¹⁵ bytes). VELOCITY: speed generated/communicated (high-latency batch → low-latency real-time, e.g., market price feeds). VARIETY: forms of data (structured / semi-structured / unstructured). VERACITY (4th, for analysis): quality/trustworthiness — separate reliable signal from noise." },
+    { m: "Big Data Projects", f: "Variety — data structure types",
+      b: "STRUCTURED: highly organized, tabular (spreadsheets, databases). SEMI-STRUCTURED: some organizational tags/metadata (HTML/XML, photos w/ metadata). UNSTRUCTURED: no pre-defined model (video, social-media text, voice). ML on text aims to convert unstructured → structured (e.g., document-term matrix) before modeling." },
+    { m: "Big Data Projects", f: "Structured vs text approach — forecasting",
+      b: "STRUCTURED: financial ratios/metrics, often high-latency (quarterly) → model → classifier/forecast. UNSTRUCTURED TEXT: news/forums/social, low-latency/real-time → specialized text ML model extracts features. Text model's structured output can be fed as an extra input into the primary model → robust HYBRID model." },
+    { m: "Big Data Projects", f: "ML workflow — structured vs text steps",
+      b: "STRUCTURED (5, iterative): 1) Conceptualize task  2) Data collection  3) Data prep & wrangling (cleanse, preprocess)  4) Data exploration (EDA, feature selection/engineering)  5) Model training (select method, evaluate, tune). TEXT: 1) Formulate text problem  2) Data collection/curation (crawl + annotate labels)  3) Text prep & wrangling  4) Text exploration (word clouds, feature eng)  5) Model training (identical once text is structured)." },
   ],
 
   // =============================================================
