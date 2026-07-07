@@ -241,6 +241,18 @@ const CARDS = {
       b: "STRUCTURED: financial ratios/metrics, often high-latency (quarterly) → model → classifier/forecast. UNSTRUCTURED TEXT: news/forums/social, low-latency/real-time → specialized text ML model extracts features. Text model's structured output can be fed as an extra input into the primary model → robust HYBRID model." },
     { m: "Big Data Projects", f: "ML workflow — structured vs text steps",
       b: "STRUCTURED (5, iterative): 1) Conceptualize task  2) Data collection  3) Data prep & wrangling (cleanse, preprocess)  4) Data exploration (EDA, feature selection/engineering)  5) Model training (select method, evaluate, tune). TEXT: 1) Formulate text problem  2) Data collection/curation (crawl + annotate labels)  3) Text prep & wrangling  4) Text exploration (word clouds, feature eng)  5) Model training (identical once text is structured)." },
+    { m: "Big Data Projects", f: "Data exploration — 3 components",
+      b: "Step 4 of the ML workflow. (1) EXPLORATORY DATA ANALYSIS (EDA): understand data properties/distributions, find patterns/relationships, plan modeling. (2) FEATURE SELECTION: keep only features that add out-of-sample predictive power → parsimonious model. (3) FEATURE ENGINEERING: create new features by transforming/combining existing ones. Iterative process." },
+    { m: "Big Data Projects", f: "Structured EDA — 1-D vs multi-dimensional",
+      b: "1-DIMENSIONAL (per feature): summary stats (mean, median, std dev, skewness, kurtosis); visuals — histogram, density plot (smoothed histogram, continuous), bar chart (categorical frequencies), box plot (min/Q1/median/Q3/max). MULTI-DIMENSIONAL: correlation matrix, multiple box plots, scatterplot; test whether features are significant." },
+    { m: "Big Data Projects", f: "Feature selection vs feature engineering (structured)",
+      b: "SELECTION: choose only needed features (importance scores, dimension-reduction algo). Fewer features → less complexity/overfitting; goal = PARSIMONIOUS model where each variable is essential → better out-of-sample power. ENGINEERING: transform/combine → new features; e.g., continuous age → is_startup (age<5) binary; categorical → ONE-HOT ENCODING (OHE): 1 feature → separate 0/1 binary columns. Imparts domain knowledge." },
+    { m: "Big Data Projects", f: "Text exploration — TF & DF",
+      b: "Starts from Document-Term Matrix (DTM). TERM FREQUENCY (TF) = (# times token appears in doc) / (# tokens in doc). DOCUMENT FREQUENCY (DF) = (# docs containing token) / (total # docs). Word cloud visualizes TF (higher TF → bigger font). Applications: text classification, topic modeling, fraud detection, sentiment analysis." },
+    { m: "Big Data Projects", f: "Text feature selection metrics",
+      b: "Eliminate noisy tokens, preserve semantic essence. TF/DF: drop HIGH-frequency (common → no differentiation) and LOW-frequency (rare → overfitting) tokens. MUTUAL INFORMATION (MI): low MI in all classes → not a useful discriminant; high MI → token informative about a class. CHI-SQUARE (χ²): ranks tokens by usefulness per class; high χ² → higher discriminatory power → select for training." },
+    { m: "Big Data Projects", f: "Text feature engineering techniques",
+      b: "NUMBERS → number tokens (e.g., /number4/ for a 4-digit number). N-GRAMS: multi-word patterns preserving order (unigram, bigram, n-gram) — e.g., 'stock_market'; bigrams can be more discriminatory than unigrams. NAME ENTITY RECOGNITION (NER): tag object class (ORG, PLACE) → more discriminatory tokens. PARTS OF SPEECH (POS): tag noun (NNP)/verb (VB)/prep (IN)/cardinal (CD) → separate word types for analytics." },
   ],
 
   // =============================================================

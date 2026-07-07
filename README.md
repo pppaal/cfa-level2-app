@@ -4,7 +4,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 
 ## Features
 
-**📚 Flashcards** — 440 cards across all 10 topics, organized by module
+**📚 Flashcards** — 446 cards across all 10 topics, organized by module
 - Click / `Space` to flip
 - `←` `→` to navigate
 - `K` mark as known, `D` don't know
@@ -13,7 +13,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 - Progress saved in `localStorage`
 - Dark / light theme
 
-**📝 Exam Practice** — 23 item sets, ~110 original practice questions in CFA vignette + MCQ format
+**📝 Exam Practice** — 24 item sets, ~113 original practice questions in CFA vignette + MCQ format
 - Read vignette → answer A/B/C → instant feedback + detailed explanation
 - Score tracked per item set
 - All calculations Python-verified
@@ -34,7 +34,7 @@ Single-page web app for CFA Level 2 exam prep. No build step — open `index.htm
 | Topic | Cards | Item sets |
 |---|---|---|
 | Ethics & GIPS | 42 | 2 |
-| Quantitative Methods | 50 | 4 |
+| Quantitative Methods | 56 | 5 |
 | Economics | 33 | 2 |
 | Financial Statement Analysis | 54 | 3 |
 | Corporate Issuers | 27 | 1 |

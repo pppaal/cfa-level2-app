@@ -336,6 +336,67 @@ The team lead notes: "Before any text can enter the model, we must curate and la
       }
     ]
   },
+  {
+    id: "Q5", topic: "quant",
+    title: "Big Data Projects: Data Exploration",
+    vignette: `An analyst reaches the data exploration step (step 4) of a machine-learning project. She works with two datasets:
+
+STRUCTURED — a table of companies with features: company age, price-to-book (P/B) ratio, net profit, and an industry-ID code (e.g., "05 – Manufacturing", "81 – Tech").
+
+UNSTRUCTURED (TEXT) — a corpus of financial reports, news, and stock recommendations that has already been cleaned and organized into a document-term matrix (DTM). A sample of ten tokens includes common words such as "finance", "stock", and "market", as well as rarer, more distinctive words such as "bull", "bear", and "target".
+
+She performs exploratory data analysis (EDA), then feature selection and feature engineering on each dataset. For the text data she computes term frequency (TF), document frequency (DF), mutual information (MI), and chi-square (χ²) statistics for each token across the document classes.`,
+    questions: [
+      {
+        q: "To convert the categorical industry-ID feature into a form suitable for the algorithm, the analyst should MOST appropriately apply:",
+        c: ["A. One-hot encoding, creating a separate binary (0/1) variable for each industry.",
+            "B. Winsorization of the industry-ID codes.",
+            "C. A term-frequency transformation of the industry-ID codes."],
+        a: 0,
+        e: "A is correct. One-hot encoding (OHE) converts a categorical feature into separate binary (0/1) columns — one per category (e.g., is_manufacturing, is_finance, is_tech) — which is machine-processable. This is feature engineering for categorical data. Winsorization treats outliers in continuous data; term frequency applies to text tokens, not a categorical code."
+      },
+      {
+        q: "Creating a new feature \"is_startup\" that equals 1 when company age is below five years, and 0 otherwise, is BEST described as:",
+        c: ["A. Feature selection.",
+            "B. Feature engineering.",
+            "C. Exploratory data analysis."],
+        a: 1,
+        e: "B is correct. Feature engineering creates new features by transforming or combining existing ones — here transforming a continuous variable (age) into a binary indicator that imparts domain knowledge (startups may have special tax treatment). Feature selection chooses which existing features to keep; EDA describes/visualizes the data."
+      },
+      {
+        q: "In selecting the most useful STRUCTURED features, the analyst aims for a parsimonious model. A parsimonious model:",
+        c: ["A. Includes as many features as possible to maximize in-sample R².",
+            "B. Uses only features that contribute to out-of-sample predictive power, so each variable plays an essential role.",
+            "C. Always applies principal components analysis to every feature set."],
+        a: 1,
+        e: "B is correct. Feature selection keeps only features that improve out-of-sample predictive power, yielding a parsimonious model in which each variable is essential. More features add complexity and overfitting risk. Maximizing in-sample fit (A) invites overfitting; PCA (C) is one dimension-reduction tool, not a requirement for every dataset."
+      },
+      {
+        q: "The token \"finance\" appears in almost every document (very high document frequency), while \"liquor\" appears in almost none (very low DF). For a text-classification model, the analyst should MOST likely:",
+        c: ["A. Keep both tokens because more tokens always improve accuracy.",
+            "B. Consider removing both — very high-DF tokens offer little differentiation and very low-DF tokens are too rare (risk overfitting).",
+            "C. Keep only the very high-DF token and drop the rare one."],
+        a: 1,
+        e: "B is correct. In text feature selection, tokens with very high frequency/DF are common across documents and provide little discriminatory value, while very low-frequency tokens are too rare and can cause overfitting. Both extremes are candidates for elimination as 'noise,' preserving the semantic essence with the informative middle."
+      },
+      {
+        q: "The analyst notes that the token \"support\" has the highest chi-square (χ²) statistic for the \"stock recommendation\" class and a high mutual information (MI) for that class. This indicates the token:",
+        c: ["A. Should be discarded because high χ² means it is noise.",
+            "B. Has strong discriminatory power for that class and should be selected for model training.",
+            "C. Is a stop word that should always be removed."],
+        a: 1,
+        e: "B is correct. Chi-square ranks tokens by their usefulness in discriminating a class; a high χ² (and high MI) means the token carries substantial information about that class and has strong discriminatory potential, so it should be selected for training. Low MI across all classes would indicate a poor discriminant. High χ² is a reason to keep, not discard."
+      },
+      {
+        q: "To preserve the order of words when \"stock\" and \"market\" frequently appear together, the analyst can engineer the feature \"stock_market\". This technique is called:",
+        c: ["A. Name entity recognition (NER).",
+            "B. An n-gram (here, a bigram).",
+            "C. Parts-of-speech (POS) tagging."],
+        a: 1,
+        e: "B is correct. N-grams are multi-word token sequences that preserve word order; a two-word sequence like 'stock_market' is a bigram. NER tags a token's object class (e.g., ORG, PLACE); POS tagging labels grammatical roles (noun, verb, preposition). Both NER and POS can add discriminatory context, but combining adjacent words into one token is specifically an n-gram."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS
