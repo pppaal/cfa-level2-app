@@ -1032,6 +1032,57 @@ Both y_t and x_t are macroeconomic series that may contain unit roots. He works 
       }
     ]
   },
+  {
+    id: "Q18", topic: "quant",
+    title: "Time-Series: ARCH Models",
+    vignette: `Emily has estimated an AR(1) model for Megaland's quarterly retail sales. She is concerned that the error variance may not be constant, so she tests for autoregressive conditional heteroskedasticity (ARCH) by regressing the squared residuals on their own first lag:
+
+ε̂²_t = 0.311 + 0.672·ε̂²_(t−1) + μ_t
+
+The estimated coefficient on the lagged squared residual (0.672) has a t-statistic of 5.015 and a p-value below 0.001.`,
+    questions: [
+      {
+        q: "A time series exhibits ARCH when:",
+        c: ["A. The variance of the error in one period depends on the variance (squared error) of a previous period.",
+            "B. The mean of the series increases linearly over time.",
+            "C. The slope coefficient equals 1."],
+        a: 0,
+        e: "A is correct. Autoregressive conditional heteroskedasticity (ARCH) means the error variance is not constant but depends on the magnitude of errors in prior periods — specifically, the variance in one period is related to the squared error of a preceding period. A trending mean and a unit root (b₁ = 1) are different phenomena."
+      },
+      {
+        q: "If ARCH is present but ignored, the MAIN consequence is that:",
+        c: ["A. The coefficient estimates become unbiased and more efficient.",
+            "B. The standard errors are biased, making hypothesis tests (t-tests on the coefficients) unreliable.",
+            "C. The series automatically becomes covariance stationary."],
+        a: 1,
+        e: "B is correct. With ARCH, the ordinary standard errors of the estimated coefficients are biased, so the associated t-tests and inferences about coefficient significance are unreliable. ARCH does not fix stationarity, and it undermines (does not improve) the efficiency/validity of ordinary inference."
+      },
+      {
+        q: "To test for ARCH(1), the analyst regresses the squared residuals on their first lag and tests:",
+        c: ["A. H₀: a₁ = 0 (no ARCH) versus Hₐ: a₁ ≠ 0 (ARCH present).",
+            "B. H₀: b₁ = 1 (unit root) versus Hₐ: b₁ < 1.",
+            "C. Whether the mean-reverting level equals zero."],
+        a: 0,
+        e: "A is correct. The ARCH(1) test estimates ε̂²ₜ = a₀ + a₁·ε̂²ₜ₋₁ + μₜ and tests H₀: a₁ = 0 (errors are homoskedastic / no ARCH) against Hₐ: a₁ ≠ 0 (ARCH present). The unit-root test (b₁ = 1) and the mean-reverting-level check are unrelated diagnostics."
+      },
+      {
+        q: "Given the output (a₁ = 0.672, p-value < 0.001), Emily should conclude that the AR(1) model:",
+        c: ["A. Does exhibit ARCH — the lagged squared-error coefficient is statistically significant.",
+            "B. Does not exhibit ARCH — a₁ is insignificant.",
+            "C. Has a unit root and must be first-differenced."],
+        a: 0,
+        e: "A is correct. Because the coefficient on the lagged squared residual (a₁ = 0.672) is statistically significant (p < 0.001), H₀: a₁ = 0 is rejected, so the errors display ARCH(1). A positive, significant a₁ also implies the error variance tends to rise over time. This is a variance (ARCH) issue, not a unit-root problem."
+      },
+      {
+        q: "Having confirmed ARCH(1), Emily forecasts next period's error variance. If the current-period error is 0.92, the predicted variance σ̂²_(t+1) is CLOSEST to:",
+        c: ["A. 0.62.",
+            "B. 0.88.",
+            "C. 0.98."],
+        a: 1,
+        e: "B is correct. The ARCH(1) variance forecast uses the current squared error: σ̂²ₜ₊₁ = â₀ + â₁·ε̂²ₜ = 0.311 + 0.672 × (0.92)² = 0.311 + 0.672 × 0.8464 = 0.311 + 0.569 ≈ 0.88. This ability to forecast time-varying variance is a key use of ARCH models (e.g., for VaR and option pricing)."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS
