@@ -5,68 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CFA Level 2 — 2026 Study App</title>
   <style>
+    /* ===== Design tokens — "ink desk, paper cards" ===== */
     :root {
-      --bg: #0f172a;
-      --bg-alt: #1e293b;
+      /* dark is the default ground: deep ink navy, warm paper cards */
+      --bg: #0a0e1a;
+      --bg-2: #0d1324;
+      --bg-alt: #151d30;
       --bg-card: #ffffff;
-      --bg-card-back: #f8fafc;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --text-card: #0f172a;
-      --text-card-muted: #475569;
+      --bg-card-back: #f5f7fc;
+      --text: #e9edf7;
+      --text-muted: #8b95ae;
+      --text-card: #161b2b;
+      --text-card-muted: #5a6480;
       --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.14);
       --success: #10b981;
       --danger: #ef4444;
       --warning: #f59e0b;
-      --border: #334155;
-      --shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.5);
+      --border: #222c46;
+      --border-card: #e7eaf3;
+      --shadow: 0 28px 70px -24px rgba(0, 0, 0, 0.65);
+      --shadow-sm: 0 2px 10px -4px rgba(0, 0, 0, 0.5);
+      --font-ui: "Pretendard", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Georgia", "Times New Roman", serif;
+      --radius: 16px;
     }
 
     [data-theme="light"] {
-      --bg: #f1f5f9;
+      --bg: #eaedf4;
+      --bg-2: #f2f4f9;
       --bg-alt: #ffffff;
       --bg-card: #ffffff;
-      --bg-card-back: #f8fafc;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --text-card: #0f172a;
-      --text-card-muted: #475569;
-      --border: #cbd5e1;
-      --shadow: 0 20px 60px -10px rgba(15, 23, 42, 0.15);
+      --bg-card-back: #f4f6fc;
+      --text: #1a2036;
+      --text-muted: #616b85;
+      --text-card: #1a2036;
+      --text-card-muted: #5a6480;
+      --border: #d7dce9;
+      --border-card: #e7eaf3;
+      --shadow: 0 28px 70px -26px rgba(20, 30, 60, 0.20);
+      --shadow-sm: 0 2px 10px -5px rgba(20, 30, 60, 0.18);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Pretendard", Roboto, sans-serif;
-      background: var(--bg);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(1100px 620px at 82% -8%, var(--accent-soft), transparent 60%),
+        var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 20px;
-      transition: background 0.2s, color 0.2s;
+      padding: 24px 20px 56px;
+      transition: background 0.25s, color 0.25s;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .container { max-width: 1000px; margin: 0 auto; }
+    .container { max-width: 1040px; margin: 0 auto; }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
       gap: 12px;
     }
 
     h1 {
-      font-size: 1.5rem;
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    h1::before {
+      content: "";
+      width: 10px; height: 10px; border-radius: 3px;
+      background: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 4px var(--accent-soft);
     }
     h1 .year {
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       color: var(--text-muted);
-      margin-left: 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 9px;
+      align-self: center;
     }
 
     .header-controls { display: flex; gap: 8px; }
@@ -76,40 +107,48 @@
       border: 1px solid var(--border);
       color: var(--text);
       width: 40px; height: 40px;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
     }
     .icon-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-    /* Mode tabs */
+    /* Mode tabs — segmented control */
     .mode-tabs {
       display: flex;
-      gap: 4px;
-      margin-bottom: 20px;
+      gap: 2px;
+      margin-bottom: 22px;
       background: var(--bg-alt);
-      padding: 4px;
-      border-radius: 10px;
+      padding: 5px;
+      border-radius: 13px;
       border: 1px solid var(--border);
       width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
     }
     .mode-tab {
-      padding: 8px 20px;
+      padding: 9px 18px;
       background: transparent;
       border: none;
       color: var(--text-muted);
-      border-radius: 7px;
+      border-radius: 9px;
       cursor: pointer;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      transition: all 0.15s;
+      white-space: nowrap;
+      transition: color 0.15s, background 0.15s;
     }
+    .mode-tab:hover { color: var(--text); }
     .mode-tab.active {
       background: var(--accent);
-      color: white;
+      color: #fff;
+      box-shadow: 0 6px 16px -6px var(--accent);
     }
+    .mode-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     .topics {
       display: flex;
@@ -503,6 +542,457 @@
       margin-top: 16px;
     }
 
+    /* ===== Regression Lab view ===== */
+    .lab-intro {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .lab-intro strong { color: var(--text); }
+
+    /* Interactive tool selector */
+    .lab-toolbar {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 18px;
+      width: fit-content;
+      flex-wrap: wrap;
+    }
+    .lab-toolbar button {
+      padding: 9px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .lab-toolbar button.active { background: var(--accent); color: #fff; }
+
+    /* ML Pipeline builder */
+    .pipe-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .pipe-score { font-weight: 700; font-size: 0.95rem; }
+    .pipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .pipe-col {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .pipe-col-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pipe-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+    .pipe-slots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .pipe-slot-row { display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 8px; }
+    .pipe-slot-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--bg-alt); color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+    }
+    .pipe-slot {
+      min-height: 46px;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex; align-items: center;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-card);
+      transition: all 0.12s;
+    }
+    .pipe-slot.filled { border-style: solid; background: var(--bg-card-back); cursor: grab; }
+    .pipe-slot.filled:active { cursor: grabbing; }
+    .pipe-slot.correct { border-color: var(--success); background: rgba(16,185,129,.14); }
+    .pipe-slot.incorrect { border-color: var(--danger); background: rgba(239,68,68,.1); }
+    .pipe-slot.dragover { border-color: var(--accent); background: rgba(99,102,241,.12); }
+    .pipe-slot-ph { color: var(--text-card-muted); font-style: italic; font-size: 0.82rem; font-weight: 400; }
+    .pipe-slot-mark { margin-left: auto; font-weight: 700; }
+
+    .pipe-bank-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--text-card-muted); margin-bottom: 8px;
+    }
+    .pipe-bank {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      min-height: 48px; padding: 8px;
+      border: 1px dashed var(--border); border-radius: 8px;
+      background: var(--bg-card-back);
+    }
+    .pipe-bank.dragover { border-color: var(--accent); }
+    .pipe-chip {
+      color: #fff; border-radius: 8px; padding: 8px 12px;
+      font-size: 0.85rem; font-weight: 600; cursor: grab; user-select: none;
+    }
+    .pipe-chip:active { cursor: grabbing; }
+    .pipe-bank-empty { color: var(--text-card-muted); font-size: 0.82rem; font-style: italic; align-self: center; }
+    .pipe-chip.sel { outline: 3px solid var(--warning); outline-offset: 2px; }
+
+    /* Data-Exploration sorter */
+    .sort-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .sort-col {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .sort-col-title {
+      font-weight: 700; font-size: 0.92rem; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sort-col-desc { font-size: 0.76rem; color: var(--text-card-muted); margin-bottom: 12px; }
+    .sort-drop {
+      flex: 1; min-height: 120px;
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 10px; border: 2px dashed var(--border); border-radius: 10px;
+      background: var(--bg-card-back); transition: all 0.12s;
+    }
+    .sort-drop.dragover { border-color: var(--accent); background: rgba(99,102,241,.1); }
+    .sort-drop .pipe-chip { cursor: pointer; text-align: left; }
+    .sort-chip.correct { box-shadow: 0 0 0 2px var(--success) inset; }
+    .sort-chip.incorrect { box-shadow: 0 0 0 2px var(--danger) inset; opacity: 0.85; }
+    .sort-drop-empty { color: var(--text-card-muted); font-size: 0.8rem; font-style: italic; align-self: center; margin: auto; }
+
+    /* ===== Lessons view ===== */
+    .les-intro-line { color: var(--text-muted); font-size: 0.94rem; margin-bottom: 22px; line-height: 1.65; max-width: 62ch; }
+    .les-intro-line strong { color: var(--text); }
+
+    .subj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)); gap: 14px; }
+    .subj-card {
+      --c: var(--accent);
+      position: relative; overflow: hidden;
+      background: var(--bg-card); color: var(--text-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius); padding: 20px 20px 16px 24px; cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      display: flex; flex-direction: column; min-height: 122px;
+    }
+    .subj-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--c); }
+    .subj-card::after {
+      content: attr(data-mono); position: absolute; right: 12px; bottom: -18px;
+      font-family: var(--font-serif); font-size: 4.6rem; font-weight: 700;
+      color: var(--c); opacity: 0.09; line-height: 1; pointer-events: none;
+    }
+    .subj-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .subj-name { font-family: var(--font-serif); font-weight: 700; font-size: 1.16rem; margin-bottom: 8px; line-height: 1.18; color: var(--c); letter-spacing: -0.01em; }
+    .subj-meta { font-size: 0.8rem; color: var(--text-card-muted); font-variant-numeric: tabular-nums; }
+    .subj-tags { margin-top: auto; padding-top: 14px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .subj-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.03em; padding: 3px 9px; border-radius: 999px; background: var(--bg-card-back); color: var(--text-card-muted); border: 1px solid var(--border-card); }
+    .subj-tag.weight { color: #fff; background: var(--c); border-color: transparent; }
+
+    .les-crumb { display: flex; gap: 8px; align-items: center; margin-bottom: 18px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap; }
+    .les-crumb a { color: var(--text); cursor: pointer; font-weight: 600; }
+    .les-crumb a:hover { color: var(--accent); }
+    .les-crumb .sep { opacity: 0.45; }
+
+    .les-subj-head { font-family: var(--font-serif); font-size: 1.75rem; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.015em; }
+    .les-subj-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+    .mod-list { display: flex; flex-direction: column; gap: 10px; }
+    .mod-row {
+      --c: var(--accent);
+      background: var(--bg-card); color: var(--text-card);
+      border: 1px solid var(--border-card);
+      border-radius: 13px; padding: 15px 18px; cursor: pointer;
+      box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 14px;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s;
+    }
+    .mod-row:hover { transform: translateX(4px); box-shadow: var(--shadow); border-color: var(--c); }
+    .mod-num {
+      width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+      background: color-mix(in srgb, var(--c) 15%, transparent); color: var(--c);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-weight: 700; font-size: 1rem;
+    }
+    .mod-title { font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; }
+    .mod-sub { font-size: 0.76rem; color: var(--text-card-muted); margin-top: 2px; }
+    .mod-arrow { margin-left: auto; color: var(--text-card-muted); font-size: 1.2rem; transition: transform 0.14s, color 0.14s; }
+    .mod-row:hover .mod-arrow { color: var(--c); transform: translateX(3px); }
+    .mod-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; }
+    .mod-badge.slide { background: rgba(16,185,129,.16); color: var(--success); }
+
+    /* Editorial lesson reader */
+    .lesson {
+      --c: var(--accent);
+      position: relative;
+      background: var(--bg-card); color: var(--text-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius); padding: 40px 46px; box-shadow: var(--shadow);
+      max-width: 768px; margin: 0 auto;
+    }
+    .lesson::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--c); border-radius: var(--radius) var(--radius) 0 0; }
+    .lesson-topic { font-size: 0.72rem; color: var(--c); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .lesson h2 { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 700; margin-bottom: 0; line-height: 1.14; text-wrap: balance; letter-spacing: -0.015em; }
+    .lesson-rule { height: 2px; width: 46px; background: var(--c); border-radius: 2px; margin: 16px 0 24px; }
+    .lesson-body { font-family: var(--font-serif); font-size: 1.06rem; line-height: 1.74; color: var(--text-card); }
+    .lesson-body > p:first-of-type { font-size: 1.15rem; line-height: 1.6; }
+    .lesson-body h4 {
+      font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--c);
+      margin: 28px 0 8px; display: flex; align-items: center; gap: 9px;
+    }
+    .lesson-body h4::before { content: ""; width: 16px; height: 2px; background: var(--c); flex-shrink: 0; }
+    .lesson-body p { margin-bottom: 12px; }
+    .lesson-body ul { margin: 0 0 12px; list-style: none; }
+    .lesson-body li { margin-bottom: 7px; padding-left: 20px; position: relative; }
+    .lesson-body li::before { content: "\203A"; position: absolute; left: 5px; color: var(--c); font-weight: 700; }
+    .lesson-body strong { color: var(--text-card); font-weight: 700; }
+    .lesson-body em { color: var(--text-card-muted); font-style: italic; }
+    .lesson-body .eq {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      background: var(--bg-card-back); border-left: 3px solid var(--c);
+      padding: 12px 16px; border-radius: 0 10px 10px 0; text-align: center;
+      font-size: 1.0rem; overflow-x: auto; margin: 14px 0; color: var(--text-card);
+    }
+
+    .lesson-notes { margin-top: 32px; }
+    .lesson-notes-label { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-card-muted); margin-bottom: 6px; }
+    .lesson-note { border-top: 1px solid var(--border-card); padding: 14px 0 14px 16px; position: relative; }
+    .lesson-note::before { content: ""; position: absolute; left: 0; top: 15px; bottom: 15px; width: 2px; background: color-mix(in srgb, var(--c) 45%, transparent); border-radius: 2px; }
+    .lesson-note dt { font-family: var(--font-ui); font-weight: 700; color: var(--text-card); margin-bottom: 5px; font-size: 0.92rem; }
+    .lesson-note dd { font-family: var(--font-ui); margin: 0; font-size: 0.88rem; line-height: 1.62; white-space: pre-wrap; color: var(--text-card-muted); }
+
+    .lesson-practice { margin-top: 32px; padding-top: 18px; border-top: 2px solid var(--border-card); }
+    .lesson-practice h4 { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-card-muted); margin-bottom: 12px; }
+    .les-chip { display: inline-block; background: var(--c); color: #fff; border-radius: 9px; padding: 9px 13px; font-size: 0.82rem; font-weight: 600; cursor: pointer; margin: 0 7px 7px 0; border: none; transition: transform 0.12s, box-shadow 0.12s; }
+    .les-chip:hover { transform: translateY(-1px); box-shadow: 0 8px 16px -8px var(--c); }
+    .les-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .les-chip.tool { background: var(--success); }
+
+    /* ===== LOS search view ===== */
+    .los-intro {
+      background: var(--bg-alt); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 14px; color: var(--text-muted);
+      font-size: 0.9rem; line-height: 1.6;
+    }
+    .los-intro strong { color: var(--text); }
+    .los-searchbar { display: flex; gap: 8px; margin-bottom: 10px; }
+    .los-searchbar input {
+      flex: 1; padding: 12px 14px; background: var(--bg-alt);
+      border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; font-size: 0.95rem; font-family: inherit;
+    }
+    .los-searchbar input:focus { outline: none; border-color: var(--accent); }
+    .los-count { color: var(--text-muted); font-size: 0.82rem; margin-bottom: 12px; min-height: 1em; }
+
+    .los-topic { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; background: var(--bg-alt); }
+    .los-topic-head {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      padding: 12px 16px; user-select: none; transition: background 0.12s;
+    }
+    .los-topic-head:hover { background: var(--bg-card-back); }
+    .los-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.15s; width: 12px; }
+    .los-topic.open .los-chevron { transform: rotate(90deg); }
+    .los-topic-name { font-weight: 700; font-size: 0.98rem; color: var(--text); }
+    .los-topic-meta { margin-left: auto; font-size: 0.76rem; color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .los-topic-body { display: none; padding: 4px 16px 12px; }
+    .los-topic.open .los-topic-body { display: block; }
+
+    .los-module { padding: 10px 0; border-top: 1px solid var(--border); }
+    .los-module:first-child { border-top: none; }
+    .los-mod-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .los-mod-title { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+    .los-mod-note { font-size: 0.74rem; color: var(--text-muted); }
+    .los-badge {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    .los-badge.full { background: rgba(16,185,129,.18); color: var(--success); }
+    .los-badge.partial { background: rgba(245,158,11,.18); color: var(--warning); }
+    .los-badge.none { background: rgba(148,163,184,.18); color: var(--text-muted); }
+    .los-items { list-style: none; margin: 0; padding: 0; }
+    .los-items li {
+      position: relative; padding: 4px 0 4px 18px; font-size: 0.86rem;
+      line-height: 1.5; color: var(--text); border-bottom: 1px dashed transparent;
+    }
+    .los-items li::before { content: "•"; position: absolute; left: 4px; color: var(--accent); }
+    .los-items mark { background: var(--warning); color: #1a1a1a; border-radius: 3px; padding: 0 2px; }
+    .los-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; }
+
+    /* LOS section headers */
+    .lab-los {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 26px 2px 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .lab-los-tag {
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .lab-los-sub {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      flex-basis: 100%;
+    }
+
+    .lab-toggle {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .lab-toggle button {
+      padding: 9px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+    .lab-toggle button.active { background: var(--accent); color: white; }
+
+    .lab-panel {
+      background: var(--bg-card);
+      color: var(--text-card);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+      margin-bottom: 18px;
+    }
+    .lab-panel-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .lab-equation {
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 14px 8px 6px;
+      color: var(--text-card);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+    .lab-equation .coef { color: var(--accent); font-weight: 700; }
+    .lab-equation .added { color: var(--success); font-weight: 700; }
+
+    .lab-control { margin-bottom: 20px; }
+    .lab-control:last-child { margin-bottom: 0; }
+    .lab-control-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 10px;
+    }
+    .lab-control-name { font-weight: 600; font-size: 0.95rem; color: var(--text-card); }
+    .lab-control-val {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .lab-control input[type=range] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .lab-control.disabled { opacity: 0.35; }
+    .lab-control-desc { font-size: 0.78rem; color: var(--text-card-muted); margin-top: 5px; }
+
+    .lab-calc {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-card);
+      background: var(--bg-card-back);
+      border-radius: 10px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .lab-result {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--success);
+      text-align: center;
+      margin-top: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    .lab-result span { font-size: 1rem; color: var(--text-card-muted); font-weight: 500; }
+
+    .lab-bars { margin-top: 18px; display: flex; flex-direction: column; gap: 9px; }
+    .lab-bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 72px;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--text-card);
+    }
+    .lab-bar-track { background: var(--bg-alt); border-radius: 4px; height: 16px; overflow: hidden; }
+    .lab-bar-fill { height: 100%; border-radius: 4px; transition: width 0.25s ease; min-width: 2px; }
+    .lab-bar-val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    .lab-interp { display: flex; flex-direction: column; gap: 10px; }
+    .lab-interp-item {
+      background: var(--bg-card-back);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text-card);
+    }
+    .lab-interp-item strong { color: var(--accent); }
+
+    .lab-note {
+      padding: 14px 16px;
+      background: rgba(245, 158, 11, 0.12);
+      border-left: 4px solid var(--warning);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-card);
+    }
+    .lab-note strong { color: var(--warning); }
+
     @media (max-width: 640px) {
       body { padding: 12px; }
       h1 { font-size: 1.15rem; }
@@ -513,6 +1003,13 @@
       .nav .btn { min-width: 0; flex: 1; padding: 8px; font-size: 0.82rem; }
       .exam-panel { padding: 20px 18px; }
       .mode-tab { padding: 8px 14px; font-size: 0.85rem; }
+      .lab-panel { padding: 20px 18px; }
+      .lab-equation { font-size: 1.1rem; }
+      .lab-calc { font-size: 0.85rem; }
+      .lab-result { font-size: 1.5rem; }
+      .lab-bar-row { grid-template-columns: 110px 1fr 60px; font-size: 0.76rem; }
+      .pipe-grid { grid-template-columns: 1fr; }
+      .sort-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -527,14 +1024,24 @@
     </header>
 
     <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="flash">📚 Flashcards</button>
+      <button class="mode-tab active" data-mode="lessons">📖 Lessons</button>
+      <button class="mode-tab" data-mode="flash">📚 Flashcards</button>
       <button class="mode-tab" data-mode="exam">📝 Exam Practice</button>
+      <button class="mode-tab" data-mode="lab">🧪 Interactive</button>
+      <button class="mode-tab" data-mode="los">📋 LOS Search</button>
     </div>
 
     <div class="topics" id="topics"></div>
 
+    <!-- LESSONS VIEW -->
+    <div class="view active" id="lessonsView">
+      <div id="lessonsHome"></div>
+      <div id="lessonsModules" style="display:none;"></div>
+      <div id="lessonsReader" style="display:none;"></div>
+    </div>
+
     <!-- FLASHCARDS VIEW -->
-    <div class="view active" id="flashView">
+    <div class="view" id="flashView">
       <div class="toolbar">
         <div class="toolbar-left">
           <select id="filter">
@@ -637,14 +1144,179 @@
       </div>
     </div>
 
+    <!-- INTERACTIVE VIEW -->
+    <div class="view" id="labView">
+      <div class="lab-toolbar" id="labToolbar">
+        <button data-tool="regression">📈 Regression Lab</button>
+        <button data-tool="pipeline">🧩 ML Pipeline Builder</button>
+        <button data-tool="sort">🗂️ Data-Exploration Sorter</button>
+      </div>
+
+      <!-- ===== Tool 1: Regression Lab ===== -->
+      <div id="labToolRegression">
+      <div class="lab-intro">
+        <strong>Interactive: Simple vs. Multiple Regression.</strong>
+        Explore how a bonus (in months of salary) is predicted from company performance, organized by the
+        three learning outcomes: <strong>[a]</strong> formulate the model,
+        <strong>[b]</strong> interpret the coefficients, and <strong>[f]</strong> calculate the predicted value.
+        Toggle the model below — every LOS section updates live.
+      </div>
+
+      <div class="lab-toggle" id="labToggle">
+        <button data-model="simple">Simple &nbsp;·&nbsp; 1 variable</button>
+        <button data-model="multiple">Multiple &nbsp;·&nbsp; 2 variables</button>
+      </div>
+
+      <!-- ===== LOS a — Formulate the model ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#6366f1;">LOS a</span>
+        Formulate the model
+        <span class="lab-los-sub">— write the multiple regression equation</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#6366f1;">
+        <div class="lab-panel-label">Estimated regression equation</div>
+        <div class="lab-equation" id="labEquation"></div>
+        <div class="lab-control-desc" style="text-align:center;">
+          Ŷ is the predicted (estimated) bonus in months. Coefficients are estimated by the least squares method
+          — the values of b̂₀, b̂₁, (and b̂₂) that minimize the sum of squared residuals, Σ(Yᵢ − Ŷᵢ)².
+        </div>
+      </div>
+
+      <!-- ===== LOS b — Interpret the coefficients ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#ec4899;">LOS b</span>
+        Interpret the coefficients
+        <span class="lab-los-sub">— partial slopes, holding the other variables constant</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#ec4899;">
+        <div class="lab-panel-label" style="color:#ec4899;">What each coefficient means</div>
+        <div class="lab-interp" id="labInterp"></div>
+      </div>
+      <div class="lab-panel" style="border-top-color: var(--warning);">
+        <div class="lab-panel-label" style="color: var(--warning);">Why the coefficients change</div>
+        <div class="lab-note" id="labNote"></div>
+      </div>
+
+      <!-- ===== LOS f — Calculate the predicted value ===== -->
+      <div class="lab-los">
+        <span class="lab-los-tag" style="background:#10b981;">LOS f</span>
+        Calculate the predicted value
+        <span class="lab-los-sub">— plug the independent variables into the equation</span>
+      </div>
+      <div class="lab-panel" style="border-top-color:#10b981;">
+        <div class="lab-panel-label">Step 1 — Set the independent variables (inputs)</div>
+
+        <div class="lab-control" id="labCtrlX1">
+          <div class="lab-control-head">
+            <span class="lab-control-name">X₁ — Company profit</span>
+            <span class="lab-control-val" id="labX1Val"></span>
+          </div>
+          <input type="range" id="labX1" min="0" max="20" step="0.5" />
+          <div class="lab-control-desc">Full-year company profit, in $ millions.</div>
+        </div>
+
+        <div class="lab-control" id="labCtrlX2">
+          <div class="lab-control-head">
+            <span class="lab-control-name">X₂ — Stock price gain</span>
+            <span class="lab-control-val" id="labX2Val"></span>
+          </div>
+          <input type="range" id="labX2" min="-10" max="40" step="1" />
+          <div class="lab-control-desc">Full-year stock price gain (%). Entered into the model as a decimal (18% → 0.18).</div>
+        </div>
+      </div>
+
+      <div class="lab-panel" style="border-top-color:#10b981;">
+        <div class="lab-panel-label">Step 2 — Compute the prediction</div>
+        <div class="lab-calc" id="labCalc"></div>
+        <div class="lab-result" id="labResult"></div>
+        <div class="lab-bars" id="labBars"></div>
+      </div>
+      </div><!-- /labToolRegression -->
+
+      <!-- ===== Tool 2: ML Pipeline Builder ===== -->
+      <div id="labToolPipeline" style="display:none;">
+        <div class="lab-intro">
+          <strong>Build the ML Pipeline.</strong>
+          Each pipeline has a bank of five steps. <strong>Click a step</strong> to drop it into the next open
+          slot (or drag it), and arrange all five in the correct order. Click a filled slot to send its step
+          back to the bank. Then press <strong>Check answers</strong>.
+        </div>
+
+        <div class="pipe-actions">
+          <button class="btn primary" id="pipeCheck">✓ Check answers</button>
+          <button class="btn" id="pipeReset">↺ Reset</button>
+          <span class="pipe-score" id="pipeScore"></span>
+        </div>
+
+        <div class="pipe-grid">
+          <div class="pipe-col" id="pipeStructured"></div>
+          <div class="pipe-col" id="pipeText"></div>
+        </div>
+
+        <div class="lab-note" style="margin-top:18px;">
+          <strong>Key idea:</strong> both pipelines share the same 5-step skeleton — Conceptualize → Collect →
+          Prep &amp; Wrangle → Explore → Train. For unstructured <em>text</em>, the first four steps do the heavy
+          lifting of turning raw documents into a structured, numerical form; once that is done, model training is
+          identical to the structured workflow.
+        </div>
+      </div>
+
+      <!-- ===== Tool 3: Data-Exploration Sorter ===== -->
+      <div id="labToolSort" style="display:none;">
+        <div class="lab-intro">
+          <strong>Sort the data-exploration techniques.</strong>
+          Data exploration has three parts. <strong>Tap a technique</strong> to pick it up, then tap the category
+          it belongs to (or drag it). Tap a placed technique to send it back. Then press <strong>Check answers</strong>.
+        </div>
+
+        <div class="pipe-actions">
+          <button class="btn primary" id="sortCheck">✓ Check answers</button>
+          <button class="btn" id="sortReset">↺ Reset</button>
+          <span class="pipe-score" id="sortScore"></span>
+        </div>
+
+        <div class="pipe-bank-label">Techniques</div>
+        <div class="pipe-bank" id="sortBank" data-bucket="bank"></div>
+
+        <div class="sort-grid" id="sortGrid"></div>
+
+        <div class="lab-note" style="margin-top:18px;">
+          <strong>Key idea:</strong> <em>EDA</em> describes and visualizes the data (summary stats, plots, word
+          clouds); <em>feature selection</em> keeps only the features/tokens that add out-of-sample predictive
+          power (χ², mutual information, dimension reduction); <em>feature engineering</em> creates new features
+          (one-hot encoding, n-grams, POS/NER tags, domain indicators).
+        </div>
+      </div>
+    </div>
+
+    <!-- LOS SEARCH VIEW -->
+    <div class="view" id="losView">
+      <div class="los-intro">
+        Search the <strong>official 2026 Level II Learning Outcome Statements</strong>
+        (<span id="losTotals"></span>). Type a keyword to filter; each module shows whether the app already covers it
+        (<span class="los-badge full">✓ covered</span> <span class="los-badge partial">~ flashcards</span>
+        <span class="los-badge none">– not yet</span>). Click a topic to expand.
+      </div>
+      <div class="los-searchbar">
+        <input type="text" id="losSearch" placeholder="🔎  Search LOS, module, or topic — e.g. “duration”, “predicted value”, “VaR”" autocomplete="off" />
+        <button class="btn" id="losClear" title="Clear">✕</button>
+      </div>
+      <div class="los-count" id="losCount"></div>
+      <div id="losList"></div>
+    </div>
+
   </div>
 
   <script src="cards.js"></script>
   <script src="exams.js"></script>
+  <script src="los.js"></script>
+  <script src="lessons.js"></script>
   <script>
     // ============ STATE ============
     const state = {
-      mode: localStorage.getItem("cfa_mode") || "flash",      // "flash" | "exam"
+      mode: localStorage.getItem("cfa_mode") || "lessons",    // "lessons" | "flash" | "exam" | "lab" | "los"
+      lessonsSubject: null,   // topicId being viewed in Lessons
+      lessonsModule: null,    // module name being read
       topicId: localStorage.getItem("cfa_topic") || TOPICS[0].id,
       filter: localStorage.getItem("cfa_filter") || "all",
       theme: localStorage.getItem("cfa_theme") || "dark",
@@ -654,6 +1326,67 @@
       examAnswers: JSON.parse(localStorage.getItem("cfa_exam_ans") || "{}"),   // { examId: { qIdx: choiceIdx } }
       currentExam: null,      // current exam id being played
       currentExamQ: 0,
+      // Interactive
+      labTool: localStorage.getItem("cfa_lab_tool") || "regression",  // "regression" | "pipeline"
+      labModel: localStorage.getItem("cfa_lab_model") || "simple",   // "simple" | "multiple"
+      labX1: parseFloat(localStorage.getItem("cfa_lab_x1") ?? "10"),  // company profit ($M)
+      labX2: parseFloat(localStorage.getItem("cfa_lab_x2") ?? "18"),  // stock price gain (%)
+      pipe: null,   // ML pipeline builder state, initialized on load
+      sort: null,   // data-exploration sorter state, initialized on load
+    };
+
+    // ML pipeline steps in their CORRECT order (index 0 = Step 1).
+    const PIPELINES = {
+      structured: {
+        label: "Structured Data Pipeline",
+        accent: "#0ea5e9",
+        steps: [
+          "Conceptualize modeling task",
+          "Data collection",
+          "Data prep & wrangling",
+          "Data exploration",
+          "Model training",
+        ],
+      },
+      text: {
+        label: "Unstructured (Text) Data Pipeline",
+        accent: "#8b5cf6",
+        steps: [
+          "Formulate text problem",
+          "Data collection & curation (label)",
+          "Text prep & wrangling",
+          "Text exploration",
+          "Model training",
+        ],
+      },
+    };
+
+    // Data-exploration sorter: each technique belongs to one of three categories.
+    const SORT_BUCKETS = [
+      { key: "eda",      name: "Exploratory Data Analysis", color: "#0ea5e9", desc: "describe & visualize the data" },
+      { key: "select",   name: "Feature Selection",         color: "#ec4899", desc: "keep only useful features" },
+      { key: "engineer", name: "Feature Engineering",       color: "#10b981", desc: "create new features" },
+    ];
+    const SORT_ITEMS = [
+      { id: "hist",    label: "Histogram",                         cat: "eda" },
+      { id: "box",     label: "Box plot",                          cat: "eda" },
+      { id: "corr",    label: "Correlation matrix",                cat: "eda" },
+      { id: "cloud",   label: "Word cloud",                        cat: "eda" },
+      { id: "chi",     label: "Chi-square (χ²)",                   cat: "select" },
+      { id: "mi",      label: "Mutual information (MI)",           cat: "select" },
+      { id: "dimred",  label: "Dimension-reduction algorithm",    cat: "select" },
+      { id: "freq",    label: "Drop very high/low-freq. tokens",  cat: "select" },
+      { id: "ohe",     label: "One-hot encoding",                 cat: "engineer" },
+      { id: "ngram",   label: "N-gram (bigram)",                  cat: "engineer" },
+      { id: "pos",     label: "Parts-of-speech (POS) tagging",    cat: "engineer" },
+      { id: "startup", label: "“is_startup” indicator", cat: "engineer" },
+    ];
+
+    // Estimated (least-squares) coefficients for the bonus example.
+    // X₂ (stock price gain) enters the model as a decimal, so its slope applies to a proportion.
+    const LAB = {
+      simple:   { b0: 1.14, b1: 0.30, b2: null },
+      multiple: { b0: 0.95, b1: 0.20, b2: 6.00 },
     };
 
     const $ = (id) => document.getElementById(id);
@@ -688,8 +1421,16 @@
       localStorage.setItem("cfa_mode", mode);
       document.querySelectorAll(".mode-tab").forEach(b =>
         b.classList.toggle("active", b.dataset.mode === mode));
+      $("lessonsView").classList.toggle("active", mode === "lessons");
       $("flashView").classList.toggle("active", mode === "flash");
       $("examView").classList.toggle("active", mode === "exam");
+      $("labView").classList.toggle("active", mode === "lab");
+      $("losView").classList.toggle("active", mode === "los");
+      // Lessons, Interactive and LOS Search bring their own navigation — hide the per-topic bar.
+      $("topics").style.display = (mode === "lessons" || mode === "lab" || mode === "los") ? "none" : "flex";
+      if (mode === "lessons") { renderLessons(); return; }
+      if (mode === "lab") { renderLab(); return; }
+      if (mode === "los") { renderLos(); return; }
       renderTopics();
       if (mode === "flash") renderFlash();
       else renderExamList();
@@ -956,6 +1697,438 @@
       }
     }
 
+    // ============ REGRESSION LAB ============
+    function fmt(n, d = 2) {
+      return n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+    }
+
+    function setLabModel(model) {
+      state.labModel = model;
+      localStorage.setItem("cfa_lab_model", model);
+      renderRegression();
+    }
+
+    // Dispatcher: show the selected interactive tool.
+    function renderLab() {
+      const tool = state.labTool;
+      document.querySelectorAll("#labToolbar button").forEach(b =>
+        b.classList.toggle("active", b.dataset.tool === tool));
+      $("labToolRegression").style.display = tool === "regression" ? "block" : "none";
+      $("labToolPipeline").style.display = tool === "pipeline" ? "block" : "none";
+      $("labToolSort").style.display = tool === "sort" ? "block" : "none";
+      if (tool === "pipeline") renderPipeline();
+      else if (tool === "sort") renderSort();
+      else renderRegression();
+    }
+
+    function setLabTool(tool) {
+      state.labTool = tool;
+      localStorage.setItem("cfa_lab_tool", tool);
+      renderLab();
+    }
+
+    function renderRegression() {
+      const isMulti = state.labModel === "multiple";
+      const m = isMulti ? LAB.multiple : LAB.simple;
+      const x1 = state.labX1;
+      const x2pct = state.labX2;          // percent, as shown on the slider
+      const x2 = x2pct / 100;             // decimal, as used in the model
+
+      // ---- toggle buttons ----
+      document.querySelectorAll("#labToggle button").forEach(b =>
+        b.classList.toggle("active", b.dataset.model === state.labModel));
+
+      // ---- sliders ----
+      $("labX1").value = x1;
+      $("labX2").value = x2pct;
+      $("labX1Val").textContent = `$${fmt(x1, 1)}M`;
+      $("labX2Val").textContent = `${x2pct > 0 ? "+" : ""}${fmt(x2pct, 0)}%  (${fmt(x2, 2)})`;
+      $("labCtrlX2").classList.toggle("disabled", !isMulti);
+      $("labX2").disabled = !isMulti;
+
+      // ---- equation ----
+      $("labEquation").innerHTML = isMulti
+        ? `Ŷ = <span class="coef">${fmt(m.b0)}</span> + <span class="coef">${fmt(m.b1)}</span>·X₁ + <span class="added">${fmt(m.b2)}</span>·X₂`
+        : `Ŷ = <span class="coef">${fmt(m.b0)}</span> + <span class="coef">${fmt(m.b1)}</span>·X₁`;
+
+      // ---- prediction (step by step) ----
+      const t0 = m.b0;
+      const t1 = m.b1 * x1;
+      const t2 = isMulti ? m.b2 * x2 : 0;
+      const yhat = t0 + t1 + t2;
+
+      const calc = isMulti
+        ? `Ŷ = ${fmt(m.b0)} + ${fmt(m.b1)} × ${fmt(x1, 1)} + ${fmt(m.b2)} × ${fmt(x2)}\n`
+          + `  = ${fmt(t0)} + ${fmt(t1)} + ${fmt(t2)}`
+        : `Ŷ = ${fmt(m.b0)} + ${fmt(m.b1)} × ${fmt(x1, 1)}\n`
+          + `  = ${fmt(t0)} + ${fmt(t1)}`;
+      $("labCalc").textContent = calc;
+      $("labResult").innerHTML = `Ŷ = ${fmt(yhat)} <span>months of bonus</span>`;
+
+      // ---- contribution bars ----
+      const terms = [
+        { name: "Intercept (b̂₀)", val: t0, color: "#64748b" },
+        { name: "Profit term (b̂₁·X₁)", val: t1, color: "var(--accent)" },
+      ];
+      if (isMulti) terms.push({ name: "Stock-gain term (b̂₂·X₂)", val: t2, color: "var(--success)" });
+      const denom = terms.reduce((s, t) => s + Math.abs(t.val), 0) || 1;
+      $("labBars").innerHTML = terms.map(t => {
+        const pct = (Math.abs(t.val) / denom) * 100;
+        const color = t.val < 0 ? "var(--danger)" : t.color;
+        return `<div class="lab-bar-row">
+            <span>${t.name}</span>
+            <div class="lab-bar-track"><div class="lab-bar-fill" style="width:${pct.toFixed(1)}%;background:${color};"></div></div>
+            <span class="lab-bar-val">${t.val >= 0 ? "+" : ""}${fmt(t.val)}</span>
+          </div>`;
+      }).join("");
+
+      // ---- coefficient interpretation ----
+      const interp = [];
+      if (isMulti) {
+        interp.push(`<div class="lab-interp-item"><strong>Intercept b̂₀ = ${fmt(m.b0)}:</strong> the predicted bonus when <em>both</em> profit and stock price gain equal zero — ${fmt(m.b0)} months.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Partial slope b̂₁ = ${fmt(m.b1)}:</strong> for each additional $1M of profit, the predicted bonus rises by ${fmt(m.b1)} months, <em>holding stock price gain constant</em>.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Partial slope b̂₂ = ${fmt(m.b2)}:</strong> a 1 percentage-point (0.01) rise in stock price gain changes the predicted bonus by ${fmt(m.b2)} × 0.01 = ${fmt(m.b2 * 0.01)} months, <em>holding profit constant</em>.</div>`);
+      } else {
+        interp.push(`<div class="lab-interp-item"><strong>Intercept b̂₀ = ${fmt(m.b0)}:</strong> the predicted bonus when profit equals zero — ${fmt(m.b0)} months.</div>`);
+        interp.push(`<div class="lab-interp-item"><strong>Slope b̂₁ = ${fmt(m.b1)}:</strong> for each additional $1M of profit, the predicted bonus rises by ${fmt(m.b1)} months. With only one variable, this slope also absorbs the effect of anything correlated with profit.</div>`);
+      }
+      $("labInterp").innerHTML = interp.join("");
+
+      // ---- "why coefficients change" note ----
+      $("labNote").innerHTML = isMulti
+        ? `Adding stock price gain changed the intercept (<strong>1.14 → 0.95</strong>) and the profit slope (<strong>0.30 → 0.20</strong>). Because profit and stock price gain are positively correlated, the simple model's 0.30 slope was partly crediting profit with stock-gain's effect. The multiple model separates them, so each slope now measures a <strong>partial effect</strong> — the change in the bonus per unit of one variable while holding the other constant.`
+        : `You are viewing the <strong>simple</strong> model. Switch to <strong>Multiple · 2 variables</strong> to add stock price gain (X₂) and watch the intercept and profit slope change from 1.14 and 0.30 to 0.95 and 0.20 — a consequence of profit and stock-gain being correlated.`;
+    }
+
+    // ============ ML PIPELINE BUILDER ============
+    function shuffled(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function initPipe() {
+      const mk = () => ({ slots: [null, null, null, null, null], order: shuffled([0, 1, 2, 3, 4]), checked: false });
+      state.pipe = { structured: mk(), text: mk() };
+    }
+
+    const PIPE_EL = { structured: "pipeStructured", text: "pipeText" };
+
+    function pipeBank(key) {
+      // Bank = steps not currently placed in a slot, preserving the shuffled order.
+      const slots = state.pipe[key].slots;
+      return state.pipe[key].order.filter(idx => !slots.includes(idx));
+    }
+
+    function renderPipeCol(key) {
+      const def = PIPELINES[key];
+      const st = state.pipe[key];
+
+      let slotsHtml = "";
+      for (let i = 0; i < 5; i++) {
+        const idx = st.slots[i];
+        const filled = idx !== null && idx !== undefined;
+        let cls = "pipe-slot" + (filled ? " filled" : "");
+        let mark = "";
+        if (st.checked && filled) {
+          const ok = idx === i;
+          cls += ok ? " correct" : " incorrect";
+          mark = `<span class="pipe-slot-mark">${ok ? "✓" : "✗"}</span>`;
+        }
+        const content = filled ? `${def.steps[idx]}${mark}` : `<span class="pipe-slot-ph">drop step here</span>`;
+        slotsHtml += `<div class="pipe-slot-row">
+            <span class="pipe-slot-num">${i + 1}</span>
+            <div class="${cls}" data-key="${key}" data-slot="${i}"${filled ? ' draggable="true"' : ""}>${content}</div>
+          </div>`;
+      }
+
+      const bank = pipeBank(key);
+      const bankHtml = bank.length
+        ? bank.map(idx => `<div class="pipe-chip" data-key="${key}" data-step="${idx}" draggable="true" style="background:${def.accent}">${def.steps[idx]}</div>`).join("")
+        : `<span class="pipe-bank-empty">All steps placed</span>`;
+
+      $(PIPE_EL[key]).innerHTML = `
+        <div class="pipe-col-title" style="border-color:${def.accent}">
+          <span class="pipe-dot" style="background:${def.accent}"></span>${def.label}
+        </div>
+        <div class="pipe-slots">${slotsHtml}</div>
+        <div class="pipe-bank-label">Available steps</div>
+        <div class="pipe-bank" data-key="${key}" data-bank="1">${bankHtml}</div>`;
+    }
+
+    function renderPipeline() {
+      if (!state.pipe) initPipe();
+      renderPipeCol("structured");
+      renderPipeCol("text");
+      const anyChecked = state.pipe.structured.checked || state.pipe.text.checked;
+      if (anyChecked) {
+        const line = k => {
+          const n = state.pipe[k].slots.filter((s, i) => s === i).length;
+          return `${PIPELINES[k].label.split(" ")[0]}: ${n}/5`;
+        };
+        const perfect = state.pipe.structured.slots.every((s, i) => s === i) &&
+                        state.pipe.text.slots.every((s, i) => s === i);
+        $("pipeScore").innerHTML = `<span style="color:${perfect ? "var(--success)" : "var(--warning)"}">` +
+          `${perfect ? "🎉 All correct! " : ""}${line("structured")} · ${line("text")}</span>`;
+      } else {
+        $("pipeScore").textContent = "";
+      }
+    }
+
+    // Mutations (bank is derived, so we only ever move step-indices in/out of slots).
+    function pipePlaceNext(key, idx) {
+      const slots = state.pipe[key].slots;
+      const empty = slots.indexOf(null);
+      if (empty === -1) return;
+      slots[empty] = idx;
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+    function pipeClearSlot(key, slot) {
+      state.pipe[key].slots[slot] = null;
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+    function pipeDropOnSlot(key, targetSlot, idx, fromSlot) {
+      const slots = state.pipe[key].slots;
+      const displaced = slots[targetSlot];
+      slots[targetSlot] = idx;
+      if (fromSlot !== null && fromSlot !== undefined) {
+        slots[fromSlot] = displaced;   // swap (displaced may be null)
+      }
+      // if from bank and target was occupied, `displaced` simply returns to the bank (derived)
+      state.pipe[key].checked = false;
+      renderPipeline();
+    }
+
+    let pipeDrag = null;   // { key, idx, fromSlot|null }
+
+    // ============ DATA-EXPLORATION SORTER ============
+    function initSort() {
+      const place = {};
+      SORT_ITEMS.forEach(it => { place[it.id] = "bank"; });
+      state.sort = { place, order: shuffled(SORT_ITEMS.map(it => it.id)), sel: null, checked: false };
+    }
+    const SORT_BY_ID = Object.fromEntries(SORT_ITEMS.map(it => [it.id, it]));
+
+    function sortChipHtml(id, placed) {
+      const it = SORT_BY_ID[id];
+      const st = state.sort;
+      let cls = "pipe-chip sort-chip";
+      if (!placed && st.sel === id) cls += " sel";
+      if (placed && st.checked) cls += (st.place[id] === it.cat ? " correct" : " incorrect");
+      const bg = placed ? SORT_BUCKETS.find(b => b.key === st.place[id]).color : "#64748b";
+      return `<div class="${cls}" data-sid="${id}" draggable="true" style="background:${bg}">${it.label}</div>`;
+    }
+
+    function renderSort() {
+      if (!state.sort) initSort();
+      const st = state.sort;
+      // bank
+      const bankIds = st.order.filter(id => st.place[id] === "bank");
+      $("sortBank").innerHTML = bankIds.length
+        ? bankIds.map(id => sortChipHtml(id, false)).join("")
+        : `<span class="pipe-bank-empty">All techniques placed</span>`;
+      // buckets
+      $("sortGrid").innerHTML = SORT_BUCKETS.map(b => {
+        const ids = st.order.filter(id => st.place[id] === b.key);
+        const body = ids.length
+          ? ids.map(id => sortChipHtml(id, true)).join("")
+          : `<span class="sort-drop-empty">drop here</span>`;
+        return `<div class="sort-col" style="border-top:3px solid ${b.color}">
+            <div class="sort-col-title"><span class="pipe-dot" style="background:${b.color}"></span>${b.name}</div>
+            <div class="sort-col-desc">${b.desc}</div>
+            <div class="sort-drop" data-bucket="${b.key}">${body}</div>
+          </div>`;
+      }).join("");
+      // score
+      if (st.checked) {
+        const placed = SORT_ITEMS.filter(it => st.place[it.id] !== "bank");
+        const correct = placed.filter(it => st.place[it.id] === it.cat).length;
+        const perfect = correct === SORT_ITEMS.length;
+        $("sortScore").innerHTML = `<span style="color:${perfect ? "var(--success)" : "var(--warning)"}">` +
+          `${perfect ? "🎉 " : ""}${correct}/${SORT_ITEMS.length} correct</span>`;
+      } else {
+        $("sortScore").textContent = "";
+      }
+    }
+
+    function sortPlace(id, bucket) {
+      state.sort.place[id] = bucket;
+      state.sort.sel = null;
+      state.sort.checked = false;
+      renderSort();
+    }
+
+    let sortDrag = null;  // item id being dragged
+
+    // ============ LESSONS (subject → topic → content) ============
+    function lesModules(topicId) {
+      // Preserve first-appearance order of module names within a topic's cards.
+      const seen = [];
+      (CARDS[topicId] || []).forEach(c => { if (!seen.includes(c.m)) seen.push(c.m); });
+      return seen;
+    }
+    function lesEsc(s) { return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])); }
+
+    // Official 2026 Level II exam weight ranges per topic (for subject cards).
+    const TOPIC_WEIGHT = {
+      ethics: "5–10%", quant: "5–10%", econ: "5–10%", fsa: "10–15%", corp: "5–10%",
+      equity: "10–15%", fi: "10–15%", deriv: "5–10%", alt: "5–10%", pm: "10–15%",
+    };
+
+    // Map a Quant module to its interactive tool(s).
+    const LESSON_TOOLS = {
+      "Basics of Multiple Regression": [{ tool: "regression", label: "📈 Regression Lab" }],
+      "Big Data Projects": [
+        { tool: "pipeline", label: "🧩 ML Pipeline Builder" },
+        { tool: "sort", label: "🗂️ Data-Exploration Sorter" },
+      ],
+    };
+
+    function renderLessons() {
+      const home = $("lessonsHome"), mods = $("lessonsModules"), reader = $("lessonsReader");
+      if (!state.lessonsSubject) {
+        // ---- Level 0: subject grid ----
+        home.style.display = "block"; mods.style.display = "none"; reader.style.display = "none";
+        let cards = "";
+        TOPICS.forEach(t => {
+          const nMods = lesModules(t.id).length;
+          const nCards = (CARDS[t.id] || []).length;
+          const nSets = (EXAMS_BY_TOPIC[t.id] || []).length;
+          const mono = (t.name.match(/[A-Za-z]/) || ["•"])[0].toUpperCase();
+          cards += `<div class="subj-card" data-subject="${t.id}" data-mono="${mono}" style="--c:${t.color}">
+              <div class="subj-name">${lesEsc(t.name)}</div>
+              <div class="subj-meta">${nMods} topics · ${nCards} notes</div>
+              <div class="subj-tags">
+                <span class="subj-tag weight">${TOPIC_WEIGHT[t.id] || ""}</span>
+                <span class="subj-tag">${nSets} item set${nSets===1?"":"s"}</span>
+              </div>
+            </div>`;
+        });
+        home.innerHTML = `<div class="les-intro-line">Study by <strong>subject → topic</strong>. Each topic opens a
+          lesson with the key concepts, formulas and worked examples — then its detailed notes and practice.</div>
+          <div class="subj-grid">${cards}</div>`;
+        return;
+      }
+      const topic = TOPICS.find(t => t.id === state.lessonsSubject);
+      if (!state.lessonsModule) {
+        // ---- Level 1: module list for a subject ----
+        home.style.display = "none"; mods.style.display = "block"; reader.style.display = "none";
+        const modNames = lesModules(topic.id);
+        let rows = "";
+        modNames.forEach((m, i) => {
+          const n = (CARDS[topic.id] || []).filter(c => c.m === m).length;
+          const hasSlide = !!LESSON_INTROS[`${topic.id}::${m}`];
+          rows += `<div class="mod-row" data-module="${lesEsc(m)}" style="--c:${topic.color}">
+              <span class="mod-num">${i + 1}</span>
+              <div><div class="mod-title">${lesEsc(m)}</div><div class="mod-sub">${n} note${n===1?"":"s"}</div></div>
+              ${hasSlide ? `<span class="mod-badge slide">lesson</span>` : ""}
+              <span class="mod-arrow">→</span>
+            </div>`;
+        });
+        mods.innerHTML = `<div class="les-crumb"><a data-home>All subjects</a> <span class="sep">/</span> <span>${lesEsc(topic.name)}</span></div>
+          <div class="les-subj-head" style="color:${topic.color}">${lesEsc(topic.name)}</div>
+          <div class="les-subj-sub">${TOPIC_WEIGHT[topic.id] || ""} exam weight · ${modNames.length} topics — choose one to study</div>
+          <div class="mod-list">${rows}</div>`;
+        return;
+      }
+      // ---- Level 2: lesson reader ----
+      home.style.display = "none"; mods.style.display = "none"; reader.style.display = "block";
+      const m = state.lessonsModule;
+      const intro = LESSON_INTROS[`${topic.id}::${m}`] || "";
+      const notes = (CARDS[topic.id] || []).filter(c => c.m === m);
+      const notesHtml = notes.map(c =>
+        `<div class="lesson-note"><dt>${lesEsc(c.f)}</dt><dd>${lesEsc(c.b)}</dd></div>`).join("");
+      const sets = EXAMS_BY_TOPIC[topic.id] || [];
+      const examChips = sets.map(e =>
+        `<button class="les-chip" data-exam="${e.id}">📝 ${e.id} · ${lesEsc(e.title)}</button>`).join("");
+      const toolChips = (LESSON_TOOLS[m] || []).map(t =>
+        `<button class="les-chip tool" data-tool="${t.tool}">${t.label}</button>`).join("");
+      reader.innerHTML = `
+        <div class="les-crumb"><a data-home>All subjects</a> <span class="sep">/</span>
+          <a data-subject="${topic.id}">${lesEsc(topic.name)}</a> <span class="sep">/</span> <span>${lesEsc(m)}</span></div>
+        <article class="lesson" style="--c:${topic.color}">
+          <div class="lesson-topic">${lesEsc(topic.name)}</div>
+          <h2>${lesEsc(m)}</h2>
+          <div class="lesson-rule"></div>
+          ${intro ? `<div class="lesson-body">${intro}</div>` : `<div class="les-intro-line">Study notes for this topic:</div>`}
+          ${notesHtml ? `<div class="lesson-notes"><div class="lesson-notes-label">Key notes</div>${notesHtml}</div>` : ""}
+          <div class="lesson-practice">
+            <h4>Practice &amp; tools</h4>
+            ${toolChips}${examChips || `<span class="les-intro-line">Item sets for this subject are coming.</span>`}
+          </div>
+        </article>`;
+    }
+
+    // Lessons navigation (event delegation on the whole view)
+    function lessonsGoHome() { state.lessonsSubject = null; state.lessonsModule = null; renderLessons(); window.scrollTo(0, 0); }
+    function lessonsOpenSubject(id) { state.lessonsSubject = id; state.lessonsModule = null; renderLessons(); window.scrollTo(0, 0); }
+    function lessonsOpenModule(m) { state.lessonsModule = m; renderLessons(); window.scrollTo(0, 0); }
+
+    // ============ LOS SEARCH ============
+    const losState = { q: "", open: new Set() };
+
+    function losEscape(s) {
+      return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    }
+    function losHighlight(text, q) {
+      if (!q) return losEscape(text);
+      const tl = text.toLowerCase(), ql = q.toLowerCase();
+      let out = "", i = 0, p;
+      while ((p = tl.indexOf(ql, i)) !== -1) {
+        out += losEscape(text.slice(i, p)) + "<mark>" + losEscape(text.slice(p, p + q.length)) + "</mark>";
+        i = p + q.length;
+      }
+      return out + losEscape(text.slice(i));
+    }
+
+    function renderLos() {
+      const q = losState.q.trim(), ql = q.toLowerCase();
+      const T = LOS_DATA.totals;
+      $("losTotals").textContent = `${T.topics} topics · ${T.modules} modules · ${T.los} LOS`;
+
+      let html = "", shownTopics = 0;
+      LOS_DATA.topics.forEach(topic => {
+        const topicHit = ql && topic.name.toLowerCase().includes(ql);
+        let modsHtml = "", topicHasContent = false;
+        topic.modules.forEach(m => {
+          const modHit = ql && m.title.toLowerCase().includes(ql);
+          const los = (!ql || topicHit || modHit) ? m.los : m.los.filter(l => l.toLowerCase().includes(ql));
+          if (ql && los.length === 0) return;
+          topicHasContent = true;
+          const badge = m.coverage === "full" ? `<span class="los-badge full">✓ covered</span>`
+                      : m.coverage === "partial" ? `<span class="los-badge partial">~ flashcards</span>`
+                      : `<span class="los-badge none">– not yet</span>`;
+          const note = (m.note && m.note !== "—") ? `<span class="los-mod-note">${losEscape(m.note)}</span>` : "";
+          modsHtml += `<div class="los-module"><div class="los-mod-head">${badge}`
+            + `<span class="los-mod-title">${losHighlight(m.title, q)}</span>${note}</div>`
+            + `<ul class="los-items">${los.map(l => `<li>${losHighlight(l, q)}</li>`).join("")}</ul></div>`;
+        });
+        if (ql && !topicHasContent) return;
+        shownTopics++;
+        const isOpen = ql ? true : losState.open.has(topic.name);
+        const losN = topic.modules.reduce((a, m) => a + m.los.length, 0);
+        html += `<div class="los-topic${isOpen ? " open" : ""}" data-topic="${losEscape(topic.name)}">`
+          + `<div class="los-topic-head"><span class="los-chevron">▶</span>`
+          + `<span class="los-topic-name">${losHighlight(topic.name, q)}</span>`
+          + `<span class="los-topic-meta">${topic.weight} · ${topic.modules.length} modules · ${losN} LOS</span></div>`
+          + `<div class="los-topic-body">${modsHtml}</div></div>`;
+      });
+
+      $("losList").innerHTML = html || `<div class="los-empty">No LOS match “${losEscape(q)}”.</div>`;
+      if (ql) {
+        const n = LOS_DATA.topics.reduce((a, t) =>
+          a + t.modules.reduce((b, m) => b + m.los.filter(l => l.toLowerCase().includes(ql)).length, 0), 0);
+        $("losCount").textContent = `${n} matching LOS · ${shownTopics} topic${shownTopics === 1 ? "" : "s"}`;
+      } else {
+        $("losCount").textContent = "Tip: click a topic to expand its modules and LOS.";
+      }
+    }
+
     // ============ THEME ============
     function applyTheme() {
       document.body.setAttribute("data-theme", state.theme);
@@ -987,6 +2160,166 @@
     $("examNextQ").addEventListener("click", examNextQ);
     $("examPrevQ").addEventListener("click", examPrevQ);
 
+    // Regression Lab events
+    document.querySelectorAll("#labToggle button").forEach(btn => {
+      btn.addEventListener("click", () => setLabModel(btn.dataset.model));
+    });
+    $("labX1").addEventListener("input", (e) => {
+      state.labX1 = parseFloat(e.target.value);
+      localStorage.setItem("cfa_lab_x1", state.labX1);
+      renderLab();
+    });
+    $("labX2").addEventListener("input", (e) => {
+      state.labX2 = parseFloat(e.target.value);
+      localStorage.setItem("cfa_lab_x2", state.labX2);
+      renderRegression();
+    });
+
+    // Interactive tool selector
+    document.querySelectorAll("#labToolbar button").forEach(btn => {
+      btn.addEventListener("click", () => setLabTool(btn.dataset.tool));
+    });
+
+    // ML Pipeline builder — click to place / remove
+    $("labToolPipeline").addEventListener("click", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      if (chip) { pipePlaceNext(chip.dataset.key, +chip.dataset.step); return; }
+      const slot = e.target.closest(".pipe-slot.filled");
+      if (slot) { pipeClearSlot(slot.dataset.key, +slot.dataset.slot); }
+    });
+    // ML Pipeline builder — drag and drop (same pipeline only)
+    $("labToolPipeline").addEventListener("dragstart", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      const slot = e.target.closest(".pipe-slot.filled");
+      if (chip) {
+        pipeDrag = { key: chip.dataset.key, idx: +chip.dataset.step, fromSlot: null };
+      } else if (slot) {
+        pipeDrag = { key: slot.dataset.key, idx: state.pipe[slot.dataset.key].slots[+slot.dataset.slot], fromSlot: +slot.dataset.slot };
+      } else { return; }
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", String(pipeDrag.idx)); } catch (_) {}
+    });
+    $("labToolPipeline").addEventListener("dragover", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (!target || !pipeDrag || target.dataset.key !== pipeDrag.key) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      target.classList.add("dragover");
+    });
+    $("labToolPipeline").addEventListener("dragleave", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (target) target.classList.remove("dragover");
+    });
+    $("labToolPipeline").addEventListener("drop", (e) => {
+      const target = e.target.closest(".pipe-slot, .pipe-bank");
+      if (!target || !pipeDrag || target.dataset.key !== pipeDrag.key) return;
+      e.preventDefault();
+      const { key, idx, fromSlot } = pipeDrag;
+      if (target.dataset.bank) {
+        if (fromSlot !== null) pipeClearSlot(key, fromSlot);
+      } else {
+        pipeDropOnSlot(key, +target.dataset.slot, idx, fromSlot);
+      }
+      pipeDrag = null;
+    });
+    $("labToolPipeline").addEventListener("dragend", () => {
+      pipeDrag = null;
+      document.querySelectorAll("#labToolPipeline .dragover").forEach(el => el.classList.remove("dragover"));
+    });
+    $("pipeCheck").addEventListener("click", () => {
+      if (!state.pipe) initPipe();
+      state.pipe.structured.checked = true;
+      state.pipe.text.checked = true;
+      renderPipeline();
+    });
+    $("pipeReset").addEventListener("click", () => { initPipe(); renderPipeline(); });
+
+    // Data-Exploration sorter — click to select / place / return
+    $("labToolSort").addEventListener("click", (e) => {
+      const st = state.sort;
+      const chip = e.target.closest(".pipe-chip");
+      const drop = e.target.closest(".sort-drop");
+      if (drop) {
+        // A selection takes priority so occupied buckets still accept the chip.
+        if (st.sel) { sortPlace(st.sel, drop.dataset.bucket); }
+        else if (chip) { sortPlace(chip.dataset.sid, "bank"); }   // placed chip, no selection → return
+        return;
+      }
+      if (chip) {                                                 // bank chip → toggle selection
+        const id = chip.dataset.sid;
+        st.sel = (st.sel === id) ? null : id;
+        renderSort();
+        return;
+      }
+      if (st.sel) { sortPlace(st.sel, "bank"); }                  // empty bank area → drop selection back
+    });
+    // Data-Exploration sorter — drag and drop
+    $("labToolSort").addEventListener("dragstart", (e) => {
+      const chip = e.target.closest(".pipe-chip");
+      if (!chip) return;
+      sortDrag = chip.dataset.sid;
+      e.dataTransfer.effectAllowed = "move";
+      try { e.dataTransfer.setData("text/plain", sortDrag); } catch (_) {}
+    });
+    $("labToolSort").addEventListener("dragover", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (!zone || !sortDrag) return;
+      e.preventDefault(); e.dataTransfer.dropEffect = "move";
+      zone.classList.add("dragover");
+    });
+    $("labToolSort").addEventListener("dragleave", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (zone) zone.classList.remove("dragover");
+    });
+    $("labToolSort").addEventListener("drop", (e) => {
+      const zone = e.target.closest(".sort-drop, .pipe-bank");
+      if (!zone || !sortDrag) return;
+      e.preventDefault();
+      sortPlace(sortDrag, zone.dataset.bucket);   // bank zone has data-bucket="bank"
+      sortDrag = null;
+    });
+    $("labToolSort").addEventListener("dragend", () => {
+      sortDrag = null;
+      document.querySelectorAll("#labToolSort .dragover").forEach(el => el.classList.remove("dragover"));
+    });
+    $("sortCheck").addEventListener("click", () => {
+      if (!state.sort) initSort();
+      state.sort.checked = true; state.sort.sel = null;
+      renderSort();
+    });
+    $("sortReset").addEventListener("click", () => { initSort(); renderSort(); });
+
+    // LOS search
+    $("losSearch").addEventListener("input", (e) => { losState.q = e.target.value; renderLos(); });
+    $("losClear").addEventListener("click", () => { losState.q = ""; $("losSearch").value = ""; $("losSearch").focus(); renderLos(); });
+    $("losList").addEventListener("click", (e) => {
+      const head = e.target.closest(".los-topic-head");
+      if (!head) return;
+      const name = head.parentElement.dataset.topic;
+      if (losState.open.has(name)) losState.open.delete(name); else losState.open.add(name);
+      renderLos();
+    });
+
+    // Lessons navigation
+    $("lessonsView").addEventListener("click", (e) => {
+      if (e.target.closest("[data-home]")) { lessonsGoHome(); return; }
+      const subj = e.target.closest("[data-subject]");
+      if (subj) { lessonsOpenSubject(subj.dataset.subject); return; }
+      const mod = e.target.closest("[data-module]");
+      if (mod) { lessonsOpenModule(mod.dataset.module); return; }
+      const examBtn = e.target.closest("[data-exam]");
+      if (examBtn) {
+        const topic = state.lessonsSubject;
+        state.topicId = topic; localStorage.setItem("cfa_topic", topic);
+        buildOrder();
+        setMode("exam");
+        openExam(examBtn.dataset.exam);
+        return;
+      }
+      const toolBtn = e.target.closest("[data-tool]");
+      if (toolBtn) { setMode("lab"); setLabTool(toolBtn.dataset.tool); return; }
+    });
+
     // Header
     $("themeBtn").addEventListener("click", () => {
       state.theme = state.theme === "dark" ? "light" : "dark";
@@ -1000,7 +2333,7 @@
         localStorage.removeItem("cfa_progress");
         localStorage.removeItem("cfa_exam_ans");
         if (state.mode === "flash") renderFlash();
-        else renderExamList();
+        else if (state.mode === "exam") renderExamList();
       }
     });
 
@@ -1022,6 +2355,8 @@
     $("filter").value = state.filter;
     applyTheme();
     buildOrder();
+    initPipe();
+    initSort();
     setMode(state.mode);
   </script>
 </body>

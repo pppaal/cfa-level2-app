@@ -224,6 +224,865 @@ Residual diagnostics:
       }
     ]
   },
+  {
+    id: "Q3", topic: "quant",
+    title: "Multiple Regression: Interpreting Coefficients & Predicting",
+    vignette: `An analyst studies how executive year-end bonuses (measured in months of salary) relate to firm performance. The dependent variable is the bonus in months (Y). Two independent variables are considered:
+
+• X₁ = company profit, in $ millions
+• X₂ = company stock price gain over the year, expressed as a decimal (e.g., an 18% gain is entered as 0.18)
+
+The analyst first estimates a simple regression using only profit, then a multiple regression adding stock price gain. Both are fit by ordinary least squares (the least squares method), which chooses coefficients that minimize the sum of squared residuals.
+
+Simple model:    Ŷ = 1.14 + 0.30·X₁
+Multiple model:  Ŷ = 0.95 + 0.20·X₁ + 6.00·X₂
+
+The analyst notes that profit and stock price gain are positively correlated across the firms in the sample.`,
+    questions: [
+      {
+        q: "[LOS b · Interpret coefficients] In the MULTIPLE regression model, the partial slope coefficient on profit (b̂₁ = 0.20) is BEST interpreted as: for each additional $1 million of profit, the predicted bonus increases by 0.20 months,",
+        c: ["A. without any conditions on the other variables.",
+            "B. holding the company's stock price gain constant.",
+            "C. only when the stock price gain is also increasing."],
+        a: 1,
+        e: "B is correct. In multiple regression, each slope is a PARTIAL slope coefficient: it measures the change in Y for a one-unit change in that independent variable while holding all other independent variables constant. So b̂₁ = 0.20 means a $1M rise in profit predicts a 0.20-month higher bonus, holding stock price gain fixed. A ignores the 'holding others constant' condition (that is the simple-regression interpretation). C misstates the condition — the other variable is held fixed, not required to move."
+      },
+      {
+        q: "[LOS f · Calculate predicted value] Using the multiple model, the predicted bonus for a firm with profit of $8.0M and a stock price gain of 18% is CLOSEST to:",
+        c: ["A. 2.55 months.",
+            "B. 3.63 months.",
+            "C. 4.14 months."],
+        a: 1,
+        e: "B is correct. Substitute X₁ = 8.0 and X₂ = 0.18 (18% as a decimal): Ŷ = 0.95 + 0.20(8.0) + 6.00(0.18) = 0.95 + 1.60 + 1.08 = 3.63 months. Choice C (4.14) is the SIMPLE model's prediction at X₁ = 10 (1.14 + 0.30×10), not this case. A omits the stock-gain term."
+      },
+      {
+        q: "[LOS b · Interpret coefficients] The intercept in the multiple model (b̂₀ = 0.95) represents the predicted bonus when:",
+        c: ["A. profit equals its sample average and stock gain is zero.",
+            "B. both profit and stock price gain equal zero.",
+            "C. profit equals zero, regardless of stock price gain."],
+        a: 1,
+        e: "B is correct. The intercept is the predicted value of the dependent variable when ALL independent variables equal zero — here, when both profit (X₁) and stock price gain (X₂) are zero, the predicted bonus is 0.95 months. C is wrong because in a multiple regression the intercept requires every X (not just profit) to be zero."
+      },
+      {
+        q: "[LOS b · Interpret coefficients] The coefficient on profit falls from 0.30 in the simple model to 0.20 in the multiple model. The MOST likely reason is that:",
+        c: ["A. adding a variable always reduces every other coefficient by construction.",
+            "B. profit and stock price gain are correlated, so the simple model's slope partly captured stock gain's effect; the multiple model isolates profit's partial effect.",
+            "C. the multiple model violates the least squares criterion."],
+        a: 1,
+        e: "B is correct. Because profit and stock price gain are positively correlated, the simple regression's 0.30 slope on profit absorbed some of the influence that actually belongs to stock price gain (an omitted-variable effect). When stock gain is added, the model separates the two, and profit's partial slope drops to 0.20. The intercept shifts (1.14 → 0.95) for the same reason. A is false — coefficients can rise, fall, or change sign. C is false — both models are estimated by least squares."
+      },
+      {
+        q: "[LOS b · Interpret coefficients] Because X₂ is entered as a decimal, a coefficient of 6.00 on stock price gain means that a 1 percentage point (0.01) increase in the stock price gain, holding profit constant, changes the predicted bonus by:",
+        c: ["A. 6.00 months.",
+            "B. 0.60 months.",
+            "C. 0.06 months."],
+        a: 2,
+        e: "C is correct. A one-unit change in X₂ means a change of 1.00 in the decimal (i.e., a 100 percentage-point move), which would move the bonus by 6.00 months. A 1 percentage point move is only 0.01 in decimal terms, so the effect is 6.00 × 0.01 = 0.06 months, holding profit constant. This highlights why the units of each independent variable matter when interpreting slope coefficients."
+      }
+    ]
+  },
+  {
+    id: "Q4", topic: "quant",
+    title: "Big Data & the ML Model-Building Process",
+    vignette: `A quantitative research team at an asset manager is building a model to forecast short-horizon stock returns. They plan to combine two data streams:
+
+• A "structured" stream of traditional inputs — financial ratios and macroeconomic indicators (GDP, inflation). These arrive mostly on a quarterly basis.
+• An "unstructured" stream — real-time news headlines, investor-forum posts, and social-media messages, gathered continuously using automated web crawlers.
+
+The team classifies its data along the standard characteristics of Big Data (the "V"s) and follows a systematic machine-learning model-building workflow. For the text stream, a junior analyst proposes feeding the raw social-media messages directly into the return-forecasting algorithm.
+
+The team lead notes: "Before any text can enter the model, we must curate and label a training sample, then transform the messages into a numerical representation."`,
+    questions: [
+      {
+        q: "The team's use of continuously arriving, real-time news and social-media messages BEST illustrates which characteristic of Big Data?",
+        c: ["A. Volume — the sheer size of the data in petabytes.",
+            "B. Velocity — the speed at which data is generated and communicated.",
+            "C. Veracity — the trustworthiness and validity of the data."],
+        a: 1,
+        e: "B is correct. Velocity refers to the speed at which data is generated and communicated, ranging from high-latency (batch, e.g., quarterly reports) to low-latency (real-time feeds such as streaming news and social media). Volume is about size; veracity is about quality/trustworthiness. Real-time streaming is the defining feature of high velocity / low latency."
+      },
+      {
+        q: "Social-media text, online news, and voice recordings are BEST classified under the Variety dimension as:",
+        c: ["A. Structured data.",
+            "B. Semi-structured data.",
+            "C. Unstructured data."],
+        a: 2,
+        e: "C is correct. Unstructured data has no pre-defined data model (video, social-media text, voice recordings). Structured data is highly organized and tabular (spreadsheets, databases). Semi-structured data has some organizational properties or metadata (HTML/XML, photos with metadata). A core challenge of the text ML workflow is converting unstructured text into a structured, numerical form."
+      },
+      {
+        q: "The team lead's insistence on curating and LABELING a training sample of messages before modeling is MOST directly associated with:",
+        c: ["A. The data collection/curation step for supervised learning on text.",
+            "B. Hyperparameter tuning during model training.",
+            "C. Exploratory data analysis (EDA).",
+            "D. Feature neutralization."],
+        a: 0,
+        e: "A is correct. In the text (unstructured) workflow, the data collection/curation step gathers text (often via web crawlers) and, for supervised learning, annotates (labels) each document with the target variable. Labeling supplies the ground truth the algorithm learns from. Hyperparameter tuning and EDA occur at later steps; feature neutralization is not part of this workflow."
+      },
+      {
+        q: "The junior analyst's proposal to feed raw social-media messages directly into the forecasting algorithm is problematic MAINLY because:",
+        c: ["A. Text data is always less predictive than structured data and should be discarded.",
+            "B. Raw text must first be prepared and wrangled into a structured, numerical representation (e.g., a document-term matrix) before an algorithm can process it.",
+            "C. Machine learning algorithms cannot be used on any alternative data source."],
+        a: 1,
+        e: "B is correct. Algorithms operate on numerical inputs, so the text prep & wrangling step must convert raw text into a structured representation (e.g., a document-term matrix) before model training. The bulk of the effort in the text workflow lies in the first four steps that structure the data. A and C are false — text can be highly predictive, and ML is widely applied to alternative data."
+      },
+      {
+        q: "Once the text stream has been converted into structured features, the analyst wants to combine it with the traditional financial-ratio inputs. The MOST appropriate design is to:",
+        c: ["A. Use the structured output of the text model as an additional input to the primary model that also uses traditional structured data, forming a hybrid model.",
+            "B. Discard the traditional structured data and rely on the text features alone.",
+            "C. Keep the two models permanently separate because their data can never be combined."],
+        a: 0,
+        e: "A is correct. The lesson's hybrid design feeds the structured output of the text ML model as an extra input into the primary model that also uses traditional structured data, producing a more robust forecast that captures both slow-moving fundamentals and real-time sentiment. B needlessly throws away information; C is false — converting text to structured features is precisely what makes combination possible."
+      }
+    ]
+  },
+  {
+    id: "Q5", topic: "quant",
+    title: "Big Data Projects: Data Exploration",
+    vignette: `An analyst reaches the data exploration step (step 4) of a machine-learning project. She works with two datasets:
+
+STRUCTURED — a table of companies with features: company age, price-to-book (P/B) ratio, net profit, and an industry-ID code (e.g., "05 – Manufacturing", "81 – Tech").
+
+UNSTRUCTURED (TEXT) — a corpus of financial reports, news, and stock recommendations that has already been cleaned and organized into a document-term matrix (DTM). A sample of ten tokens includes common words such as "finance", "stock", and "market", as well as rarer, more distinctive words such as "bull", "bear", and "target".
+
+She performs exploratory data analysis (EDA), then feature selection and feature engineering on each dataset. For the text data she computes term frequency (TF), document frequency (DF), mutual information (MI), and chi-square (χ²) statistics for each token across the document classes.`,
+    questions: [
+      {
+        q: "To convert the categorical industry-ID feature into a form suitable for the algorithm, the analyst should MOST appropriately apply:",
+        c: ["A. One-hot encoding, creating a separate binary (0/1) variable for each industry.",
+            "B. Winsorization of the industry-ID codes.",
+            "C. A term-frequency transformation of the industry-ID codes."],
+        a: 0,
+        e: "A is correct. One-hot encoding (OHE) converts a categorical feature into separate binary (0/1) columns — one per category (e.g., is_manufacturing, is_finance, is_tech) — which is machine-processable. This is feature engineering for categorical data. Winsorization treats outliers in continuous data; term frequency applies to text tokens, not a categorical code."
+      },
+      {
+        q: "Creating a new feature \"is_startup\" that equals 1 when company age is below five years, and 0 otherwise, is BEST described as:",
+        c: ["A. Feature selection.",
+            "B. Feature engineering.",
+            "C. Exploratory data analysis."],
+        a: 1,
+        e: "B is correct. Feature engineering creates new features by transforming or combining existing ones — here transforming a continuous variable (age) into a binary indicator that imparts domain knowledge (startups may have special tax treatment). Feature selection chooses which existing features to keep; EDA describes/visualizes the data."
+      },
+      {
+        q: "In selecting the most useful STRUCTURED features, the analyst aims for a parsimonious model. A parsimonious model:",
+        c: ["A. Includes as many features as possible to maximize in-sample R².",
+            "B. Uses only features that contribute to out-of-sample predictive power, so each variable plays an essential role.",
+            "C. Always applies principal components analysis to every feature set."],
+        a: 1,
+        e: "B is correct. Feature selection keeps only features that improve out-of-sample predictive power, yielding a parsimonious model in which each variable is essential. More features add complexity and overfitting risk. Maximizing in-sample fit (A) invites overfitting; PCA (C) is one dimension-reduction tool, not a requirement for every dataset."
+      },
+      {
+        q: "The token \"finance\" appears in almost every document (very high document frequency), while \"liquor\" appears in almost none (very low DF). For a text-classification model, the analyst should MOST likely:",
+        c: ["A. Keep both tokens because more tokens always improve accuracy.",
+            "B. Consider removing both — very high-DF tokens offer little differentiation and very low-DF tokens are too rare (risk overfitting).",
+            "C. Keep only the very high-DF token and drop the rare one."],
+        a: 1,
+        e: "B is correct. In text feature selection, tokens with very high frequency/DF are common across documents and provide little discriminatory value, while very low-frequency tokens are too rare and can cause overfitting. Both extremes are candidates for elimination as 'noise,' preserving the semantic essence with the informative middle."
+      },
+      {
+        q: "The analyst notes that the token \"support\" has the highest chi-square (χ²) statistic for the \"stock recommendation\" class and a high mutual information (MI) for that class. This indicates the token:",
+        c: ["A. Should be discarded because high χ² means it is noise.",
+            "B. Has strong discriminatory power for that class and should be selected for model training.",
+            "C. Is a stop word that should always be removed."],
+        a: 1,
+        e: "B is correct. Chi-square ranks tokens by their usefulness in discriminating a class; a high χ² (and high MI) means the token carries substantial information about that class and has strong discriminatory potential, so it should be selected for training. Low MI across all classes would indicate a poor discriminant. High χ² is a reason to keep, not discard."
+      },
+      {
+        q: "To preserve the order of words when \"stock\" and \"market\" frequently appear together, the analyst can engineer the feature \"stock_market\". This technique is called:",
+        c: ["A. Name entity recognition (NER).",
+            "B. An n-gram (here, a bigram).",
+            "C. Parts-of-speech (POS) tagging."],
+        a: 1,
+        e: "B is correct. N-grams are multi-word token sequences that preserve word order; a two-word sequence like 'stock_market' is a bigram. NER tags a token's object class (e.g., ORG, PLACE); POS tagging labels grammatical roles (noun, verb, preposition). Both NER and POS can add discriminatory context, but combining adjacent words into one token is specifically an n-gram."
+      }
+    ]
+  },
+  {
+    id: "Q6", topic: "quant",
+    title: "Big Data Projects: Data Preparation & Wrangling",
+    vignette: `An analyst prepares two datasets for a machine-learning model (step 3 of the workflow).
+
+STRUCTURED — a table of companies. Several issues are present: some rows have a missing price-to-book (P/B) ratio; one company's age is recorded as 999 years; two rows are exact duplicates; and the features are on very different scales (age in years, net profit in millions of dollars, P/B as a small ratio).
+
+TEXT — a corpus of regulatory filings scraped from the web. The raw text contains HTML tags (<p>, <br>), punctuation, mixed upper/lower case, and many occurrences of the related words "analyze", "analyzing", and "analyzed".
+
+The analyst plans to cleanse each dataset, then preprocess (wrangle) it into a form suitable for modeling.`,
+    questions: [
+      {
+        q: "Resolving the missing P/B values, the out-of-range age of 999, and the duplicate rows are all examples of:",
+        c: ["A. Data cleansing.",
+            "B. Feature engineering.",
+            "C. Model tuning."],
+        a: 0,
+        e: "A is correct. Data cleansing addresses incomplete (missing), invalid/out-of-range, inaccurate, inconsistent, non-uniform, and duplicate data. Feature engineering creates new features (a later, exploration-stage task); model tuning adjusts hyperparameters during training. Missing values, an implausible age, and duplicates are classic cleansing problems."
+      },
+      {
+        q: "To rescale company age, net profit, and P/B onto a common [0, 1] range so no feature dominates because of its units, the analyst should apply normalization, computed as:",
+        c: ["A. (x − μ) / σ.",
+            "B. (x − min) / (max − min).",
+            "C. (x − median) / IQR."],
+        a: 1,
+        e: "B is correct. Normalization rescales a feature to [0, 1] using (x − min)/(max − min). Choice A is standardization (z-score), which centers to mean 0 and scales by the standard deviation but is not bounded to [0, 1]. C is a robust-scaling formula, not the normalization defined in the curriculum."
+      },
+      {
+        q: "Compared with normalization, standardization (the z-score transformation) is BEST described as:",
+        c: ["A. Bounding every value strictly between 0 and 1.",
+            "B. Centering data to mean 0 and unit standard deviation, and generally assuming the data are approximately normally distributed.",
+            "C. Guaranteed to remove all outliers from the data."],
+        a: 1,
+        e: "B is correct. Standardization produces z-scores, (x − μ)/σ, centering the data at mean 0 with unit standard deviation; it is not bounded to [0,1] and generally assumes an approximately normal distribution. Normalization (not standardization) bounds values to [0,1]. Neither transformation removes outliers—standardization is simply less sensitive to them than normalization."
+      },
+      {
+        q: "For the TEXT data, removing the HTML tags (<p>, <br>) and punctuation is part of:",
+        c: ["A. Text cleansing.",
+            "B. Model training.",
+            "C. Feature selection."],
+        a: 0,
+        e: "A is correct. Text cleansing removes noise from raw text — HTML tags, punctuation, numbers, and extra white space — before tokenization. Feature selection (removing non-informative tokens) and model training come later in the workflow."
+      },
+      {
+        q: "Reducing \"analyze\", \"analyzing\", and \"analyzed\" to a common root form so they are treated as one token is BEST described as:",
+        c: ["A. Stop-word removal.",
+            "B. Stemming (or lemmatization).",
+            "C. One-hot encoding."],
+        a: 1,
+        e: "B is correct. Stemming chops inflected words to a common root (e.g., 'analyz'), and lemmatization maps them to a dictionary base form; both collapse related word forms into one token, reducing sparsity. Stop-word removal deletes common low-information words; one-hot encoding is for categorical structured features, not text normalization."
+      },
+      {
+        q: "After tokenizing and normalizing the text, the analyst organizes it into a bag-of-words / document-term matrix. The PRIMARY purpose of this structure is to:",
+        c: ["A. Preserve the exact grammatical order of every sentence.",
+            "B. Represent the text numerically (token counts per document) so an algorithm can process it.",
+            "C. Encrypt the text for secure storage."],
+        a: 1,
+        e: "B is correct. A bag-of-words / document-term matrix converts unstructured text into a numerical, structured representation—counts (or frequencies) of each token per document—so a machine-learning algorithm can operate on it. A plain bag-of-words discards word order (n-grams partially restore it); encryption is unrelated."
+      }
+    ]
+  },
+  {
+    id: "Q7", topic: "quant",
+    title: "Big Data Projects: Model Training & Evaluation",
+    vignette: `An analyst trains a classifier to flag fraudulent transactions (step 5 of the workflow). Each historical transaction is labeled fraud (1) or legitimate (0); fraud is rare — about 4% of cases.
+
+The analyst splits the data, selects an algorithm, and evaluates it. On a hold-out sample of 1,000 transactions the confusion matrix is:
+
+                 Predicted fraud   Predicted legit
+Actual fraud            40                20
+Actual legit            10               930
+
+The model achieves 97% accuracy on this sample, but the analyst is concerned because it performs far better on the training data than on the validation data.`,
+    questions: [
+      {
+        q: "Because each transaction carries a labeled fraud/legit target, the analyst is performing:",
+        c: ["A. Unsupervised learning (e.g., clustering).",
+            "B. Supervised learning — specifically classification.",
+            "C. Reinforcement learning."],
+        a: 1,
+        e: "B is correct. A labeled target variable means supervised learning; because the target is categorical (fraud vs legit), it is a classification problem. Unsupervised learning has no labels (it finds structure, e.g., clusters); reinforcement learning trains via reward feedback, not a fixed labeled dataset."
+      },
+      {
+        q: "The analyst splits the data into training, validation, and test sets (and uses k-fold cross-validation). The MAIN purpose of the validation set is to:",
+        c: ["A. Provide additional data purely to increase the training sample size.",
+            "B. Tune the model and estimate out-of-sample performance while keeping the test set untouched for a final, unbiased evaluation.",
+            "C. Guarantee the model cannot overfit."],
+        a: 1,
+        e: "B is correct. The validation set (or cross-validation) is used to tune hyperparameters and gauge out-of-sample performance during development, while the test set is held back for a single final unbiased estimate. It does not simply enlarge the training set, and no split can guarantee the absence of overfitting."
+      },
+      {
+        q: "Using the confusion matrix, the model's precision for the fraud class is CLOSEST to:",
+        c: ["A. 0.67.",
+            "B. 0.80.",
+            "C. 0.97."],
+        a: 1,
+        e: "B is correct. Precision = TP/(TP+FP) = 40/(40+10) = 40/50 = 0.80. (Recall = TP/(TP+FN) = 40/(40+20) = 0.67, which is choice A. Accuracy = (40+930)/1000 = 0.97, choice C.) Precision answers: of all transactions flagged as fraud, what fraction really were fraud."
+      },
+      {
+        q: "Although accuracy is 97%, the analyst is right to distrust it here MAINLY because:",
+        c: ["A. Accuracy can never be computed from a confusion matrix.",
+            "B. With only ~4% fraud, a model could reach ~96% accuracy by predicting 'legit' for everything; F1 (balancing precision and recall) is more informative for imbalanced classes.",
+            "C. Accuracy and precision are always identical."],
+        a: 1,
+        e: "B is correct. With heavily imbalanced classes, high accuracy is easy to achieve by favoring the majority class, so it can mask poor detection of the rare class. Precision, recall, and especially their harmonic mean F1 give a more informative picture. Accuracy is computable (contradicting A) and is not equal to precision (contradicting C)."
+      },
+      {
+        q: "The model fits the training data much better than the validation data. This is a symptom of, and BEST remedied by:",
+        c: ["A. Underfitting (high bias); add more features and a more complex model.",
+            "B. Overfitting (high variance); use regularization, a simpler model, more data, or cross-validation.",
+            "C. Data leakage; there is no way to address it."],
+        a: 1,
+        e: "B is correct. Strong in-sample but weak out-of-sample performance signals overfitting — low bias but high variance (the model memorized noise). Remedies include regularization, reducing model complexity, gathering more data, and cross-validation. A describes the opposite problem (underfitting). Data leakage is a real issue but is not what this train-vs-validation gap primarily indicates, and it can be addressed."
+      },
+      {
+        q: "To compare classifiers across all classification thresholds, the analyst plots the true-positive rate against the false-positive rate. This curve and its summary statistic are:",
+        c: ["A. The ROC curve and the area under the curve (AUC).",
+            "B. The RMSE curve and its slope.",
+            "C. The scree plot and its elbow."],
+        a: 0,
+        e: "A is correct. The receiver operating characteristic (ROC) curve plots the true-positive rate against the false-positive rate across thresholds; the area under it (AUC) summarizes discrimination (closer to 1 is better). RMSE evaluates continuous/regression predictions, not classification thresholds; a scree plot is used to choose components in PCA."
+      }
+    ]
+  },
+  {
+    id: "Q8", topic: "quant",
+    title: "Machine Learning: Types & Algorithm Selection",
+    vignette: `A quant team evaluates machine-learning (ML) methods for several tasks. Unlike a classical statistical regression, where the analyst pre-specifies a functional form (e.g., a linear relationship) and estimates its parameters, the team wants algorithms that can learn patterns directly from the data, handling many variables and non-linear relationships.
+
+The team lists four tasks:
+• Task 1 — predict next-quarter stock return (a continuous number) from a labeled history of firm features.
+• Task 2 — classify each issuer as "will default" or "will not default" from labeled data.
+• Task 3 — group 1,000 stocks into segments based on similarities in their features, with no target label.
+• Task 4 — condense a large set of correlated fundamental factors into a much smaller set of uncorrelated composite variables.`,
+    questions: [
+      {
+        q: "Compared with a classical statistical regression, a machine-learning approach is BEST described as one that:",
+        c: ["A. Requires the analyst to specify the model's functional form in advance and assumes a linear relationship.",
+            "B. Learns patterns directly from the data with fewer prior assumptions, accommodating many variables and non-linear relationships.",
+            "C. Can only be applied to labeled (supervised) data sets."],
+        a: 1,
+        e: "B is correct. Machine learning extracts relationships from the data itself, without the analyst pre-specifying a functional form, and it handles high dimensionality and non-linearity well. A describes the classical statistical approach. C is false — ML includes both supervised (labeled) and unsupervised (unlabeled) methods."
+      },
+      {
+        q: "Task 1 (predict a continuous return from labeled data) is BEST classified as:",
+        c: ["A. Supervised learning — regression.",
+            "B. Supervised learning — classification.",
+            "C. Unsupervised learning — dimension reduction."],
+        a: 0,
+        e: "A is correct. A labeled target makes it supervised learning; because the target variable is continuous, it is a regression problem. Classification applies when the target is categorical; dimension reduction is an unsupervised task with no target."
+      },
+      {
+        q: "Task 2 (label each issuer 'default' vs 'not default') is BEST classified as:",
+        c: ["A. Unsupervised clustering.",
+            "B. Supervised classification.",
+            "C. Reinforcement learning."],
+        a: 1,
+        e: "B is correct. The data are labeled (supervised) and the target is categorical (default / no default), so it is a classification problem. Clustering is unsupervised (no labels); reinforcement learning trains an agent via reward feedback, not a fixed labeled data set."
+      },
+      {
+        q: "Task 3 (group stocks by similarity with no target label) is BEST addressed by:",
+        c: ["A. A clustering algorithm (unsupervised learning).",
+            "B. A support vector machine (supervised classification).",
+            "C. Penalized regression."],
+        a: 0,
+        e: "A is correct. With no target variable and the goal of grouping observations by feature similarity, this is unsupervised clustering (e.g., k-means or hierarchical). SVM and penalized regression are supervised methods that require labeled targets."
+      },
+      {
+        q: "Task 4 (condense many correlated factors into fewer uncorrelated composites) is BEST addressed by:",
+        c: ["A. K-means clustering.",
+            "B. Principal components analysis (dimension reduction).",
+            "C. K-nearest neighbor."],
+        a: 1,
+        e: "B is correct. Reducing a large number of correlated features into a smaller set of uncorrelated composite variables is dimension reduction, for which principal components analysis (PCA) is the standard unsupervised technique. K-means groups observations (not features), and KNN is a supervised classifier."
+      }
+    ]
+  },
+  {
+    id: "Q9", topic: "quant",
+    title: "Machine Learning: Overfitting",
+    vignette: `An analyst trains a supervised model and evaluates it on out-of-sample data. She observes three candidate models:
+
+• Model U: a very simple specification (ŷ = b̂₀) that fits poorly on BOTH the training (in-sample) and validation (out-of-sample) data.
+• Model O: a highly complex specification that achieves an extremely high R² in-sample but generalizes poorly, with much lower out-of-sample accuracy.
+• Model R: a moderate specification that fits well both in-sample and out-of-sample.
+
+She decomposes total error into components and uses resampling to obtain a reliable estimate of out-of-sample performance.`,
+    questions: [
+      {
+        q: "Model O (great in-sample fit, poor out-of-sample) is BEST described as:",
+        c: ["A. Underfitting — the model is too simple.",
+            "B. Overfitting — the model is too complex and treats noise as if it were signal.",
+            "C. A well-generalized (robust) model."],
+        a: 1,
+        e: "B is correct. Overfitting occurs when an overly complex model fits the training data extremely well (very high in-sample R²) but fails to generalize, because it has fit random noise as if it were a real pattern. Model U is the underfitting case; Model R is the robust case."
+      },
+      {
+        q: "In bias–variance terms, Model U (Model O) exhibits, respectively:",
+        c: ["A. High bias error (high variance error).",
+            "B. High variance error (high bias error).",
+            "C. High base error (zero error)."],
+        a: 0,
+        e: "A is correct. Underfitting (Model U) produces high bias error — an oversimplified model with poor in-sample fit. Overfitting (Model O) produces high variance error — an out-of-sample error from a model that does not generalize. A robust model (Model R) has both low bias and low variance."
+      },
+      {
+        q: "The analyst separates total error into bias, variance, and base error. The base error is BEST described as:",
+        c: ["A. Error from an oversimplified model that underfits.",
+            "B. Error from an overfitted model that fails to generalize.",
+            "C. Residual (irreducible) error due to random noise in the data."],
+        a: 2,
+        e: "C is correct. Base error is the residual error due to random noise in the data — it cannot be eliminated by any model. Bias error comes from underfitting (poor in-sample fit); variance error comes from overfitting (poor out-of-sample generalization)."
+      },
+      {
+        q: "One method to reduce overfitting in a supervised model is complexity reduction, which:",
+        c: ["A. Adds a penalty term that increases with each feature used, forcing the model to keep only features that improve out-of-sample performance.",
+            "B. Maximizes the in-sample R² regardless of the number of features.",
+            "C. Removes the validation sample from the workflow."],
+        a: 0,
+        e: "A is correct. Complexity reduction imposes a penalty that grows with the number of features, discouraging features that do not improve out-of-sample prediction — yielding a more parsimonious model that generalizes better. Maximizing in-sample fit encourages overfitting; the validation sample is needed, not removed."
+      },
+      {
+        q: "To obtain a reliable estimate of out-of-sample error while limiting sampling bias from a small hold-out set, the analyst should use:",
+        c: ["A. k-fold cross-validation — split the data into k parts, train on k−1 and validate on the remaining part, repeating k times and averaging the errors.",
+            "B. A single 50/50 split evaluated once.",
+            "C. Training and testing on the same in-sample data."],
+        a: 0,
+        e: "A is correct. k-fold cross-validation partitions the data into k parts and rotates which part is held out for validation, training k times and averaging the k errors to estimate out-of-sample error. This reduces the sampling bias that a single small hold-out set can introduce. Testing on the training data gives an optimistic, biased estimate."
+      }
+    ]
+  },
+  {
+    id: "Q10", topic: "quant",
+    title: "Machine Learning: Supervised Algorithms",
+    vignette: `An analyst compares supervised algorithms for credit and equity classification problems: penalized regression (LASSO), support vector machine (SVM), k-nearest neighbor (KNN), classification and regression trees (CART), and ensemble methods (random forests).
+
+She notes several features of the data: there are many candidate variables (some likely irrelevant); some class boundaries are non-linear; and stakeholders want to understand the reasoning behind predictions.`,
+    questions: [
+      {
+        q: "LASSO (least absolute shrinkage and selection operator) controls overfitting by adding a penalty equal to λ times the sum of the absolute values of the slope coefficients. Its distinctive effect is that it:",
+        c: ["A. Shrinks some coefficients exactly to zero, dropping less-relevant features to build a parsimonious model.",
+            "B. Guarantees every feature is retained in the model.",
+            "C. Only works on unlabeled data."],
+        a: 0,
+        e: "A is correct. LASSO is a penalized-regression (regularization) technique whose penalty, λΣ|bⱼ|, forces the coefficients of non-performing features toward — and often exactly to — zero, effectively performing feature selection and producing a parsimonious model. λ is a hyperparameter that trades off fit against parsimony. LASSO is supervised, so C is wrong."
+      },
+      {
+        q: "In a support vector machine, the 'support vectors' are:",
+        c: ["A. The observations lying closest to the discriminant boundary.",
+            "B. The features with the highest correlation to the target.",
+            "C. The hyperparameters that set the number of layers."],
+        a: 0,
+        e: "A is correct. SVM finds the discriminant boundary that maximizes the margin (is furthest from the data); the observations closest to that boundary are the support vectors. When classes are not perfectly separable, soft-margin classification adds a penalty for each misclassified observation. Features/hyperparameters are unrelated to the definition of support vectors."
+      },
+      {
+        q: "For KNN, the choice of k (the number of nearest neighbors) matters because:",
+        c: ["A. A k that is too small can produce noisy, high-error classifications, while a k that is too large dilutes the result by averaging over too many outcomes.",
+            "B. A larger k always improves accuracy without limit.",
+            "C. k must equal the number of features."],
+        a: 0,
+        e: "A is correct. k is a hyperparameter: too small makes the classifier sensitive to noise (high error rate), while too large blurs class distinctions by averaging over too many neighbors. k is often chosen to be odd to avoid ties. KNN is also sensitive to feature scaling and to which features are included; k is unrelated to the number of features."
+      },
+      {
+        q: "Stakeholders want to see the reasoning behind each prediction. Which algorithm BEST meets this need?",
+        c: ["A. CART — the tree provides a transparent, visual sequence of if/then splits.",
+            "B. A random forest — its aggregated trees are fully transparent.",
+            "C. A deep neural network."],
+        a: 0,
+        e: "A is correct. A single CART yields an interpretable tree of binary decision rules — a key advantage over 'black box' models. Overfitting in CART is controlled by limiting maximum tree depth or the number of decision nodes. Random forests and deep neural networks improve accuracy but sacrifice this transparency (they are black boxes)."
+      },
+      {
+        q: "A random forest improves on a single decision tree MAINLY by:",
+        c: ["A. Growing one very deep tree on all features to eliminate bias.",
+            "B. Aggregating many trees, each trained on a bootstrap sample (bagging) using a random subset of features, so that errors across trees cancel and variance falls.",
+            "C. Requiring labeled data to be discarded."],
+        a: 1,
+        e: "B is correct. A random forest is an ensemble of CART models built with bootstrap aggregating (bagging) — each tree uses a randomly generated bag of data and a random subset of features. Averaging across diverse trees cancels idiosyncratic errors, raises the signal-to-noise ratio, and reduces overfitting/variance, at the cost of CART's transparency. A describes a single overfit tree; C is nonsensical for a supervised method."
+      },
+      {
+        q: "The analyst also considers combining an SVM, a KNN, and a CART into a single voting classifier. This is an example of:",
+        c: ["A. Ensemble learning by aggregating heterogeneous learners.",
+            "B. Principal components analysis.",
+            "C. Reinforcement learning."],
+        a: 0,
+        e: "A is correct. Combining different algorithms (SVM, KNN, CART) whose predictions are pooled by a voting classifier is ensemble learning with heterogeneous learners; it tends to produce more accurate and stable predictions than any single model. (Aggregating many instances of the same algorithm on different data is the homogeneous case, e.g., bagging.) PCA and reinforcement learning are unrelated."
+      }
+    ]
+  },
+  {
+    id: "Q11", topic: "quant",
+    title: "Machine Learning: Unsupervised Algorithms",
+    vignette: `An analyst applies unsupervised methods to an unlabeled data set of many correlated fundamental factors and a universe of stocks.
+
+First she runs principal components analysis (PCA) to reduce dimensionality. A scree plot shows the first three principal components explain 45%, 24%, and 17% of total variance, respectively. She then clusters the stocks by similarity of their features.`,
+    questions: [
+      {
+        q: "The PRIMARY objective of PCA here is to:",
+        c: ["A. Summarize a large number of correlated factors into a smaller set of mutually uncorrelated composite variables.",
+            "B. Assign each stock a labeled target class.",
+            "C. Maximize the number of features used by the model."],
+        a: 0,
+        e: "A is correct. PCA is a dimension-reduction technique that transforms many correlated features into a smaller number of uncorrelated (orthogonal) composite variables — the principal components — while retaining most of the information. It is unsupervised (no target label), and it reduces, not increases, dimensionality."
+      },
+      {
+        q: "In PCA, the eigenvalue associated with a principal component (eigenvector) represents:",
+        c: ["A. The proportion of total variance in the data explained by that component.",
+            "B. The number of observations in that component.",
+            "C. The correlation between two raw features."],
+        a: 0,
+        e: "A is correct. Each eigenvector is a principal component (a linear combination of the original features), and its eigenvalue is the proportion of total variance it explains. The first eigenvector has the largest eigenvalue; successive components are orthogonal (uncorrelated) to prior ones."
+      },
+      {
+        q: "Given the scree plot (45% + 24% + 17% = 86% of variance in the first three components), a reasonable decision is to:",
+        c: ["A. Retain the first three components, since collectively explaining roughly 85%–95% of total variance is generally considered sufficient.",
+            "B. Retain all components to reach exactly 100% of variance.",
+            "C. Discard the first component because it explains the most variance."],
+        a: 0,
+        e: "A is correct. A common rule of thumb is to keep enough principal components to explain about 85%–95% of total variance; here three components explain 86%, so retaining three is reasonable. A drawback of PCA is that the resulting components are difficult to interpret. Keeping all components defeats the purpose of dimension reduction; the first component is the most important, not discarded."
+      },
+      {
+        q: "For k-means clustering, a defining characteristic (and limitation) is that:",
+        c: ["A. The number of clusters, k, must be specified in advance.",
+            "B. It requires a labeled target variable.",
+            "C. It produces a dendrogram without needing k."],
+        a: 0,
+        e: "A is correct. K-means partitions observations into k non-overlapping clusters, and k is a hyperparameter that must be chosen before running the algorithm — a key limitation. The algorithm iterates (assign to nearest centroid → recompute centroids → reassign) until no observation is reassigned (convergence). It is unsupervised (no labels); the dendrogram belongs to hierarchical clustering."
+      },
+      {
+        q: "The analyst wants to explore cluster structure WITHOUT committing to a number of clusters up front. She should use:",
+        c: ["A. Hierarchical clustering, which builds a nested structure via agglomerative (bottom-up) or divisive (top-down) grouping and does not require k in advance.",
+            "B. K-means clustering with k fixed at 3.",
+            "C. A support vector machine."],
+        a: 0,
+        e: "A is correct. Hierarchical clustering does not require the number of clusters to be pre-specified; it builds a hierarchy either agglomeratively (bottom-up, merging observations) or divisively (top-down, splitting), which can be cut at different levels of granularity (a dendrogram). K-means requires k in advance; SVM is a supervised classifier."
+      }
+    ]
+  },
+  {
+    id: "Q12", topic: "quant",
+    title: "Machine Learning: Neural Networks & Reinforcement Learning",
+    vignette: `A quant group builds an artificial neural network (ANN) to model a complex, non-linear pricing relationship, and later experiments with a deep learning network (DLN) and a reinforcement-learning (RL) trading agent.
+
+The ANN has an input layer (with scaled feature values), one or more hidden layers of nodes, and an output layer that produces the prediction. Each node computes a weighted sum of its inputs and passes it through a non-linear activation function.`,
+    questions: [
+      {
+        q: "Within a single neural-network node, the sequence of operations is BEST described as:",
+        c: ["A. A weighted summation of the inputs, followed by a non-linear activation function.",
+            "B. A simple average of the raw inputs with no transformation.",
+            "C. A sort of the inputs into clusters."],
+        a: 0,
+        e: "A is correct. Each node (neuron) forms a weighted sum of its inputs and then applies a non-linear activation function; passing these signals from the input layer through hidden layers to the output layer is forward propagation. Inputs are typically scaled so features are comparable across nodes."
+      },
+      {
+        q: "After the network produces a prediction, it compares it with the actual value (e.g., via MSE) and adjusts the connection weights to reduce total error. This step is called:",
+        c: ["A. Forward propagation.",
+            "B. Backward propagation.",
+            "C. Principal components analysis."],
+        a: 1,
+        e: "B is correct. Backward propagation feeds the prediction error (from a performance measure such as mean squared error) back through the network to adjust the weights so as to reduce total error. Forward propagation is the initial left-to-right pass that generates the prediction; PCA is an unrelated dimension-reduction method."
+      },
+      {
+        q: "Before training an ANN, the analyst must specify the number of hidden layers and the number of nodes per layer. These are:",
+        c: ["A. Hyperparameters set in advance.",
+            "B. Outputs learned automatically from the labels.",
+            "C. Support vectors."],
+        a: 0,
+        e: "A is correct. The network's structure — the number of hidden layers and nodes — comprises hyperparameters that must be specified in advance (not learned from the data like the weights). Support vectors are a concept from SVMs, unrelated to network architecture."
+      },
+      {
+        q: "A deep learning network (DLN) differs from a shallow neural network chiefly in that it:",
+        c: ["A. Has many hidden layers (often more than 20), enabling it to model highly complex patterns for tasks such as image recognition, fraud detection, and NLP.",
+            "B. Contains no hidden layers at all.",
+            "C. Can only perform linear regression."],
+        a: 0,
+        e: "A is correct. Deep learning networks are neural networks with many hidden layers (typically >20). Their adoption has been driven by advances in analytical methods, faster computing, and big data, and they excel at complex tasks such as computer vision, credit-card fraud detection, and natural language processing. B and C contradict the definition."
+      },
+      {
+        q: "The reinforcement-learning trading agent is BEST described as one that:",
+        c: ["A. Learns by maximizing a defined reward subject to the constraints of its environment, improving through feedback over many trials.",
+            "B. Requires a fully labeled training data set of correct actions.",
+            "C. Is proven to reliably outperform in financial markets."],
+        a: 0,
+        e: "A is correct. In reinforcement learning, an agent takes actions to maximize a defined reward given the constraints of its environment, learning from immediate feedback across many trials (e.g., AlphaGo). It does not rely on a labeled data set of correct answers. Its efficacy in investment decision-making remains unproven given the complexity of financial markets, so C overstates the evidence."
+      }
+    ]
+  },
+  {
+    id: "Q13", topic: "quant",
+    title: "Time-Series: Linear & Log-Linear Trend Models",
+    vignette: `Ravi models the combined earnings (CE, in $ billions) of Megaland's top 100 companies using six years of annual data (t = 1, 2, …, 6). He fits two trend models by least squares:
+
+Linear:      CE_t = 67.2 + 4.3·t        (R² = 0.35; both coefficients statistically insignificant)
+Log-linear:  ln(CE_t) = 4.27 + 0.10·t    (R² = 0.91; both coefficients statistically significant)
+
+He wants to forecast this year (t = 7) and judge which model is more reliable. He is also aware that trend models have a well-known limitation.`,
+    questions: [
+      {
+        q: "Using the LINEAR trend model, the forecast of combined earnings for t = 7 is CLOSEST to:",
+        c: ["A. $93.0B.",
+            "B. $97.3B.",
+            "C. $101.6B."],
+        a: 1,
+        e: "B is correct. CE₇ = 67.2 + 4.3(7) = 67.2 + 30.1 = $97.3B. A linear trend model assumes the variable changes by a constant absolute amount (here 4.3) each period."
+      },
+      {
+        q: "A log-linear trend model (rather than a linear one) is MOST appropriate when the series:",
+        c: ["A. Grows by a constant absolute amount each period.",
+            "B. Grows at a constant rate each period (i.e., exhibits exponential growth, such as compounding).",
+            "C. Has no trend at all."],
+        a: 1,
+        e: "B is correct. The log-linear model, ln(Yₜ) = b₀ + b₁t, fits data that grow at a constant rate (exponential growth) — common for financial series with compounding (e.g., revenue, prices). A linear trend fits a constant absolute change per period. Taking logs converts the exponential relationship into a linear one that can be estimated by regression."
+      },
+      {
+        q: "Using the LOG-LINEAR model, the forecast of combined earnings for t = 7 is CLOSEST to (note e^4.97 ≈ 144):",
+        c: ["A. $4.97B.",
+            "B. $97.3B.",
+            "C. $144B."],
+        a: 2,
+        e: "C is correct. First forecast the log: ln(CE₇) = 4.27 + 0.10(7) = 4.97. Then exponentiate: CE₇ = e^4.97 ≈ $144B. Choice A forgets to exponentiate; B is the linear model's forecast."
+      },
+      {
+        q: "Which model should Ravi rely on, and why?",
+        c: ["A. The linear model, because it has fewer parameters.",
+            "B. The log-linear model, because its R² is far higher (0.91 vs 0.35) and its coefficients are statistically significant.",
+            "C. Neither — trend models can never be used for forecasting."],
+        a: 1,
+        e: "B is correct. The log-linear model fits far better (R² = 0.91 vs 0.35) with statistically significant coefficients, so its forecast is more trustworthy; the linear model's low R² and insignificant coefficients make its forecast unreliable. Model choice should be driven by fit and significance, not parameter count alone."
+      },
+      {
+        q: "The BEST-known limitation of trend models is that the residuals often exhibit:",
+        c: ["A. Serial correlation (autocorrelation), which can be detected with the Durbin–Watson statistic and leads to unreliable estimates.",
+            "B. Perfect multicollinearity.",
+            "C. A guaranteed unit root."],
+        a: 0,
+        e: "A is correct. Trend-model residuals frequently show serial correlation (autocorrelation) — detectable via the Durbin–Watson test — which biases the standard errors and undermines inference. When serial correlation is present, an autoregressive (AR) model is typically used instead. Multicollinearity and unit roots are separate issues, not the defining limitation of trend models."
+      }
+    ]
+  },
+  {
+    id: "Q14", topic: "quant",
+    title: "Time-Series: Autoregressive (AR) Models",
+    vignette: `Ravi estimates an AR(1) model for Megaland's quarterly inflation rate (%) using data from 2010–2015:
+
+y_t = 0.5 + 0.8·y_(t−1)
+
+The most recent quarter's inflation is 3.6%. He evaluates forecasts, the model's long-run behavior, its statistical validity, and how to compare it with an AR(2) alternative.`,
+    questions: [
+      {
+        q: "The one-quarter-ahead and two-quarter-ahead inflation forecasts are CLOSEST to:",
+        c: ["A. 3.38% and 3.20%.",
+            "B. 3.38% and 3.38%.",
+            "C. 2.88% and 2.30%."],
+        a: 0,
+        e: "A is correct. One-period: ŷₜ₊₁ = 0.5 + 0.8(3.6) = 3.38%. Two-period (chain rule, feeding the forecast back in): ŷₜ₊₂ = 0.5 + 0.8(3.38) = 3.20%. Because each forecast carries error forward, multi-period forecasts are more uncertain."
+      },
+      {
+        q: "The mean-reverting level of this AR(1) process is CLOSEST to, and the next forecast relative to the current 3.6% will be:",
+        c: ["A. 2.5%; the forecast moves down toward it.",
+            "B. 2.5%; the forecast moves up away from it.",
+            "C. 4.0%; the forecast moves up toward it."],
+        a: 0,
+        e: "A is correct. Mean-reverting level = b₀/(1 − b₁) = 0.5/(1 − 0.8) = 0.5/0.2 = 2.5%. Because the current value (3.6%) is above the mean-reverting level, the series is expected to decline toward 2.5% — consistent with the falling forecasts (3.38%, 3.20%)."
+      },
+      {
+        q: "For the least-squares estimates of this AR(1) model to be valid, the series must be covariance stationary, which requires that:",
+        c: ["A. The mean, variance, and covariance (at each lag) are constant and finite over time.",
+            "B. The slope coefficient b₁ equals exactly 1.",
+            "C. The series has a deterministic linear trend."],
+        a: 0,
+        e: "A is correct. Covariance stationarity requires (1) a constant and finite expected value (mean reversion), (2) a constant and finite variance, and (3) a constant and finite covariance between values at each given lag. For an AR(1), this holds when |b₁| < 1. b₁ = 1 is a unit root (non-stationary); a deterministic trend is a different structure."
+      },
+      {
+        q: "To test whether this AR(1) model is correctly specified (no residual serial correlation), Ravi should:",
+        c: ["A. Use the Durbin–Watson statistic, which is the appropriate test for AR models.",
+            "B. Perform t-tests on the autocorrelations of the residuals at various lags; the Durbin–Watson test is NOT appropriate for AR models.",
+            "C. Re-run the regression with time t as the independent variable."],
+        a: 1,
+        e: "B is correct. In autoregressive models the Durbin–Watson statistic is not valid; instead, test the residual autocorrelations at each lag with t-tests (t = autocorrelation ÷ [1/√T]). If any residual autocorrelation is significant, the model is misspecified (e.g., add lags). Time t is not an independent variable in an AR model."
+      },
+      {
+        q: "To choose between the AR(1) and an AR(2) model, Ravi should prefer the one with the lower:",
+        c: ["A. In-sample R².",
+            "B. Out-of-sample root mean squared error (RMSE).",
+            "C. Number of observations."],
+        a: 1,
+        e: "B is correct. Forecast accuracy is compared using RMSE = √[Σ(ŷₜ − yₜ)²/N], and out-of-sample RMSE (computed on a separate test period) is preferred over in-sample fit because it reflects genuine predictive power. A lower out-of-sample RMSE indicates the better forecasting model."
+      }
+    ]
+  },
+  {
+    id: "Q15", topic: "quant",
+    title: "Time-Series: Random Walk & Unit Root",
+    vignette: `Ravi estimates an AR(1) model for the daily USD/MGD exchange rate using 180 observations:
+
+ŷ_t = 0.0452 + 0.9987·y_(t−1)
+
+The estimated slope is very close to 1, so he suspects the series may be a random walk (a unit root), which would make the AR(1) model invalid. He investigates using the appropriate test and correction.`,
+    questions: [
+      {
+        q: "A random walk is an AR(1) process in which:",
+        c: ["A. b₁ = 1 (a unit root); with b₀ = 0 it is a random walk without drift, and with b₀ ≠ 0 it is a random walk with drift.",
+            "B. b₁ = 0, so the series is pure noise.",
+            "C. b₁ < 0, so the series alternates in sign."],
+        a: 0,
+        e: "A is correct. A random walk has b₁ = 1 (a unit root): yₜ = b₀ + yₜ₋₁ + εₜ. With b₀ = 0 it is a random walk without drift (yₜ = yₜ₋₁ + εₜ); with b₀ ≠ 0 it is a random walk with drift, expected to change by b₀ each period."
+      },
+      {
+        q: "For a random walk, the mean-reverting level b₀/(1 − b₁) is:",
+        c: ["A. Zero.",
+            "B. Undefined, because 1 − b₁ = 0 when b₁ = 1; the series is not covariance stationary (its variance grows without bound).",
+            "C. Equal to b₀."],
+        a: 1,
+        e: "B is correct. With b₁ = 1, the denominator 1 − b₁ = 0, so the mean-reverting level is undefined — the series does not mean-revert and is not covariance stationary (its variance increases over time). This is why an ordinary AR(1) cannot be validly estimated on it."
+      },
+      {
+        q: "Ravi cannot simply run an ordinary t-test of H₀: b₁ = 1 on the AR(1) output because:",
+        c: ["A. If the series has a unit root it is non-stationary, so the regression is invalid and the usual t-statistic does not follow its standard distribution; the Dickey–Fuller test is used instead.",
+            "B. The t-test can only test whether a coefficient equals zero.",
+            "C. Exchange rates cannot be modeled statistically."],
+        a: 0,
+        e: "A is correct. When a unit root is present the series is not covariance stationary, so the estimated model is misspecified and the conventional t-statistic is unreliable. The Dickey–Fuller test addresses this by transforming the equation and using specially computed (larger) critical values."
+      },
+      {
+        q: "The Dickey–Fuller test transforms the AR(1) equation by subtracting y_(t−1) from both sides, giving y_t − y_(t−1) = b₀ + (b₁ − 1)·y_(t−1) + ε_t, and then tests:",
+        c: ["A. H₀: (b₁ − 1) = 0 (unit root) vs Hₐ: (b₁ − 1) < 0 (covariance stationary), using Dickey–Fuller critical values that are larger than conventional t-values.",
+            "B. H₀: b₀ = 0 vs Hₐ: b₀ ≠ 0, using standard t-values.",
+            "C. Whether R² exceeds 0.90."],
+        a: 0,
+        e: "A is correct. Letting g₁ = b₁ − 1, the test is H₀: g₁ = 0 (a unit root / random walk) against Hₐ: g₁ < 0 (the series is covariance stationary). Rejecting H₀ means no unit root. The revised critical values, computed by Dickey and Fuller, are larger (in absolute value) than ordinary t-table values."
+      },
+      {
+        q: "If the series does contain a unit root, Ravi can obtain a covariance-stationary series to model by:",
+        c: ["A. First-differencing the series (z_t = y_t − y_(t−1)) and modeling the differences.",
+            "B. Adding a squared time trend.",
+            "C. Dropping the intercept only.",
+            "D. Increasing the sample size."],
+        a: 0,
+        e: "A is correct. First differencing a random walk gives zₜ = yₜ − yₜ₋₁ = εₜ, which is covariance stationary (mean-reverting level c₀/(1 − c₁) = 0), so an autoregressive model can validly be estimated on the differenced series. The other options do not remove a unit root."
+      }
+    ]
+  },
+  {
+    id: "Q16", topic: "quant",
+    title: "Time-Series: Seasonality",
+    vignette: `Emily models Megaland's quarterly retail sales (RS, in $B) with a log AR model using seven years of data (28 observations). Her first specification is:
+
+ln(RS_t) = 1.57 − 0.35·ln(RS_(t−1))
+
+The residual autocorrelations for lags 1–3 are statistically insignificant, but the lag-4 residual autocorrelation is 0.462 with a t-statistic of 2.401 (5% critical value ≈ 2.06).`,
+    questions: [
+      {
+        q: "The significant residual autocorrelation at lag 4 (with quarterly data) MOST likely indicates:",
+        c: ["A. Seasonality — a pattern that repeats every four quarters — meaning the model is misspecified.",
+            "B. A unit root in the series.",
+            "C. Heteroskedasticity in the residuals."],
+        a: 0,
+        e: "A is correct. A significant residual autocorrelation at the seasonal lag (lag 4 for quarterly data; lag 12 for monthly data) signals seasonality — e.g., systematically higher Q4 sales — which means the AR model is misspecified. It is not a unit-root or heteroskedasticity diagnostic."
+      },
+      {
+        q: "To correct the model for the detected seasonality, Emily should:",
+        c: ["A. Add a seasonal lag term corresponding to the seasonal period, i.e., include ln(RS_(t−4)) as an additional independent variable.",
+            "B. First-difference the series.",
+            "C. Drop the lag-1 term entirely."],
+        a: 0,
+        e: "A is correct. Seasonality is handled by adding the seasonal lag as an extra regressor: ln(RSₜ) = c₀ + c₁·ln(RSₜ₋₁) + c₂·ln(RSₜ₋₄) + εₜ. After adding the lag-4 term, the residual autocorrelations should no longer be significant, indicating a correctly specified model. First differencing addresses unit roots, not seasonality."
+      },
+      {
+        q: "Emily's corrected model is ln(RS_t) = 0.41 + 0.23·ln(RS_(t−1)) + 0.66·ln(RS_(t−4)). Given 2019 quarterly sales of Q1 = 9.67, …, Q4 = 12.54, the forecast for 2020 Q1 is CLOSEST to (ln 12.54 ≈ 2.53, ln 9.67 ≈ 2.27):",
+        c: ["A. $8.9B.",
+            "B. $12.1B.",
+            "C. $2.49B."],
+        a: 1,
+        e: "B is correct. For 2020Q1 the lag-1 value is 2019Q4 and the lag-4 value is 2019Q1: ln(RS) = 0.41 + 0.23·ln(12.54) + 0.66·ln(9.67) = 0.41 + 0.23(2.53) + 0.66(2.27) ≈ 2.489. Exponentiating: RS = e^2.489 ≈ $12.05B ≈ $12.1B. Choice C forgets to exponentiate the log value."
+      },
+      {
+        q: "After adding the seasonal lag, Emily confirms the model is correctly specified by checking that:",
+        c: ["A. None of the residual autocorrelations (including lag 4) are significantly different from zero.",
+            "B. The R² equals 1.0.",
+            "C. The lag-4 coefficient is negative."],
+        a: 0,
+        e: "A is correct. A correctly specified time-series model has residuals with no significant autocorrelation at any lag — including the seasonal lag. Once all residual autocorrelations are insignificant, the seasonality has been captured. R² = 1.0 is neither expected nor required, and the sign of the seasonal coefficient is not the specification test."
+      }
+    ]
+  },
+  {
+    id: "Q17", topic: "quant",
+    title: "Time-Series: Regression with Two Series, Cointegration & Steps",
+    vignette: `Rather than modeling one variable over time, Ravi wants to explain one time series (y_t) using another (x_t):
+
+y_t = b₀ + b₁·x_t + ε_t
+
+Both y_t and x_t are macroeconomic series that may contain unit roots. He works through the conditions under which this regression is valid, and reviews the diagnostics used when building any time-series model.`,
+    questions: [
+      {
+        q: "For an ordinary regression of one time series on another to be valid, the general requirement is that:",
+        c: ["A. Both the dependent and the independent time series are covariance stationary (no unit roots).",
+            "B. Both series have a unit root.",
+            "C. The two series are perfectly correlated."],
+        a: 0,
+        e: "A is correct. If either series is not covariance stationary (i.e., has a unit root), the regression is generally misspecified and the usual t-tests are unreliable (risk of spurious regression). Each series should be checked for a unit root with the Dickey–Fuller test before regressing one on the other."
+      },
+      {
+        q: "Suppose BOTH y_t and x_t are found to contain a unit root. The regression can STILL be valid if the two series are:",
+        c: ["A. Cointegrated — economically linked so they share a common trend and their long-run relationship is stable.",
+            "B. Perfectly uncorrelated.",
+            "C. Both first-differenced twice."],
+        a: 0,
+        e: "A is correct. When two series each have a unit root, a regression between them is valid only if they are cointegrated — they move together because of an economic link (a common stochastic trend), so the long-run relationship is not expected to change and the error term is covariance stationary."
+      },
+      {
+        q: "To test for cointegration, Ravi applies the Engle–Granger (Dickey–Fuller) test to the regression RESIDUALS. Cointegration is supported when:",
+        c: ["A. He rejects H₀ that the residuals have a unit root, implying the residuals are covariance stationary; the test uses Engle–Granger's adjusted critical values.",
+            "B. He fails to reject that the residuals have a unit root.",
+            "C. The R² of the regression exceeds 0.5.",
+            "D. The Durbin–Watson statistic equals exactly 2."],
+        a: 0,
+        e: "A is correct. The Engle–Granger (DF-EG) test checks whether the regression residuals have a unit root: H₀ = residuals have a unit root (not cointegrated). Rejecting H₀ means the residuals are covariance stationary, so y and x are cointegrated and the regression's t-tests are reliable. The test uses adjusted (Engle–Granger) critical values, not standard t- or DF-values."
+      },
+      {
+        q: "While building an AR model, Ravi tests the squared residuals with ε̂²_t = a₀ + a₁·ε̂²_(t−1) + μ_t and finds a₁ is statistically significant. This indicates:",
+        c: ["A. Autoregressive conditional heteroskedasticity (ARCH) — the error variance depends on prior squared errors — so standard errors are unreliable; use generalized least squares or model the variance.",
+            "B. A unit root, requiring first differencing.",
+            "C. Seasonality, requiring a seasonal lag."],
+        a: 0,
+        e: "A is correct. A significant a₁ in the regression of squared residuals on their own lag indicates ARCH — the variance of the errors is not constant but depends on the previous period's squared error. This makes the standard errors (and inference) unreliable; remedies include generalized least squares or explicitly modeling the time-varying variance (e.g., to forecast volatility). It is neither a unit-root nor a seasonality diagnostic."
+      },
+      {
+        q: "In the general model-building workflow, if a plotted series shows a significant structural shift (a change in the underlying relationship partway through), the analyst should:",
+        c: ["A. Split the sample at the shift and analyze the sub-periods separately.",
+            "B. Always use the full sample to maximize the number of observations.",
+            "C. Ignore it, since structural change does not affect time-series models."],
+        a: 0,
+        e: "A is correct. A significant structural change means the coefficients are not stable across the whole sample, so estimating over the full period would blend two different regimes. The data should be split at the shift and each sub-period modeled separately. There is a trade-off: a shorter, more recent sample improves stability but reduces statistical reliability (fewer observations)."
+      }
+    ]
+  },
+  {
+    id: "Q18", topic: "quant",
+    title: "Time-Series: ARCH Models",
+    vignette: `Emily has estimated an AR(1) model for Megaland's quarterly retail sales. She is concerned that the error variance may not be constant, so she tests for autoregressive conditional heteroskedasticity (ARCH) by regressing the squared residuals on their own first lag:
+
+ε̂²_t = 0.311 + 0.672·ε̂²_(t−1) + μ_t
+
+The estimated coefficient on the lagged squared residual (0.672) has a t-statistic of 5.015 and a p-value below 0.001.`,
+    questions: [
+      {
+        q: "A time series exhibits ARCH when:",
+        c: ["A. The variance of the error in one period depends on the variance (squared error) of a previous period.",
+            "B. The mean of the series increases linearly over time.",
+            "C. The slope coefficient equals 1."],
+        a: 0,
+        e: "A is correct. Autoregressive conditional heteroskedasticity (ARCH) means the error variance is not constant but depends on the magnitude of errors in prior periods — specifically, the variance in one period is related to the squared error of a preceding period. A trending mean and a unit root (b₁ = 1) are different phenomena."
+      },
+      {
+        q: "If ARCH is present but ignored, the MAIN consequence is that:",
+        c: ["A. The coefficient estimates become unbiased and more efficient.",
+            "B. The standard errors are biased, making hypothesis tests (t-tests on the coefficients) unreliable.",
+            "C. The series automatically becomes covariance stationary."],
+        a: 1,
+        e: "B is correct. With ARCH, the ordinary standard errors of the estimated coefficients are biased, so the associated t-tests and inferences about coefficient significance are unreliable. ARCH does not fix stationarity, and it undermines (does not improve) the efficiency/validity of ordinary inference."
+      },
+      {
+        q: "To test for ARCH(1), the analyst regresses the squared residuals on their first lag and tests:",
+        c: ["A. H₀: a₁ = 0 (no ARCH) versus Hₐ: a₁ ≠ 0 (ARCH present).",
+            "B. H₀: b₁ = 1 (unit root) versus Hₐ: b₁ < 1.",
+            "C. Whether the mean-reverting level equals zero."],
+        a: 0,
+        e: "A is correct. The ARCH(1) test estimates ε̂²ₜ = a₀ + a₁·ε̂²ₜ₋₁ + μₜ and tests H₀: a₁ = 0 (errors are homoskedastic / no ARCH) against Hₐ: a₁ ≠ 0 (ARCH present). The unit-root test (b₁ = 1) and the mean-reverting-level check are unrelated diagnostics."
+      },
+      {
+        q: "Given the output (a₁ = 0.672, p-value < 0.001), Emily should conclude that the AR(1) model:",
+        c: ["A. Does exhibit ARCH — the lagged squared-error coefficient is statistically significant.",
+            "B. Does not exhibit ARCH — a₁ is insignificant.",
+            "C. Has a unit root and must be first-differenced."],
+        a: 0,
+        e: "A is correct. Because the coefficient on the lagged squared residual (a₁ = 0.672) is statistically significant (p < 0.001), H₀: a₁ = 0 is rejected, so the errors display ARCH(1). A positive, significant a₁ also implies the error variance tends to rise over time. This is a variance (ARCH) issue, not a unit-root problem."
+      },
+      {
+        q: "Having confirmed ARCH(1), Emily forecasts next period's error variance. If the current-period error is 0.92, the predicted variance σ̂²_(t+1) is CLOSEST to:",
+        c: ["A. 0.62.",
+            "B. 0.88.",
+            "C. 0.98."],
+        a: 1,
+        e: "B is correct. The ARCH(1) variance forecast uses the current squared error: σ̂²ₜ₊₁ = â₀ + â₁·ε̂²ₜ = 0.311 + 0.672 × (0.92)² = 0.311 + 0.672 × 0.8464 = 0.311 + 0.569 ≈ 0.88. This ability to forecast time-varying variance is a key use of ARCH models (e.g., for VaR and option pricing)."
+      }
+    ]
+  },
 
   // =============================================================
   // ECONOMICS
@@ -1080,6 +1939,181 @@ The fund has returned all LP capital plus the 8% hurdle, and the GP is now takin
             "C. The fund's IRR exceeds 20%."],
         a: 1,
         e: "B is correct. European waterfall (more LP-friendly): GP receives carry only after LPs have received: (1) all paid-in capital back AND (2) preferred return (hurdle, typically 8%). American (deal-by-deal) pays carry per deal once that deal clears its own hurdle — faster to GPs, LPs protected via clawback."
+      }
+    ]
+  },
+  {
+    id: "A3", topic: "alt",
+    title: "Private Real Estate: Valuation & Income Approach",
+    vignette: `An analyst values a private office building. Three approaches are considered:
+
+• Cost approach — land value plus current rebuilding cost, less depreciation.
+• Sales comparison — recent sales of similar buildings, adjusted for age, location, condition and size.
+• Income approach — the present value of expected future cash flows.
+
+For the income approach she gathers: forecast first-year net operating income (NOI) of $10 million; a comparable building recently sold for $200 million with NOI of $15 million; a required return of 12%; and expected long-run NOI growth of 4.5%. The subject building has a three-year fixed lease at $10M NOI per year; NOI is then expected to step up to $12M in year 4, and the building can be sold at that point at a terminal (going-out) capitalization rate of 8%.`,
+    questions: [
+      {
+        q: "The capitalization rate estimated from the comparable sale is CLOSEST to:",
+        c: ["A. 5.0%.",
+            "B. 7.5%.",
+            "C. 13.3%."],
+        a: 1,
+        e: "B is correct. The cap rate from a comparable is NOI ÷ price = $15M ÷ $200M = 7.5%. (This is also consistent with cap rate = r − g = 12% − 4.5% = 7.5%.) Choice C inverts the ratio (price/NOI)."
+      },
+      {
+        q: "Using direct capitalization with a 7.5% cap rate, the value of the subject building is CLOSEST to:",
+        c: ["A. $75M.",
+            "B. $133M.",
+            "C. $222M."],
+        a: 1,
+        e: "B is correct. Direct capitalization: V₀ = NOI₁ ÷ cap rate = $10M ÷ 0.075 = $133M. This treats first-year NOI as a growing perpetuity where cap rate = r − g."
+      },
+      {
+        q: "The relationship among the capitalization rate, the required return, and the growth rate is BEST expressed as:",
+        c: ["A. Cap rate = required return + growth rate.",
+            "B. Cap rate = required return − growth rate; equivalently, required return = cap rate + growth rate.",
+            "C. Cap rate = required return × growth rate."],
+        a: 1,
+        e: "B is correct. In the constant-growth (Gordon) form V₀ = NOI₁/(r − g), the cap rate equals r − g. So the investor's required return = cap rate + growth rate — the cap rate captures the first-year income yield, and growth adds the rest of the total return."
+      },
+      {
+        q: "Valuing the building with a two-stage DCF — three years of $10M NOI, then a terminal value based on year-4 NOI of $12M at an 8% going-out cap rate — gives a value CLOSEST to:",
+        c: ["A. $131M.",
+            "B. $150M.",
+            "C. $168M."],
+        a: 0,
+        e: "A is correct. Terminal (resale) value at end of year 3 = NOI₄ ÷ terminal cap = $12M ÷ 0.08 = $150M. Discount the cash flows at 12%: V₀ = 10/1.12 + 10/1.12² + (10 + 150)/1.12³ = 8.93 + 7.97 + 113.89 ≈ $131M. Choice B is just the undiscounted terminal value."
+      },
+      {
+        q: "If the building's single tenant pays ALL operating expenses, the analyst can value it directly using the all-risk yield (ARY) as:",
+        c: ["A. V₀ = Rent₁ ÷ ARY.",
+            "B. V₀ = Rent₁ × ARY.",
+            "C. V₀ = ARY ÷ Rent₁."],
+        a: 0,
+        e: "A is correct. When the tenant pays all operating expenses, NOI ≈ rent, and the property is valued as V₀ = Rent₁ ÷ ARY, where the all-risk yield is the cap rate applied to rent. This is the direct-capitalization formula expressed on rent."
+      },
+      {
+        q: "To arrive at a single value estimate, the analyst reconciles the three approaches. She would MOST appropriately:",
+        c: ["A. Always use the cost approach because it is the most objective.",
+            "B. Weight the approaches — giving more weight to sales comparison when the market has many recent comparable transactions, and less to the cost approach for older buildings.",
+            "C. Average the three values with equal weights in all cases."],
+        a: 1,
+        e: "B is correct. The three indications (cost, sales comparison, income) rarely match, so the analyst reconciles them using judgment-based weights: sales comparison deserves more weight in active markets with good comparables, while the cost approach is downweighted for older properties where depreciation is hard to estimate. Fixed equal weighting ignores data quality."
+      }
+    ]
+  },
+  {
+    id: "A4", topic: "alt",
+    title: "Private Real Estate: Debt Financing & Leverage",
+    vignette: `A shopping mall is appraised at $150 million with expected NOI of $8 million per year for the next three years. A bank offers an interest-only loan at 8%, subject to a maximum loan-to-value (LTV) of 50% and a minimum debt-service-coverage ratio (DSCR) of 1.25.
+
+An investor ultimately takes a $70 million interest-only loan (8%) and pays the remainder in cash to buy the mall at its $150M appraised value. The property is sold at the end of year 3 for $155 million.`,
+    questions: [
+      {
+        q: "Based on the 50% LTV limit alone, the maximum loan is:",
+        c: ["A. $75M.",
+            "B. $80M.",
+            "C. $120M."],
+        a: 0,
+        e: "A is correct. Max loan by LTV = LTV × appraised value = 0.50 × $150M = $75M."
+      },
+      {
+        q: "Based on the DSCR limit alone (interest-only at 8%), the maximum loan is CLOSEST to:",
+        c: ["A. $64M.",
+            "B. $80M.",
+            "C. $100M."],
+        a: 1,
+        e: "B is correct. Maximum debt service = NOI₁ ÷ DSCR = $8M ÷ 1.25 = $6.4M. For an interest-only loan, loan = debt service ÷ interest rate = $6.4M ÷ 0.08 = $80M. Choice A stops at the $6.4M debt service."
+      },
+      {
+        q: "The maximum amount the bank will actually lend is:",
+        c: ["A. $75M — the lower of the LTV-based and DSCR-based limits.",
+            "B. $80M — the higher of the two limits.",
+            "C. $155M — the sale price."],
+        a: 0,
+        e: "A is correct. The lender applies both constraints and lends the LOWER of the two: min($75M by LTV, $80M by DSCR) = $75M. Taking the higher amount would breach the LTV covenant."
+      },
+      {
+        q: "With the actual $70M interest-only loan, the investor's first-year equity dividend rate ('cash-on-cash return') is CLOSEST to:",
+        c: ["A. 3.0%.",
+            "B. 5.3%.",
+            "C. 8.0%."],
+        a: 0,
+        e: "A is correct. Equity = purchase price − loan = $150M − $70M = $80M. Debt service = $70M × 8% = $5.6M. Year-1 equity cash flow = NOI − debt service = $8M − $5.6M = $2.4M. Equity dividend rate = $2.4M ÷ $80M = 3.0%."
+      },
+      {
+        q: "Given the sale for $155M at the end of year 3 (NOI $8M each year, interest-only loan), the investor's leveraged IRR is CLOSEST to:",
+        c: ["A. 2.9%.",
+            "B. 5.0%.",
+            "C. 8.6%."],
+        a: 1,
+        e: "B is correct. Equity outflow = $80M; annual equity cash flow = $2.4M (as above); at exit the equity receives sale price − loan principal = $155M − $70M = $85M (an interest-only loan's principal is unchanged). Solving −80 = 2.4/(1+i) + 2.4/(1+i)² + (2.4+85)/(1+i)³ gives i ≈ 4.98% ≈ 5.0%."
+      },
+      {
+        q: "Compared with buying the mall entirely in cash (no loan), using leverage in this deal:",
+        c: ["A. Always lowers the investor's return.",
+            "B. Raises the expected return when the property's return exceeds the borrowing cost — but also increases risk.",
+            "C. Has no effect on either return or risk."],
+        a: 1,
+        e: "B is correct. Positive leverage lifts the equity IRR above the unleveraged IRR when the asset's return exceeds the cost of debt, but it magnifies losses too — higher expected return comes with higher risk. (In the lesson's other example, leverage raised the IRR from 15% unleveraged to 20.6% leveraged.)"
+      }
+    ]
+  },
+  {
+    id: "A5", topic: "alt",
+    title: "Private Real Estate: Portfolio Role, Property Types & the Cycle",
+    vignette: `An allocator reviews private real estate for a multi-asset portfolio and evaluates several commercial property types and the current market environment.
+
+She notes that real estate tends to move only loosely with equities and bonds, that leases carry a mix of contractual and market-linked terms, and that demand is shifting: e-commerce is booming, office attendance is down on remote-work trends, and enclosed shopping malls are struggling. The local market is in a phase where recent construction is completing just as demand softens, occupancy is beginning to fall, and property values have peaked.`,
+    questions: [
+      {
+        q: "Adding private real estate to a stock-and-bond portfolio is MOST likely valued for all of the following EXCEPT:",
+        c: ["A. Diversification, because its returns are only loosely correlated with stocks and bonds.",
+            "B. An inflation hedge, because rents and property values tend to rise with inflation.",
+            "C. Elimination of all downside risk in a recession."],
+        a: 2,
+        e: "C is correct because it is NOT a benefit — real estate is cyclical and can lose value in a recession; it does not eliminate downside risk. A (diversification) and B (inflation hedge) are genuine roles, along with tax advantages. Its total return typically sits between bonds and stocks."
+      },
+      {
+        q: "A tax advantage specific to direct real estate ownership is that:",
+        c: ["A. The depreciable life is shorter than the asset's actual economic life, so non-cash depreciation lowers taxable income in the early years.",
+            "B. Rental income is always tax-exempt.",
+            "C. Capital gains on property are never taxed."],
+        a: 0,
+        e: "A is correct. Because the tax-depreciable life is shorter than the property's true useful life, the owner records large non-cash depreciation early, reducing taxable income (and taxes) in the initial years. Separately, REITs avoid entity-level tax so investors sidestep double taxation. Rental income and capital gains are not generally tax-free."
+      },
+      {
+        q: "Given the demand shifts described, the property type MOST likely to see rising demand is:",
+        c: ["A. Enclosed retail malls.",
+            "B. Industrial / warehouse (logistics) space.",
+            "C. Central-business-district office towers."],
+        a: 1,
+        e: "B is correct. E-commerce growth drives demand for industrial/warehouse and distribution (logistics) space. Enclosed malls are pressured by online shopping (often repurposed), and office demand is weakened by remote-work trends. Industrial is the beneficiary here."
+      },
+      {
+        q: "A retail lease clause that increases the rent once the tenant's sales exceed a specified threshold is a(n):",
+        c: ["A. Step-up clause.",
+            "B. Indexed-rent clause.",
+            "C. Overage (percentage) rent clause."],
+        a: 2,
+        e: "C is correct. An overage (percentage) rent clause adds rent when the tenant's sales pass a set target — common in retail. A step-up clause sets pre-specified future rent increases; an indexed clause ties rent to a market variable such as CPI. All are variable lease terms, but only overage is sales-linked."
+      },
+      {
+        q: "The uncertainty about whether a tenant will renew and at what future rent — driven by competing space, tenant profitability and the economy — is BEST described as:",
+        c: ["A. Rollover risk.",
+            "B. Prepayment risk.",
+            "C. Overage risk."],
+        a: 0,
+        e: "A is correct. Rollover risk is the uncertainty at lease expiry regarding renewal and the future rental rate, which depends on the availability of competing space, tenant profitability, and the overall economy. Prepayment risk relates to mortgages/MBS; 'overage risk' is not a standard term."
+      },
+      {
+        q: "The described market phase — new construction completing, demand softening, occupancy starting to fall, values having peaked — corresponds to which stage of the real-estate cycle?",
+        c: ["A. Recovery.",
+            "B. Expansion.",
+            "C. Oversupply."],
+        a: 2,
+        e: "C is correct. In the oversupply phase, construction started during the expansion completes just as demand slows, so occupancy begins to fall and property values, having peaked, start to decline. Recovery has low occupancy with tight credit and little construction; expansion has rising occupancy and a construction boom."
       }
     ]
   },
