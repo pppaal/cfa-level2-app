@@ -169,6 +169,12 @@ const LESSON_INTROS = {
     <strong>debt</strong> (mortgages → interest), and accessed <strong>privately</strong> (direct ownership,
     real-estate funds) or <strong>publicly</strong> (REITs, MBS, real-estate ETFs). These lessons cover the
     private/direct side: features, due diligence, valuation, and debt financing.</p>
+    <h4>Role in a portfolio</h4>
+    <p>Real estate offers <strong>diversification</strong> (returns are only loosely correlated with stocks and
+    bonds), an <strong>inflation hedge</strong> (rents and property values tend to rise with inflation), and
+    <strong>tax advantages</strong> — the depreciable life is shorter than the asset's actual life, so large
+    non-cash depreciation lowers taxable income in the early years, and REITs escape entity-level tax (investors
+    avoid double taxation). Its total return typically sits <em>between</em> bonds and stocks.</p>
     <h4>1 · Investment features &amp; risk–return</h4>
     <p>Strategies sit on a risk ladder: <strong>Core</strong> (stable, fully-leased, steady yield) →
     <strong>Core-plus</strong> (minor work) → <strong>Value-add</strong> (significant improvement) →
@@ -177,6 +183,20 @@ const LESSON_INTROS = {
     upside via capex). Demand depends on the <em>lessee's</em> industry: <strong>defensive</strong> (e.g.
     healthcare REITs — stable) vs <strong>cyclical</strong> (office, industrial — swing with the economy).
     Green/ESG buildings can command higher rents, lower vacancy and opex, and tax incentives.</p>
+    <h4>Commercial property types, leases &amp; the cycle</h4>
+    <p>Commercial types: <strong>office</strong> (anchor tenants cut development risk; remote work cuts demand),
+    <strong>industrial</strong> (warehouse/logistics — e-commerce lifts demand), <strong>retail</strong> (malls
+    pressured by online shopping → repurposing), <strong>multifamily</strong> (demand tracks jobs/income; leases
+    short, sometimes rent-capped; gross potential rental income = market rent × rentable space), and
+    <strong>hospitality</strong> (business hotels &amp; resorts are cyclical; motels less so). A <em>core</em>
+    style is conservative — high quality, low leverage (LTV &lt; 30%), steady returns — while <em>non-core</em>
+    (no fixed leases) is highly correlated with the business cycle.</p>
+    <p>Leases drive returns and blend <strong>bond-like</strong> (contractual rent) and <strong>stock-like</strong>
+    (residual value) features. Variable terms include <strong>step-up</strong> clauses, <strong>indexed</strong>
+    rents (e.g. to CPI), and <strong>overage rent</strong> (extra rent once tenant sales pass a threshold).
+    <strong>Rollover risk</strong> is the uncertainty at lease renewal (competing space, tenant health, the
+    economy). The <strong>real-estate cycle</strong> runs recovery → expansion → oversupply → recession, with
+    occupancy, NOI and value rising through expansion and falling through oversupply/recession.</p>
     <h4>2 · Due diligence &amp; indexes</h4>
     <p><strong>Due diligence</strong> checks leases and rent history, cash flows and operating expenses,
     engineering &amp; environmental inspections, legal/zoning review, a property survey, re-leasing costs, and

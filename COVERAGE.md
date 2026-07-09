@@ -61,9 +61,9 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Equity Valuation | 65 | 8 | 3 | 13 |
 | Fixed Income | 54 | 6 | 2 | 10 |
 | Derivatives | 34 | 2 | 2 | 9 |
-| Alternative Investments | 43 | 4 | 4 | 21 |
+| Alternative Investments | 47 | 4 | 5 | 27 |
 | Portfolio Management | 45 | 8 | 2 | 10 |
-| **Total** | **468** | **58** | **39** | **192** |
+| **Total** | **472** | **58** | **40** | **198** |
 
 Plus **3 interactive tools** (under the 🧪 Interactive tab), all Quant:
 Regression Lab, ML Pipeline Builder, and Data-Exploration Sorter.

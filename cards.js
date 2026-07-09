@@ -964,6 +964,14 @@ const CARDS = {
       b: "LTV = loan / appraised value. DSCR = NOI₁ / debt service (interest + principal; interest only for IO loans). Max loan = LOWER of (LTV × value) and, for an IO loan, (NOI₁/DSCR) ÷ interest rate. E.g. value $150M, LTV 50% → $75M; DSCR 1.25, NOI $8M, 8% IO → debt service 6.4 → loan 6.4/0.08 = $80M → max = $75M." },
     { m: "Real Estate", f: "Equity dividend rate & leveraged IRR",
       b: "EQUITY DIVIDEND RATE ('cash-on-cash') = (NOI₁ − debt service) / equity invested. LEVERAGED IRR uses equity outflow, annual equity cash flows, and (sale price − remaining loan principal) at exit; exceeds the UNLEVERAGED IRR when the property's return beats the borrowing cost — leverage raises both expected return and risk (e.g. 20.6% vs 15%)." },
+    { m: "Real Estate", f: "Role in a portfolio",
+      b: "Benefits: DIVERSIFICATION (low correlation with stocks/bonds), INFLATION HEDGE (rents & values rise with inflation), and TAX ADVANTAGES — depreciable life < actual life → high non-cash depreciation → lower taxes in early years; REITs pay no entity-level tax (investors avoid double taxation). Total return ranking: Bonds < Real Estate < Stocks." },
+    { m: "Real Estate", f: "Commercial property types",
+      b: "OFFICE (anchor tenants ↓dev risk; remote work ↓demand); INDUSTRIAL (warehouse/logistics; e-commerce ↑demand; repurposable); RETAIL (malls; online shopping → decline/convert); MULTIFAMILY (demand tracks jobs/income; short leases, rent may be capped; GPRI = market rent × rentable space); HOSPITALITY (business hotels & resorts cyclical; motels less so); MIXED-USE. CORE = high quality, low leverage (LTV<30%), steady; NON-CORE = no fixed leases, cyclical." },
+    { m: "Real Estate", f: "Lease terms & return drivers",
+      b: "Leases blend BOND-LIKE (contractual rent) and STOCK-LIKE (residual value). Variable terms: STEP-UP (pre-set future increases), INDEXED (to CPI etc.), OVERAGE RENT (extra rent once tenant sales exceed a target). Owner may cover / pass through / share operating expenses. ROLLOVER RISK = renewal uncertainty (competing space, tenant profitability, economy)." },
+    { m: "Real Estate", f: "Real estate cycle",
+      b: "RECOVERY (low occupancy, tight credit, little construction) → EXPANSION (rising occupancy/demand, construction boom, easy credit) → OVERSUPPLY (construction completes, occupancy & NOI falling, value peaks then falls) → RECESSION (low occupancy, high unemployment). Economy (jobs/wages) drives demand with a significant LAG; interest rates affect credit availability. NOI, DSCR-capacity and value rise in expansion, fall in oversupply." },
 
     // ---- Private Equity ----
     { m: "Private Equity", f: "PE fund structure",

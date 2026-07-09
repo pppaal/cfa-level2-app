@@ -2060,6 +2060,63 @@ An investor ultimately takes a $70 million interest-only loan (8%) and pays the 
       }
     ]
   },
+  {
+    id: "A5", topic: "alt",
+    title: "Private Real Estate: Portfolio Role, Property Types & the Cycle",
+    vignette: `An allocator reviews private real estate for a multi-asset portfolio and evaluates several commercial property types and the current market environment.
+
+She notes that real estate tends to move only loosely with equities and bonds, that leases carry a mix of contractual and market-linked terms, and that demand is shifting: e-commerce is booming, office attendance is down on remote-work trends, and enclosed shopping malls are struggling. The local market is in a phase where recent construction is completing just as demand softens, occupancy is beginning to fall, and property values have peaked.`,
+    questions: [
+      {
+        q: "Adding private real estate to a stock-and-bond portfolio is MOST likely valued for all of the following EXCEPT:",
+        c: ["A. Diversification, because its returns are only loosely correlated with stocks and bonds.",
+            "B. An inflation hedge, because rents and property values tend to rise with inflation.",
+            "C. Elimination of all downside risk in a recession."],
+        a: 2,
+        e: "C is correct because it is NOT a benefit — real estate is cyclical and can lose value in a recession; it does not eliminate downside risk. A (diversification) and B (inflation hedge) are genuine roles, along with tax advantages. Its total return typically sits between bonds and stocks."
+      },
+      {
+        q: "A tax advantage specific to direct real estate ownership is that:",
+        c: ["A. The depreciable life is shorter than the asset's actual economic life, so non-cash depreciation lowers taxable income in the early years.",
+            "B. Rental income is always tax-exempt.",
+            "C. Capital gains on property are never taxed."],
+        a: 0,
+        e: "A is correct. Because the tax-depreciable life is shorter than the property's true useful life, the owner records large non-cash depreciation early, reducing taxable income (and taxes) in the initial years. Separately, REITs avoid entity-level tax so investors sidestep double taxation. Rental income and capital gains are not generally tax-free."
+      },
+      {
+        q: "Given the demand shifts described, the property type MOST likely to see rising demand is:",
+        c: ["A. Enclosed retail malls.",
+            "B. Industrial / warehouse (logistics) space.",
+            "C. Central-business-district office towers."],
+        a: 1,
+        e: "B is correct. E-commerce growth drives demand for industrial/warehouse and distribution (logistics) space. Enclosed malls are pressured by online shopping (often repurposed), and office demand is weakened by remote-work trends. Industrial is the beneficiary here."
+      },
+      {
+        q: "A retail lease clause that increases the rent once the tenant's sales exceed a specified threshold is a(n):",
+        c: ["A. Step-up clause.",
+            "B. Indexed-rent clause.",
+            "C. Overage (percentage) rent clause."],
+        a: 2,
+        e: "C is correct. An overage (percentage) rent clause adds rent when the tenant's sales pass a set target — common in retail. A step-up clause sets pre-specified future rent increases; an indexed clause ties rent to a market variable such as CPI. All are variable lease terms, but only overage is sales-linked."
+      },
+      {
+        q: "The uncertainty about whether a tenant will renew and at what future rent — driven by competing space, tenant profitability and the economy — is BEST described as:",
+        c: ["A. Rollover risk.",
+            "B. Prepayment risk.",
+            "C. Overage risk."],
+        a: 0,
+        e: "A is correct. Rollover risk is the uncertainty at lease expiry regarding renewal and the future rental rate, which depends on the availability of competing space, tenant profitability, and the overall economy. Prepayment risk relates to mortgages/MBS; 'overage risk' is not a standard term."
+      },
+      {
+        q: "The described market phase — new construction completing, demand softening, occupancy starting to fall, values having peaked — corresponds to which stage of the real-estate cycle?",
+        c: ["A. Recovery.",
+            "B. Expansion.",
+            "C. Oversupply."],
+        a: 2,
+        e: "C is correct. In the oversupply phase, construction started during the expansion completes just as demand slows, so occupancy begins to fall and property values, having peaked, start to decline. Recovery has low occupancy with tight credit and little construction; expansion has rising occupancy and a construction boom."
+      }
+    ]
+  },
 
   // =============================================================
   // PORTFOLIO MANAGEMENT
