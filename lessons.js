@@ -164,4 +164,55 @@ const LESSON_INTROS = {
     TP/(TP+FN), F1; ROC/AUC; RMSE for regression — accuracy misleads on imbalanced classes) → tuning
     (regularization, grid search, ceiling analysis).</p>`,
 
+  "alt::Real Estate": `
+    <p>Real estate can be held as <strong>equity</strong> (ownership → rental income + capital gains) or
+    <strong>debt</strong> (mortgages → interest), and accessed <strong>privately</strong> (direct ownership,
+    real-estate funds) or <strong>publicly</strong> (REITs, MBS, real-estate ETFs). These lessons cover the
+    private/direct side: features, due diligence, valuation, and debt financing.</p>
+    <h4>1 · Investment features &amp; risk–return</h4>
+    <p>Strategies sit on a risk ladder: <strong>Core</strong> (stable, fully-leased, steady yield) →
+    <strong>Core-plus</strong> (minor work) → <strong>Value-add</strong> (significant improvement) →
+    <strong>Opportunistic</strong> (major redevelopment, ground-up, distressed). Property <strong>quality
+    classes</strong> run Class A (newest, top amenities, stable income) to Class D (oldest, weakest locations,
+    upside via capex). Demand depends on the <em>lessee's</em> industry: <strong>defensive</strong> (e.g.
+    healthcare REITs — stable) vs <strong>cyclical</strong> (office, industrial — swing with the economy).
+    Green/ESG buildings can command higher rents, lower vacancy and opex, and tax incentives.</p>
+    <h4>2 · Due diligence &amp; indexes</h4>
+    <p><strong>Due diligence</strong> checks leases and rent history, cash flows and operating expenses,
+    engineering &amp; environmental inspections, legal/zoning review, a property survey, re-leasing costs, and
+    that taxes/insurance are paid. <strong>Indexes</strong>: <em>appraisal-based</em> (e.g. NCREIF Property
+    Index) use infrequent appraisals, so they <strong>lag</strong> the market — <em>understating</em> true
+    volatility and correlation with stocks (overstating diversification benefit). <em>Transaction-based</em>
+    indexes (repeat-sales; hedonic regression on characteristics) are noisier but more current.
+    <em>Real-estate security</em> indexes (REIT share prices) are <strong>highly correlated</strong> with
+    equities.</p>
+    <h4>3 · Valuation — the three approaches</h4>
+    <ul>
+      <li><strong>Cost</strong>: land value + rebuilding cost − depreciation. Best for newer properties
+      (depreciation is hard to estimate on old ones).</li>
+      <li><strong>Sales comparison ("market")</strong>: adjust recent comparable sales for age, location,
+      condition, size (e.g. price/sq ft, price/rent multiples).</li>
+      <li><strong>Income</strong>: present value of future cash flows (below).</li>
+    </ul>
+    <p>Reconcile the three into one value with weights (more weight to sales comparison in active markets;
+    less to cost for old buildings). <strong>Highest &amp; best use</strong> = the use that maximizes the
+    <em>land</em> value: implied land value = value of the completed project − construction costs − the
+    developer's required profit.</p>
+    <h4>4 · Income approach</h4>
+    <p><strong>Direct capitalization</strong>: V₀ = NOI₁ / cap rate, where <strong>cap rate = r − g</strong>
+    (so required return r = cap rate + g). Estimate the cap rate from comparable sales (cap = NOI/price).
+    If the tenant pays all operating expenses, use the <strong>all-risk yield</strong>: V₀ = Rent₁ / ARY.
+    Because direct cap uses only year-1 NOI, adjust with a <strong>stabilized NOI</strong> when a
+    renovation is planned.</p>
+    <p><strong>DCF (two-stage)</strong>: discount explicit NOIs, then add a terminal ("resale") value
+    V_T = NOI_(T+1) / (terminal cap rate). <em>Example</em>: NOI $10M/yr on a 3-yr lease, terminal cap 8%
+    → V_T = 10/0.08 = $150M; at r = 12%, V₀ = 10/1.12 + 10/1.12² + (10+150)/1.12³ ≈ <strong>$131M</strong>.</p>
+    <h4>5 · Debt financing</h4>
+    <p>Lenders cap the loan by two ratios: <strong>LTV</strong> = loan / appraised value, and
+    <strong>DSCR</strong> = NOI₁ / debt service. The maximum loan is the <strong>lower</strong> of
+    (LTV × value) and, for an interest-only loan, (NOI₁ / DSCR) ÷ interest rate. For the equity investor,
+    the <strong>equity dividend rate</strong> ("cash-on-cash") = (NOI − debt service) / equity. Leverage
+    raises both expected return and risk — the <strong>leveraged IRR</strong> exceeds the unleveraged IRR
+    when the property return beats the borrowing cost (20.6% vs 15% in the slide example).</p>`,
+
 };

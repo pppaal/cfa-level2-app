@@ -589,8 +589,8 @@ const LOS_DATA = {
     },
     {
      "title": "Overview of Types of Real Estate Investment",
-     "coverage": "partial",
-     "note": "flashcards",
+     "coverage": "full",
+     "note": "flashcards · exams A3–A4 · lesson",
      "los": [
       "compare important real estate investment features for valuation purposes",
       "explain economic value drivers of real estate investments and their role in a portfolio",

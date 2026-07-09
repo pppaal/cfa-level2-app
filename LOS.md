@@ -20,12 +20,12 @@ Verbatim Learning Outcome Statements for all 10 topics, parsed from the official
 | Equity Valuation | 10–15% | 6 | 75 | 3/6 |
 | Fixed Income | 10–15% | 5 | 50 | 2/5 |
 | Derivatives | 5–10% | 2 | 21 | 2/2 |
-| Alternative Investments | 5–10% | 4 | 29 | 1/4 |
+| Alternative Investments | 5–10% | 4 | 29 | 2/4 |
 | Portfolio Management | 10–15% | 6 | 52 | 2/6 |
 | Ethical and Professional Standards | 5–10% | 3 | 6 | 3/3 |
-| **Total** | **100%** | **45** | **370** | **25/45** |
+| **Total** | **100%** | **45** | **370** | **26/45** |
 
-> Every one of the 45 official modules has at least flashcard coverage; **25 of 45** also have item-set questions and/or an interactive tool.
+> Every one of the 45 official modules has at least flashcard coverage; **26 of 45** also have item-set questions and/or an interactive tool.
 
 ---
 
@@ -556,8 +556,8 @@ _The candidate should be able to:_
 - describe how commodity swaps are used to obtain or modify exposure to commodities
 - describe how the construction of commodity indexes affects index returns
 
-### 🟡 Overview of Types of Real Estate Investment
-_Coverage: flashcards_
+### ✅ Overview of Types of Real Estate Investment
+_Coverage: flashcards · exams A3 (valuation), A4 (debt financing) · lesson_
 
 _The candidate should be able to:_
 

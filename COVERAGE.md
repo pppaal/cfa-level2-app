@@ -29,13 +29,13 @@ covers, so we can see what is filled in and what still needs work.
 | 5 | Equity Valuation | 10–15% | 6 | 75 | 3/6 |
 | 6 | Fixed Income | 10–15% | 5 | 50 | 2/5 |
 | 7 | Derivatives | 5–10% | 2 | 21 | 2/2 |
-| 8 | Alternative Investments | 5–10% | 4 | 29 | 1/4 |
+| 8 | Alternative Investments | 5–10% | 4 | 29 | 2/4 |
 | 9 | Portfolio Management | 10–15% | 6 | 52 | 2/6 |
 | 10 | Ethical & Professional Standards | 5–10% | 3 | 6 | 3/3 |
-| | **Total** | **100%** | **45** | **370** | **25/45** |
+| | **Total** | **100%** | **45** | **370** | **26/45** |
 
 > **Coverage:** all **45/45** official modules have baseline flashcard coverage;
-> **25/45** also have item-set questions and/or an interactive tool (the "✅ modules"
+> **26/45** also have item-set questions and/or an interactive tool (the "✅ modules"
 > column). Marks are tracked at **module** granularity in `LOS.md`.
 >
 > **Heads-up — app has some off-syllabus groups.** A few `cards.js` module-groups
@@ -61,9 +61,9 @@ Counted directly from `cards.js` and `exams.js` (see §5 to refresh).
 | Equity Valuation | 65 | 8 | 3 | 13 |
 | Fixed Income | 54 | 6 | 2 | 10 |
 | Derivatives | 34 | 2 | 2 | 9 |
-| Alternative Investments | 36 | 4 | 2 | 9 |
+| Alternative Investments | 43 | 4 | 4 | 21 |
 | Portfolio Management | 45 | 8 | 2 | 10 |
-| **Total** | **461** | **58** | **37** | **180** |
+| **Total** | **468** | **58** | **39** | **192** |
 
 Plus **3 interactive tools** (under the 🧪 Interactive tab), all Quant:
 Regression Lab, ML Pipeline Builder, and Data-Exploration Sorter.

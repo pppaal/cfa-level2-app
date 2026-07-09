@@ -1942,6 +1942,124 @@ The fund has returned all LP capital plus the 8% hurdle, and the GP is now takin
       }
     ]
   },
+  {
+    id: "A3", topic: "alt",
+    title: "Private Real Estate: Valuation & Income Approach",
+    vignette: `An analyst values a private office building. Three approaches are considered:
+
+• Cost approach — land value plus current rebuilding cost, less depreciation.
+• Sales comparison — recent sales of similar buildings, adjusted for age, location, condition and size.
+• Income approach — the present value of expected future cash flows.
+
+For the income approach she gathers: forecast first-year net operating income (NOI) of $10 million; a comparable building recently sold for $200 million with NOI of $15 million; a required return of 12%; and expected long-run NOI growth of 4.5%. The subject building has a three-year fixed lease at $10M NOI per year; NOI is then expected to step up to $12M in year 4, and the building can be sold at that point at a terminal (going-out) capitalization rate of 8%.`,
+    questions: [
+      {
+        q: "The capitalization rate estimated from the comparable sale is CLOSEST to:",
+        c: ["A. 5.0%.",
+            "B. 7.5%.",
+            "C. 13.3%."],
+        a: 1,
+        e: "B is correct. The cap rate from a comparable is NOI ÷ price = $15M ÷ $200M = 7.5%. (This is also consistent with cap rate = r − g = 12% − 4.5% = 7.5%.) Choice C inverts the ratio (price/NOI)."
+      },
+      {
+        q: "Using direct capitalization with a 7.5% cap rate, the value of the subject building is CLOSEST to:",
+        c: ["A. $75M.",
+            "B. $133M.",
+            "C. $222M."],
+        a: 1,
+        e: "B is correct. Direct capitalization: V₀ = NOI₁ ÷ cap rate = $10M ÷ 0.075 = $133M. This treats first-year NOI as a growing perpetuity where cap rate = r − g."
+      },
+      {
+        q: "The relationship among the capitalization rate, the required return, and the growth rate is BEST expressed as:",
+        c: ["A. Cap rate = required return + growth rate.",
+            "B. Cap rate = required return − growth rate; equivalently, required return = cap rate + growth rate.",
+            "C. Cap rate = required return × growth rate."],
+        a: 1,
+        e: "B is correct. In the constant-growth (Gordon) form V₀ = NOI₁/(r − g), the cap rate equals r − g. So the investor's required return = cap rate + growth rate — the cap rate captures the first-year income yield, and growth adds the rest of the total return."
+      },
+      {
+        q: "Valuing the building with a two-stage DCF — three years of $10M NOI, then a terminal value based on year-4 NOI of $12M at an 8% going-out cap rate — gives a value CLOSEST to:",
+        c: ["A. $131M.",
+            "B. $150M.",
+            "C. $168M."],
+        a: 0,
+        e: "A is correct. Terminal (resale) value at end of year 3 = NOI₄ ÷ terminal cap = $12M ÷ 0.08 = $150M. Discount the cash flows at 12%: V₀ = 10/1.12 + 10/1.12² + (10 + 150)/1.12³ = 8.93 + 7.97 + 113.89 ≈ $131M. Choice B is just the undiscounted terminal value."
+      },
+      {
+        q: "If the building's single tenant pays ALL operating expenses, the analyst can value it directly using the all-risk yield (ARY) as:",
+        c: ["A. V₀ = Rent₁ ÷ ARY.",
+            "B. V₀ = Rent₁ × ARY.",
+            "C. V₀ = ARY ÷ Rent₁."],
+        a: 0,
+        e: "A is correct. When the tenant pays all operating expenses, NOI ≈ rent, and the property is valued as V₀ = Rent₁ ÷ ARY, where the all-risk yield is the cap rate applied to rent. This is the direct-capitalization formula expressed on rent."
+      },
+      {
+        q: "To arrive at a single value estimate, the analyst reconciles the three approaches. She would MOST appropriately:",
+        c: ["A. Always use the cost approach because it is the most objective.",
+            "B. Weight the approaches — giving more weight to sales comparison when the market has many recent comparable transactions, and less to the cost approach for older buildings.",
+            "C. Average the three values with equal weights in all cases."],
+        a: 1,
+        e: "B is correct. The three indications (cost, sales comparison, income) rarely match, so the analyst reconciles them using judgment-based weights: sales comparison deserves more weight in active markets with good comparables, while the cost approach is downweighted for older properties where depreciation is hard to estimate. Fixed equal weighting ignores data quality."
+      }
+    ]
+  },
+  {
+    id: "A4", topic: "alt",
+    title: "Private Real Estate: Debt Financing & Leverage",
+    vignette: `A shopping mall is appraised at $150 million with expected NOI of $8 million per year for the next three years. A bank offers an interest-only loan at 8%, subject to a maximum loan-to-value (LTV) of 50% and a minimum debt-service-coverage ratio (DSCR) of 1.25.
+
+An investor ultimately takes a $70 million interest-only loan (8%) and pays the remainder in cash to buy the mall at its $150M appraised value. The property is sold at the end of year 3 for $155 million.`,
+    questions: [
+      {
+        q: "Based on the 50% LTV limit alone, the maximum loan is:",
+        c: ["A. $75M.",
+            "B. $80M.",
+            "C. $120M."],
+        a: 0,
+        e: "A is correct. Max loan by LTV = LTV × appraised value = 0.50 × $150M = $75M."
+      },
+      {
+        q: "Based on the DSCR limit alone (interest-only at 8%), the maximum loan is CLOSEST to:",
+        c: ["A. $64M.",
+            "B. $80M.",
+            "C. $100M."],
+        a: 1,
+        e: "B is correct. Maximum debt service = NOI₁ ÷ DSCR = $8M ÷ 1.25 = $6.4M. For an interest-only loan, loan = debt service ÷ interest rate = $6.4M ÷ 0.08 = $80M. Choice A stops at the $6.4M debt service."
+      },
+      {
+        q: "The maximum amount the bank will actually lend is:",
+        c: ["A. $75M — the lower of the LTV-based and DSCR-based limits.",
+            "B. $80M — the higher of the two limits.",
+            "C. $155M — the sale price."],
+        a: 0,
+        e: "A is correct. The lender applies both constraints and lends the LOWER of the two: min($75M by LTV, $80M by DSCR) = $75M. Taking the higher amount would breach the LTV covenant."
+      },
+      {
+        q: "With the actual $70M interest-only loan, the investor's first-year equity dividend rate ('cash-on-cash return') is CLOSEST to:",
+        c: ["A. 3.0%.",
+            "B. 5.3%.",
+            "C. 8.0%."],
+        a: 0,
+        e: "A is correct. Equity = purchase price − loan = $150M − $70M = $80M. Debt service = $70M × 8% = $5.6M. Year-1 equity cash flow = NOI − debt service = $8M − $5.6M = $2.4M. Equity dividend rate = $2.4M ÷ $80M = 3.0%."
+      },
+      {
+        q: "Given the sale for $155M at the end of year 3 (NOI $8M each year, interest-only loan), the investor's leveraged IRR is CLOSEST to:",
+        c: ["A. 2.9%.",
+            "B. 5.0%.",
+            "C. 8.6%."],
+        a: 1,
+        e: "B is correct. Equity outflow = $80M; annual equity cash flow = $2.4M (as above); at exit the equity receives sale price − loan principal = $155M − $70M = $85M (an interest-only loan's principal is unchanged). Solving −80 = 2.4/(1+i) + 2.4/(1+i)² + (2.4+85)/(1+i)³ gives i ≈ 4.98% ≈ 5.0%."
+      },
+      {
+        q: "Compared with buying the mall entirely in cash (no loan), using leverage in this deal:",
+        c: ["A. Always lowers the investor's return.",
+            "B. Raises the expected return when the property's return exceeds the borrowing cost — but also increases risk.",
+            "C. Has no effect on either return or risk."],
+        a: 1,
+        e: "B is correct. Positive leverage lifts the equity IRR above the unleveraged IRR when the asset's return exceeds the cost of debt, but it magnifies losses too — higher expected return comes with higher risk. (In the lesson's other example, leverage raised the IRR from 15% unleveraged to 20.6% leveraged.)"
+      }
+    ]
+  },
 
   // =============================================================
   // PORTFOLIO MANAGEMENT
